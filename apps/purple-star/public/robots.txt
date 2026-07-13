@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://purplestar.app
+
+# Sitemaps
+Sitemap: https://purplestar.app/sitemap.xml

@@ -1,0 +1,73 @@
+name: Visual Regression
+
+# Pull Request で比較。workflow_dispatch（手動）で update=true にすると基準画像を更新してコミットする。
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      update:
+        description: '基準画像(Linux)を再生成してコミットする'
+        type: boolean
+        default: false
+
+jobs:
+  vrt:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # update モードで基準画像を push するために必要
+    env:
+      # /chart の描画に必要な Sanity 接続情報（公開識別子）。
+      # Repository variables に設定した値を参照する（公開値のため Secrets でなく Variables）。
+      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+      NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
+      NEXT_PUBLIC_SANITY_API_VERSION: ${{ vars.NEXT_PUBLIC_SANITY_API_VERSION }}
+      # ISR の再検証秒数。未設定だと Number(undefined)=NaN で /chart の描画が失敗するため
+      # VRT 用に無難な既定値を入れる（値自体は VRT の結果に影響しない）。
+      REVALIDATE_SECONDS: '60'
+      CHART_API_REVALIDATE_SECONDS: '60'
+      # 結果ページ /c はサーバー側でこの URL の /api/chart を呼ぶ。CI ではアプリ自身(:3001)。
+      NEXT_PUBLIC_ROUTE_HANDLER_URL: 'http://localhost:3001'
+      # /api/chart のレート制限(Upstash)。未設定だと Redis.fromEnv() が失敗しルートが落ちる。
+      # 機密値なので Repository secrets に設定する。
+      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+      # 必要に応じて追加（例: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY など）
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright (chromium)
+        run: npx playwright install --with-deps chromium
+
+      # 通常（PR）: 既存の Linux 基準と比較
+      - name: Run visual regression (compare)
+        if: ${{ github.event.inputs.update != 'true' }}
+        run: npm run test:visual
+
+      # 手動 update: Linux 基準を再生成してコミット
+      - name: Update baselines and commit
+        if: ${{ github.event.inputs.update == 'true' }}
+        run: |
+          npm run test:visual:update
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add e2e/__screenshots__
+          git commit -m "chore: update VRT baselines (linux)" || echo "no baseline changes"
+          git push
+
+      # 失敗時に差分を確認できるよう HTML レポートを保存
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7

@@ -1,0 +1,36 @@
+name: Test
+
+# main への push と、すべての Pull Request で実行する
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24' # ローカルと揃える（npm 11 同梱）
+          cache: npm
+
+      # package-lock.json に基づくクリーンインストール
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # vitest 実行 + カバレッジしきい値の判定（下回ると失敗）
+      # TZ はあえて西側（UTC-5/-4）に固定する。UTC は本番サーバーと同じため
+      # タイムゾーン依存バグを検出できないことがあり、日付が UTC より
+      # 前日側にズレる TZ で回すことで getHours/getFullYear 等の
+      # ローカルゲッター混入を CI で検出する（例: 五行局・満年齢のズレ）。
+      - name: Test (with coverage threshold)
+        run: npm run test:coverage
+        env:
+          TZ: America/New_York

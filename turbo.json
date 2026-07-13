@@ -1,0 +1,61 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ],
+      "env": [
+        "NEXT_PUBLIC_CHART_IMAGE_WIDTH",
+        "NEXT_PUBLIC_CHART_IMAGE_HEIGHT",
+        "NEXT_PUBLIC_ROUTE_HANDLER_URL",
+        "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY",
+        "NEXT_PUBLIC_SANITY_API_VERSION",
+        "NEXT_PUBLIC_SANITY_DATASET",
+        "NEXT_PUBLIC_SANITY_PROJECT_ID",
+        "NEXT_PUBLIC_LOCATION_DIGITS",
+        "NODE_ENV",
+        "SANITY_REVALIDATE_SECRET",
+        "SANITY_STUDIO_SITE_URL",
+        "VERCEL_URL",
+        "VERCEL_ENV",
+        "GOOGLE_TIMEZONE_API_KEY",
+        "IMAGE_SERVICE_URL",
+        "SERVICE_SHARED_SECRET",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "REVALIDATE_SECONDS",
+        "CHART_API_REVALIDATE_SECONDS",
+        "NEXT_PUBLIC_DEBOUNCE_MILLISECONDS",
+        "NEXT_PUBLIC_MAX_USED_COUNT",
+        "MAPBOX_GEOCODING_API_KEY",
+        "BOARD_API_REVALIDATE_SECONDS",
+        "SANITY_STUDIO_PROJECT_ID",
+        "ANALYZE"
+      ]
+    },
+    "lint": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/eslint.config.mjs"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/vitest.config.ts"
+      ]
+    }
+  }
+}
