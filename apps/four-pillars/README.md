@@ -260,7 +260,7 @@ LocalStorageに保存された命式の一覧を表示します。
 }
 ```
 
-### `/api/calendar` (GET/POST)
+### `/api/calendar` (POST)
 
 カレンダー情報を取得するAPI。
 
@@ -274,7 +274,7 @@ Google Timezone APIを使用したタイムゾーン取得API。
 
 ### `/api/image` (POST)
 
-命式画像生成API。
+命式画像生成API。実際の画像生成（プロンプト組み立て・生成モデル呼び出し）は非公開の外部サービスに隔離されており、このエンドポイントは認証トークンを付けてリクエストを転送する薄いプロキシです。
 
 ## 🎨 状態管理
 
@@ -327,6 +327,8 @@ npm run analyze
 # リント
 npm run lint
 ```
+
+> **Note:** 公開リポジトリには Sanity のデータセットシード（`lib/sanity/data/production.tar.gz`）は含まれていません。`npm run sanity-import` を利用する場合は、自身の Sanity プロジェクトから `npm run sanity-export` でエクスポートを用意してください。
 
 ## 📦 依存関係
 
@@ -381,7 +383,6 @@ Tailwind CSSの設定:
 - `HeavenlyStem`: 天干
 - `EarthlyBranch`: 地支
 - `Gender`: 性別
-- `DivisionMethod`: 分割方法
 - その他四柱推命関連の型
 
 ## 🚀 デプロイ
@@ -394,7 +395,9 @@ Vercelなどのプラットフォームでデプロイ可能です。
 - `NEXT_PUBLIC_SANITY_API_VERSION`: Sanity APIバージョン
 - `UPSTASH_REDIS_REST_URL`: Upstash Redis URL
 - `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis トークン
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps APIキー
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps APIキー（住所オートコンプリート）
+- `GOOGLE_TIMEZONE_API_KEY`: Google Time Zone APIキー（サーバー）
+- `MAPBOX_GEOCODING_API_KEY`: Mapbox Geocoding APIキー（サーバー）
 - `IMAGE_SERVICE_URL`: 非公開画像生成サービスのベースURL（サーバー専用）
 - `SERVICE_SHARED_SECRET`: 画像生成サービスとの共有認証トークン（サーバー専用）
 
