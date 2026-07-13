@@ -27,7 +27,7 @@ cd apps/purple-star && npm run dev    # ポート3002
 ## 📁 全体構造
 
 ```
-astrology/
+eastern-astrology/
 ├── apps/                    # アプリケーション（フロントエンド + 各自のAPIルート）
 │   ├── four-pillars/        # 四柱推命Webサイト（ポート3001）
 │   └── purple-star/         # 紫微斗数Webサイト（ポート3002）
@@ -195,7 +195,7 @@ import { PersonalInfo, HEAVENLY_STEMS, EARTHLY_BRANCHES } from 'types';
 **主要モジュール**:
 
 - `src/astro.ts` - 天文計算（黄経・均時差など、`astronomia`を使用）
-- `src/datetime.ts` - 日時処理（旧暦変換など）
+- `src/calendar.ts` - カレンダー・旧暦処理
 - `src/time.ts` - 時間・タイムゾーン処理（年齢計算、サマータイム判定など）
 - `src/number.ts` - 数値処理（範囲生成、丸め、度分秒変換など）
 - `src/array.ts` - 配列操作（循環取得、ペア生成など）
@@ -215,8 +215,6 @@ import { range, roundDecimal, getItemsFromArrayCycle } from 'utils';
 **主要コンポーネント**:
 
 - `Breadcrumbs.tsx` - パンくずリスト
-- `Button.tsx` - ボタンコンポーネント
-- `Header.tsx` - ヘッダーコンポーネント
 - `ErrorView.tsx` - エラー表示コンポーネント
 - `TableOfContents.tsx` - 目次コンポーネント
 - `icons/` - アイコンコンポーネント
@@ -227,7 +225,7 @@ import { range, roundDecimal, getItemsFromArrayCycle } from 'utils';
 **使用方法**:
 
 ```typescript
-import { Button, Header, StemIcon, BranchIcon } from 'ui';
+import { Breadcrumbs, ErrorView, StemIcon, BranchIcon } from 'ui';
 ```
 
 ### 4. `tsconfig` - TypeScript設定
@@ -248,6 +246,10 @@ npm run build
 
 # リント実行
 npm run lint
+
+# テスト実行（ユニット / ビジュアル回帰）
+npm run test
+npm run test:visual
 
 # コードフォーマット
 npm run format
@@ -317,9 +319,9 @@ npm run sanity   # Sanity Studio起動
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` - SanityプロジェクトID
 - `NEXT_PUBLIC_SANITY_DATASET` - Sanityデータセット名
 - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` - Upstash Redis
-- `GOOGLE_MAPS_API_KEY` / `GOOGLE_TIMEZONE_API_KEY` - Google Maps / タイムゾーン
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` / `GOOGLE_TIMEZONE_API_KEY` - Google Maps / タイムゾーン
 - `MAPBOX_GEOCODING_API_KEY` - Mapbox ジオコーディング
-- `IMAGE_SERVICE_URL` - チャート画像生成
+- `IMAGE_SERVICE_URL` / `SERVICE_SHARED_SECRET` - チャート画像生成（非公開の画像生成サービスへのプロキシ用）
 
 ## 📝 開発時の注意点
 
@@ -339,6 +341,8 @@ npm run sanity   # Sanity Studio起動
 ### Sanity設定
 
 `four-pillars`と`purple-star`はSanity CMSを使用します。`sanity.config.ts`で設定を確認できます。
+
+> **補足**: 各アプリの `npm run sanity-import` が参照する初期データ（`lib/sanity/data/production.tar.gz`）は、サイズと配布の都合により本リポジトリには含まれていません。シードが必要な場合は、ご自身のSanityデータセットから `npm run sanity-export` で生成してください。
 
 ### 開発ワークフロー
 
@@ -369,7 +373,7 @@ npm run sanity   # Sanity Studio起動
 
    ```bash
    git clone <repository-url>
-   cd astrology
+   cd eastern-astrology
    npm install
    ```
 

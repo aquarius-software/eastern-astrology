@@ -255,9 +255,7 @@ LocalStorageに保存された命盤の一覧を表示します。
 - **`BirthPlace.tsx`**: 出生地入力（Google Maps Autocomplete使用）
 - **`Gender.tsx`**: 性別選択
 - **`SchoolSelect.tsx`**: 流派選択（三合派・飛星派など）
-- **`AdvancedSettings.tsx`**: 詳細設定
-  - 分割方法（節切り/空間分割）
-  - 画像生成オプション
+- **`AdvancedSettings.tsx`**: 詳細設定（`SchoolSelect` による流派選択を内包）
 
 ### 共有コンポーネント
 
@@ -370,6 +368,8 @@ npm run analyze
 npm run lint
 ```
 
+> **Note:** 公開リポジトリには Sanity のデータセットシード（`lib/sanity/data/production.tar.gz`）は含まれていません。`npm run sanity-import` を利用する場合は、自身の Sanity プロジェクトから `npm run sanity-export` でエクスポートを用意してください。
+
 ## 📦 依存関係
 
 ### 主要な依存パッケージ
@@ -442,7 +442,8 @@ Vercelなどのプラットフォームでデプロイ可能です。
 - `NEXT_PUBLIC_SANITY_API_VERSION`: Sanity APIバージョン
 - `UPSTASH_REDIS_REST_URL`: Upstash Redis URL
 - `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis トークン
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps APIキー
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps APIキー（住所オートコンプリート）
+- `GOOGLE_TIMEZONE_API_KEY`: Google Time Zone APIキー（サーバー）
 
 ## 📚 参考資料
 
