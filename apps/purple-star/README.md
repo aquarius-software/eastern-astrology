@@ -1,500 +1,502 @@
-# purple-star アプリケーション構成解説
+# purple-star — Application Guide
 
-このドキュメントは、`purple-star`アプリケーションの構成を初見の開発者向けに解説します。
+*🌐 Languages: **English** | [日本語](./README.ja.md)*
 
-## 📋 概要
+This document explains the structure of the `purple-star` application for developers seeing it for the first time.
 
-`purple-star`は、紫微斗数（しびとすう）という中国占星術の命盤（めいばん）を計算・表示するWebアプリケーションです。ユーザーが生年月日・時刻・出生地を入力すると、紫微斗数の詳細な命盤を表示します。
+## 📋 Overview
 
-**技術スタック**:
+`purple-star` is a web application that calculates and displays the chart (board) of Purple Star Astrology (紫微斗数, a form of Chinese astrology). When a user enters their birth date, time, and place, it displays a detailed Purple Star chart.
+
+**Tech stack**:
 
 - **Next.js 14+** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
-- **Sanity CMS** (ブログ機能)
-- **React Hook Form** (フォーム管理)
-- **Upstash Redis** (レート制限)
+- **Sanity CMS** (blog)
+- **React Hook Form** (form management)
+- **Upstash Redis** (rate limiting)
 
-**ポート番号**: 3002
+**Port**: 3002
 
-## 📁 ディレクトリ構造
+## 📁 Directory Structure
 
 ```
 apps/purple-star/
 ├── app/                          # Next.js App Router
-│   ├── (sanity)/                 # Sanity Studio用ルートグループ
+│   ├── (sanity)/                 # Route group for Sanity Studio
 │   │   └── studio/               # Sanity Studio UI
-│   ├── (website)/                # 公開サイト用ルートグループ
-│   │   ├── board/                # 命盤作成ページ（主要機能）
-│   │   ├── b/                    # 命盤結果表示ページ（URLパラメータ版）
-│   │   ├── blog/                 # ブログ一覧
-│   │   ├── post/                 # ブログ記事詳細
-│   │   ├── list/                 # 保存した命盤一覧
-│   │   └── ...                   # その他のページ
+│   ├── (website)/                # Route group for the public site
+│   │   ├── board/                # Board creation page (main feature)
+│   │   ├── b/                    # Board result page (URL-parameter version)
+│   │   ├── blog/                 # Blog list
+│   │   ├── post/                 # Blog post detail
+│   │   ├── list/                 # Saved boards list
+│   │   └── ...                   # Other pages
 │   ├── api/                      # API Routes
-│   │   ├── board/                # 命盤計算API
-│   │   ├── months/               # 月運計算API
-│   │   ├── timezone/             # タイムゾーン取得API
-│   │   ├── PurpleStarData.ts     # 命盤計算クラス
-│   │   ├── PurpleStarPersonalInfo.ts  # 個人情報クラス
-│   │   ├── Palace.ts             # 宮（きゅう）クラス
-│   │   └── constants.ts          # 定数定義
-│   ├── layout.tsx                # ルートレイアウト
-│   └── types.ts                  # アプリ固有の型定義
-├── components/                   # 共有コンポーネント
-│   ├── blog/                     # ブログ関連コンポーネント
-│   └── ui/                       # UIコンポーネント
+│   │   ├── board/                # Board calculation API
+│   │   ├── months/               # Monthly luck calculation API
+│   │   ├── timezone/             # Timezone API
+│   │   ├── PurpleStarData.ts     # Board calculation class
+│   │   ├── PurpleStarPersonalInfo.ts  # Personal info class
+│   │   ├── Palace.ts             # Palace class
+│   │   └── constants.ts          # Constants
+│   ├── layout.tsx                # Root layout
+│   └── types.ts                  # App-specific type definitions
+├── components/                   # Shared components
+│   ├── blog/                     # Blog-related components
+│   └── ui/                       # UI components
 ├── context/                      # React Context
-│   └── boardContext.tsx          # 命盤状態管理
-├── lib/                          # ライブラリ・ユーティリティ
-│   └── sanity/                   # Sanity CMS設定
-├── public/                       # 静的ファイル
-├── styles/                       # グローバルスタイル
-└── utils/                        # ユーティリティ関数
+│   └── boardContext.tsx          # Board state management
+├── lib/                          # Libraries / utilities
+│   └── sanity/                   # Sanity CMS config
+├── public/                       # Static files
+├── styles/                       # Global styles
+└── utils/                        # Utility functions
 ```
 
-## 🎯 主要機能
+## 🎯 Main Features
 
-### 1. 命盤作成（ボード計算）
+### 1. Board creation (calculation)
 
-**パス**: `/board`
+**Path**: `/board`
 
-紫微斗数の命盤を計算・表示する主要機能です。
+The main feature that calculates and displays a Purple Star board.
 
-#### フロントエンド (`app/(website)/board/`)
+#### Frontend (`app/(website)/board/`)
 
-- **`page.tsx`**: ページコンポーネント（Server Component）
-- **`Board.tsx`**: メインのボードコンポーネント（Client Component）
-  - フォーム入力の管理
-  - API呼び出し
-  - 結果表示の制御
-- **`ResultView.tsx`**: 計算結果の表示コンテナ
-- **`ResultBoard.tsx`**: 命盤の可視化（12宮の表示）
-- **`PalaceView.tsx`**: 各宮の詳細表示
-- **`PalaceDetail.tsx`**: 宮の詳細情報
-- **`CentralView.tsx`**: 中央部分の表示
-- **`Datetime.tsx`**: 日時入力コンポーネント
-- **`BirthPlace.tsx`**: 出生地入力コンポーネント
-- **`Gender.tsx`**: 性別選択コンポーネント
-- **`SchoolSelect.tsx`**: 流派選択コンポーネント
-- **`AdvancedSettings.tsx`**: 詳細設定
+- **`page.tsx`**: page component (Server Component)
+- **`Board.tsx`**: main board component (Client Component)
+  - form input management
+  - API calls
+  - result display control
+- **`ResultView.tsx`**: results container
+- **`ResultBoard.tsx`**: board visualization (12 palaces)
+- **`PalaceView.tsx`**: detailed display of each palace
+- **`PalaceDetail.tsx`**: palace detail info
+- **`CentralView.tsx`**: central-area display
+- **`Datetime.tsx`**: date/time input component
+- **`BirthPlace.tsx`**: birthplace input component
+- **`Gender.tsx`**: gender selection component
+- **`SchoolSelect.tsx`**: school (tradition) selection component
+- **`AdvancedSettings.tsx`**: advanced settings
 
-#### バックエンド (`app/api/board/route.ts`)
+#### Backend (`app/api/board/route.ts`)
 
 ```typescript
-POST / api / board;
+POST /api/board
 ```
 
-**処理フロー**:
+**Processing flow**:
 
-1. リクエストバリデーション
-2. レート制限チェック（Upstash Redis使用）
-3. `PurpleStarPersonalInfo`で個人情報を初期化
-4. `PurpleStarData`で命盤を計算
-5. 結果をJSON形式で返却
+1. Request validation
+2. Rate-limit check (Upstash Redis)
+3. Initialize personal info with `PurpleStarPersonalInfo`
+4. Calculate the board with `PurpleStarData`
+5. Return the result as JSON
 
-**レート制限**: 10リクエスト/10秒（IPアドレスベース）
+**Rate limit**: 10 requests / 10 seconds (per IP address)
 
-### 2. 紫微斗数計算の詳細
+### 2. Purple Star calculation details
 
 #### `PurpleStarPersonalInfo` (`app/api/PurpleStarPersonalInfo.ts`)
 
-個人情報と日時調整を管理するクラスです。
+A class that manages personal info and date/time adjustments.
 
-**主要処理**:
+**Main processing**:
 
-- 地方時差の計算
-- 均時差の取得
-- 調整後日時の計算
-- 太陽黄経の取得
-- 中国暦（農暦）への変換
-- 閏月の処理
+- Local time difference calculation
+- Equation of time retrieval
+- Adjusted date/time calculation
+- Solar ecliptic longitude retrieval
+- Conversion to the Chinese (lunar) calendar
+- Leap-month handling
 
 #### `PurpleStarData` (`app/api/PurpleStarData.ts`)
 
-紫微斗数の命盤を計算するメインクラスです。
+The main class that calculates the Purple Star board.
 
-**主要処理**:
+**Main processing**:
 
-1. **中国暦の取得**: 西暦から中国暦（干支年・月・日）への変換
-2. **命宮の決定**: 生月と生時から命宮を決定
-3. **身宮の決定**: 生月と生時から身宮を決定
-4. **五号局の決定**: 年干と命宮から五号局（水二局・木三局など）を決定
-5. **紫微星の配置**: 日と五号局から紫微星の位置を決定
-6. **主星の配置**: 14主星（紫微・天機・太陽・武曲・天同・廉貞・天府・太陰・貪狼・巨門・天相・天梁・七殺・破軍）の配置
-7. **時系諸星の配置**: 時系の星（文昌・文曲・天空・地劫など）の配置
-8. **月系諸星の配置**: 月系の星（左輔・右弼・天刑・天姚など）の配置
-9. **年干系諸星の配置**: 年干系の星（禄存・擎羊・陀羅など）の配置
-10. **年支系諸星の配置**: 年支系の星（天馬・紅鸞・天喜など）の配置
-11. **四化星の配置**: 化禄・化権・化科・化忌の配置
-12. **宮の作成**: 12宮（命宮・兄弟宮・夫妻宮・子女宮・財帛宮・疾厄宮・遷移宮・奴僕宮・官禄宮・田宅宮・福德宮・父母宮）の作成
-13. **大限の計算**: 10年ごとの運勢（大限）
-14. **年運の計算**: 1年ごとの運勢
+1. **Chinese calendar retrieval**: convert the Gregorian date to the Chinese calendar (sexagenary year/month/day)
+2. **Life Palace determination**: determine the Life Palace from birth month and hour
+3. **Body Palace determination**: determine the Body Palace from birth month and hour
+4. **Five-Element bureau determination**: determine the bureau (Water-2, Wood-3, etc.) from the year stem and the Life Palace
+5. **Zi Wei star placement**: determine the position of the Zi Wei star from the day and the bureau
+6. **Major star placement**: place the 14 major stars (Zi Wei, Tian Ji, Tai Yang, Wu Qu, Tian Tong, Lian Zhen, Tian Fu, Tai Yin, Tan Lang, Ju Men, Tian Xiang, Tian Liang, Qi Sha, Po Jun)
+7. **Hour-based star placement**: place hour-based stars (Wen Chang, Wen Qu, Tian Kong, Di Jie, etc.)
+8. **Month-based star placement**: place month-based stars (Zuo Fu, You Bi, Tian Xing, Tian Yao, etc.)
+9. **Year-stem-based star placement**: place year-stem-based stars (Lu Cun, Qing Yang, Tuo Luo, etc.)
+10. **Year-branch-based star placement**: place year-branch-based stars (Tian Ma, Hong Luan, Tian Xi, etc.)
+11. **Four Transformations placement**: place Hua Lu, Hua Quan, Hua Ke, Hua Ji
+12. **Palace creation**: create the 12 palaces (Life, Siblings, Spouse, Children, Wealth, Health, Travel, Friends, Career, Property, Fortune, Parents)
+13. **Major limit calculation**: fortune in 10-year cycles (major limits)
+14. **Yearly luck calculation**: fortune per year
 
 #### `Palace` (`app/api/Palace.ts`)
 
-12宮を表すクラスです。
+A class representing one of the 12 palaces.
 
-**主要プロパティ**:
+**Main properties**:
 
-- `name`: 宮名（命宮・兄弟宮など）
-- `stem`: 天干
-- `branch`: 地支
-- `majorStars`: 主星の配列
-- `minorStars`: 副星の配列
-- `starPower`: 星の力（主星と副星の強度の合計）
-- `yearlyLucks`: 年運の配列
+- `name`: palace name (Life Palace, Siblings Palace, etc.)
+- `stem`: heavenly stem
+- `branch`: earthly branch
+- `majorStars`: array of major stars
+- `minorStars`: array of minor stars
+- `starPower`: star power (sum of major and minor star strengths)
+- `yearlyLucks`: array of yearly luck
 
-### 3. ブログ機能
+### 3. Blog
 
-Sanity CMSを使用したブログ機能です。
+A blog powered by Sanity CMS.
 
-**主要ページ**:
+**Main pages**:
 
-- `/blog`: ブログ一覧
-- `/post/[slug]`: 記事詳細
-- `/category/[category]`: カテゴリー別一覧
-- `/author/[author]`: 著者別一覧
+- `/blog`: blog list
+- `/post/[slug]`: post detail
+- `/category/[category]`: list by category
+- `/author/[author]`: list by author
 
-**Sanity Studio**: `/studio`でアクセス可能
+**Sanity Studio**: accessible at `/studio`
 
-### 4. 保存した命盤一覧
+### 4. Saved boards list
 
-**パス**: `/list`
+**Path**: `/list`
 
-LocalStorageに保存された命盤の一覧を表示します。
+Displays the list of boards saved in LocalStorage.
 
-### 5. 月運・周期運の表示
+### 5. Monthly / periodic luck display
 
-**コンポーネント**:
+**Components**:
 
-- `MonthlyLucks.tsx`: 月運の表示
-- `PeriodicLucks.tsx`: 周期運の表示
+- `MonthlyLucks.tsx`: monthly luck display
+- `PeriodicLucks.tsx`: periodic luck display
 
-## 🔄 データフロー
+## 🔄 Data Flow
 
-### 命盤計算の流れ
+### Board calculation flow
 
 ```
-1. ユーザー入力（Board.tsx）
+1. User input (Board.tsx)
    ↓
-2. フォームバリデーション（React Hook Form）
+2. Form validation (React Hook Form)
    ↓
-3. APIリクエスト送信（POST /api/board）
+3. Send API request (POST /api/board)
    ↓
-4. サーバー側処理
-   ├─ リクエストバリデーション
-   ├─ レート制限チェック
+4. Server-side processing
+   ├─ Request validation
+   ├─ Rate-limit check
    ├─ PurpleStarPersonalInfo.init()
-   │  ├─ 地方時差計算
-   │  ├─ 均時差取得
-   │  ├─ 調整後日時計算
-   │  └─ 中国暦変換
+   │  ├─ Local time difference
+   │  ├─ Equation of time
+   │  ├─ Adjusted date/time
+   │  └─ Chinese calendar conversion
    └─ PurpleStarData.init()
-      ├─ 命宮・身宮決定
-      ├─ 五号局決定
-      ├─ 紫微星配置
-      ├─ 主星配置
-      ├─ 時系・月系・年干系・年支系諸星配置
-      ├─ 四化星配置
-      ├─ 12宮作成
-      └─ 大限・年運計算
+      ├─ Life/Body Palace determination
+      ├─ Five-Element bureau determination
+      ├─ Zi Wei star placement
+      ├─ Major star placement
+      ├─ Hour/month/year-stem/year-branch star placement
+      ├─ Four Transformations placement
+      ├─ 12 palaces creation
+      └─ Major limit / yearly luck calculation
    ↓
-5. JSONレスポンス返却
+5. Return JSON response
    ↓
-6. 結果表示（ResultView.tsx）
-   ├─ 命盤表示（ResultBoard.tsx）
-   │  ├─ 12宮の表示（PalaceView.tsx）
-   │  ├─ 星の配置表示
-   │  └─ 中央部分（CentralView.tsx）
-   ├─ 詳細情報表示（ResultInfo.tsx）
-   └─ 月運・周期運表示（MonthlyLucks.tsx, PeriodicLucks.tsx）
+6. Display results (ResultView.tsx)
+   ├─ Board display (ResultBoard.tsx)
+   │  ├─ 12 palaces display (PalaceView.tsx)
+   │  ├─ Star placement display
+   │  └─ Central area (CentralView.tsx)
+   ├─ Detail display (ResultInfo.tsx)
+   └─ Monthly/periodic luck display (MonthlyLucks.tsx, PeriodicLucks.tsx)
 ```
 
-## 🧩 主要コンポーネント
+## 🧩 Main Components
 
-### ボード関連
+### Board-related
 
-- **`Board.tsx`**: メインのフォームコンポーネント
-  - React Hook Formでフォーム管理
-  - API呼び出しとエラーハンドリング
-  - 結果表示の制御
+- **`Board.tsx`**: main form component
+  - form management with React Hook Form
+  - API calls and error handling
+  - result display control
 
-- **`ResultView.tsx`**: 計算結果の表示コンテナ
-  - 複数の結果コンポーネントを統合
+- **`ResultView.tsx`**: results container
+  - integrates multiple result components
 
-- **`ResultBoard.tsx`**: 命盤の可視化
-  - 12宮のグリッド表示
-  - 各宮の星の配置表示
-  - 対角線・三角形の線の表示（DiagonalLine.tsx, TriangleLine.tsx）
+- **`ResultBoard.tsx`**: board visualization
+  - 12-palace grid display
+  - star placement display for each palace
+  - diagonal / triangle lines (DiagonalLine.tsx, TriangleLine.tsx)
 
-- **`PalaceView.tsx`**: 各宮の表示
-  - 宮名・天干・地支の表示
-  - 主星・副星の表示
-  - 星の強度・輝度の表示
+- **`PalaceView.tsx`**: display of each palace
+  - palace name, heavenly stem, earthly branch
+  - major and minor stars
+  - star strength / brightness
 
-- **`PalaceDetail.tsx`**: 宮の詳細情報
-  - 星の詳細情報
-  - 大限・年運の情報
+- **`PalaceDetail.tsx`**: palace detail info
+  - star details
+  - major-limit / yearly-luck info
 
-- **`CentralView.tsx`**: 中央部分の表示
-  - 命宮・身宮の情報
-  - 五号局の情報
+- **`CentralView.tsx`**: central-area display
+  - Life / Body Palace info
+  - Five-Element bureau info
 
-- **`ResultInfo.tsx`**: 詳細情報の表示
-  - 生年月日情報
-  - タイムゾーン情報
-  - 中国暦情報
+- **`ResultInfo.tsx`**: detailed info display
+  - birth date/time info
+  - timezone info
+  - Chinese calendar info
 
-- **`MonthlyLucks.tsx`**: 月運の表示
-- **`PeriodicLucks.tsx`**: 周期運の表示
+- **`MonthlyLucks.tsx`**: monthly luck display
+- **`PeriodicLucks.tsx`**: periodic luck display
 
-### 入力コンポーネント
+### Input components
 
-- **`Datetime.tsx`**: 日時入力
-- **`BirthPlace.tsx`**: 出生地入力（Google Maps Autocomplete使用）
-- **`Gender.tsx`**: 性別選択
-- **`SchoolSelect.tsx`**: 流派選択（三合派・飛星派など）
-- **`AdvancedSettings.tsx`**: 詳細設定（`SchoolSelect` による流派選択を内包）
+- **`Datetime.tsx`**: date/time input
+- **`BirthPlace.tsx`**: birthplace input (uses Google Maps Autocomplete)
+- **`Gender.tsx`**: gender selection
+- **`SchoolSelect.tsx`**: school selection (San He, Fei Xing, etc.)
+- **`AdvancedSettings.tsx`**: advanced settings (includes `SchoolSelect` for school selection)
 
-### 共有コンポーネント
+### Shared components
 
-- **`components/navbar.js`**: ナビゲーションバー
-- **`components/footer.js`**: フッター
-- **`components/sidebar.js`**: サイドバー（ブログ用）
+- **`components/navbar.js`**: navigation bar
+- **`components/footer.js`**: footer
+- **`components/sidebar.js`**: sidebar (for blog)
 
-## 🔌 APIエンドポイント
+## 🔌 API Endpoints
 
 ### `/api/board` (POST)
 
-命盤計算のメインAPI。
+The main board-calculation API.
 
-**リクエストボディ**:
+**Request body**:
 
 ```typescript
 {
-  isoDate: string; // ISO形式の日時
-  longitude: number; // 経度
-  latitude: number; // 緯度
-  timezoneOffset: number; // タイムゾーンオフセット
-  gender: Gender; // 性別
-  languageCode: string; // 言語コード
-  utcOffset: number; // UTCオフセット
-  dstOffset: number; // サマータイムオフセット
-  school: string; // 流派（三合派・飛星派など）
-  useSpaceMethod: boolean; // 空間分割法を使用するか
+  isoDate: string; // ISO date/time
+  longitude: number; // longitude
+  latitude: number; // latitude
+  timezoneOffset: number; // timezone offset
+  gender: Gender; // gender
+  languageCode: string; // language code
+  utcOffset: number; // UTC offset
+  dstOffset: number; // daylight saving offset
+  school: string; // school (San He, Fei Xing, etc.)
+  useSpaceMethod: boolean; // whether to use spatial division
 }
 ```
 
-**レスポンス**:
+**Response**:
 
 ```typescript
 {
   status: 200;
-  // PurpleStarDataの全プロパティ
+  // All properties of PurpleStarData
   palaces: Palace[];
   division: string;
   selfPalacePosition: number;
   bodyPalace: PalaceName;
-  // ... その他
+  // ... etc.
 }
 ```
 
 ### `/api/months` (POST)
 
-月運計算API。
+Monthly luck calculation API.
 
 ### `/api/timezone/google` (POST)
 
-Google Timezone APIを使用したタイムゾーン取得API。
+Timezone API using the Google Timezone API.
 
-## 🎨 状態管理
+## 🎨 State Management
 
 ### React Context
 
 **`context/boardContext.tsx`**:
 
-- `isFormView`: フォーム表示フラグ
-- `isJapanese`: 日本語表示フラグ
-- `currentMonth`: 現在選択中の月
-- `currentPalace`: 現在選択中の宮
-- `showChildStar`: 副星表示フラグ
-- `showSelfChildStar`: 自宮副星表示フラグ
-- `showDiagonalChildStar`: 対角副星表示フラグ
-- `showMainChildStar`: 主星副星表示フラグ
+- `isFormView`: form-view flag
+- `isJapanese`: Japanese-display flag
+- `currentMonth`: currently selected month
+- `currentPalace`: currently selected palace
+- `showChildStar`: minor-star display flag
+- `showSelfChildStar`: self-palace minor-star display flag
+- `showDiagonalChildStar`: diagonal minor-star display flag
+- `showMainChildStar`: major-star minor-star display flag
 
 ### LocalStorage
 
-保存した命盤はLocalStorageに保存され、`/list`ページで一覧表示されます。
+Saved boards are stored in LocalStorage and listed on the `/list` page.
 
-## 🔐 セキュリティ
+## 🔐 Security
 
-### レート制限
+### Rate limiting
 
-Upstash Redisを使用したレート制限を実装しています。
+Rate limiting is implemented using Upstash Redis.
 
-- 10リクエスト/10秒（スライディングウィンドウ方式）
-- IPアドレスベースの制限
+- 10 requests / 10 seconds (sliding window)
+- per IP address
 
-### バリデーション
+### Validation
 
-`utils`パッケージの`validatePurpleStarRequest`関数でリクエストをバリデーションします。
+Requests are validated with the `validatePurpleStarRequest` function from the `utils` package.
 
-## 🛠️ 開発コマンド
+## 🛠️ Development Commands
 
 ```bash
-# 開発サーバー起動（ポート3002）
+# Start dev server (port 3002)
 npm run dev
 
-# ビルド
+# Build
 npm run build
 
-# 本番サーバー起動
+# Start production server
 npm run start
 
-# Sanity Studio起動
+# Launch Sanity Studio
 npm run sanity
 
-# Sanityデータインポート
+# Import Sanity data
 npm run sanity-import
 
-# Sanityデータエクスポート
+# Export Sanity data
 npm run sanity-export
 
-# バンドルサイズ分析
+# Bundle size analysis
 npm run analyze
 
-# リント
+# Lint
 npm run lint
 ```
 
-> **Note:** 公開リポジトリには Sanity のデータセットシード（`lib/sanity/data/production.tar.gz`）は含まれていません。`npm run sanity-import` を利用する場合は、自身の Sanity プロジェクトから `npm run sanity-export` でエクスポートを用意してください。
+> **Note:** The Sanity dataset seed (`lib/sanity/data/production.tar.gz`) is **not** included in this repository. If you use `npm run sanity-import`, generate an export from your own Sanity project with `npm run sanity-export`.
 
-## 📦 依存関係
+## 📦 Dependencies
 
-### 主要な依存パッケージ
+### Main packages
 
-- **Next.js**: Webフレームワーク
-- **React Hook Form**: フォーム管理
-- **Tailwind CSS**: スタイリング
-- **@heroui/react**: UIコンポーネント
-- **next-sanity**: Sanity CMS統合
-- **@upstash/ratelimit**: レート制限
-- **@upstash/redis**: Redis接続
-- **date-chinese**: 中国暦変換
-- **types**: 共有型定義パッケージ
-- **utils**: 共有ユーティリティパッケージ
+- **Next.js**: web framework
+- **React Hook Form**: form management
+- **Tailwind CSS**: styling
+- **@heroui/react**: UI components
+- **next-sanity**: Sanity CMS integration
+- **@upstash/ratelimit**: rate limiting
+- **@upstash/redis**: Redis connection
+- **date-chinese**: Chinese calendar conversion
+- **types**: shared type-definition package
+- **utils**: shared utility package
 
-## 🔧 設定ファイル
+## 🔧 Configuration Files
 
 ### `next.config.js`
 
-- 画像最適化設定
-- TypeScript/ESLintエラーの無視設定（本番環境）
-- バンドルアナライザー統合
-- 外部パッケージのトランスパイル設定
+- image optimization settings
+- ignore TypeScript/ESLint errors (production)
+- bundle analyzer integration
+- external package transpilation
 
 ### `sanity.config.ts`
 
-Sanity Studioの設定:
+Sanity Studio configuration:
 
-- プロジェクトID・データセット
-- プラグイン設定
-- スキーマ定義
+- project ID / dataset
+- plugin settings
+- schema definitions
 
 ### `tailwind.config.js`
 
-Tailwind CSSの設定:
+Tailwind CSS configuration:
 
-- カスタムカラー
-- フォント設定
-- プラグイン設定
+- custom colors
+- font settings
+- plugin settings
 
-## 📝 型定義
+## 📝 Type Definitions
 
 ### `app/types.ts`
 
-アプリ固有の型定義:
+App-specific type definitions:
 
-- `PurpleStarData`: 命盤データの型
-- `PurpleStarSubmitData`: フォーム送信データの型
-- `PurpleStarUrlData`: URLパラメータの型
+- `PurpleStarData`: board data type
+- `PurpleStarSubmitData`: form submission data type
+- `PurpleStarUrlData`: URL parameter type
 
 ### `packages/types`
 
-共有型定義パッケージから使用:
+Used from the shared type-definition package:
 
-- `Palace`: 宮の型
-- `PalaceName`: 宮名の型
-- `Star`: 星の型
-- `Gender`: 性別
-- `ChineseDate`: 中国暦の型
-- その他紫微斗数関連の型
+- `Palace`: palace type
+- `PalaceName`: palace name type
+- `Star`: star type
+- `Gender`: gender
+- `ChineseDate`: Chinese calendar type
+- and other Purple Star types
 
-## 🚀 デプロイ
+## 🚀 Deployment
 
-Vercelなどのプラットフォームでデプロイ可能です。
+Deployable on platforms such as Vercel.
 
-**必要な環境変数**:
+**Required environment variables**:
 
-- `NEXT_PUBLIC_SANITY_PROJECT_ID`: SanityプロジェクトID
-- `NEXT_PUBLIC_SANITY_DATASET`: Sanityデータセット名
-- `NEXT_PUBLIC_SANITY_API_VERSION`: Sanity APIバージョン
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`: Sanity project ID
+- `NEXT_PUBLIC_SANITY_DATASET`: Sanity dataset name
+- `NEXT_PUBLIC_SANITY_API_VERSION`: Sanity API version
 - `UPSTASH_REDIS_REST_URL`: Upstash Redis URL
-- `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis トークン
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps APIキー（住所オートコンプリート）
-- `GOOGLE_TIMEZONE_API_KEY`: Google Time Zone APIキー（サーバー）
+- `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis token
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps API key (address autocomplete)
+- `GOOGLE_TIMEZONE_API_KEY`: Google Time Zone API key (server)
 
-## 📚 参考資料
+## 📚 Reference
 
-### 紫微斗数の概念
+### Purple Star concepts
 
-- **命盤**: 12宮に星を配置した盤面
-- **12宮**: 命宮・兄弟宮・夫妻宮・子女宮・財帛宮・疾厄宮・遷移宮・奴僕宮・官禄宮・田宅宮・福德宮・父母宮
-- **14主星**: 紫微・天機・太陽・武曲・天同・廉貞・天府・太陰・貪狼・巨門・天相・天梁・七殺・破軍
-- **副星**: 主星以外の星（文昌・文曲・左輔・右弼など）
-- **四化星**: 化禄・化権・化科・化忌
-- **五号局**: 水二局・木三局・金四局・土五局・火六局
-- **大限**: 10年ごとの運勢
-- **年運**: 1年ごとの運勢
-- **命宮**: 生まれた時の宮
-- **身宮**: 後天的な性格を表す宮
+- **Board (命盤)**: a chart with stars placed across 12 palaces
+- **12 palaces**: Life, Siblings, Spouse, Children, Wealth, Health, Travel, Friends, Career, Property, Fortune, Parents
+- **14 major stars**: Zi Wei, Tian Ji, Tai Yang, Wu Qu, Tian Tong, Lian Zhen, Tian Fu, Tai Yin, Tan Lang, Ju Men, Tian Xiang, Tian Liang, Qi Sha, Po Jun
+- **Minor stars**: stars other than the major stars (Wen Chang, Wen Qu, Zuo Fu, You Bi, etc.)
+- **Four Transformations**: Hua Lu, Hua Quan, Hua Ke, Hua Ji
+- **Five-Element bureau (五号局)**: Water-2, Wood-3, Metal-4, Earth-5, Fire-6
+- **Major limit (大限)**: fortune in 10-year cycles
+- **Yearly luck**: fortune per year
+- **Life Palace (命宮)**: the palace at the time of birth
+- **Body Palace (身宮)**: the palace representing acquired character
 
-### 技術ドキュメント
+### Technical documentation
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Sanity Documentation](https://www.sanity.io/docs)
 - [React Hook Form](https://react-hook-form.com/)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 
-## 🐛 トラブルシューティング
+## 🐛 Troubleshooting
 
-### よくある問題
+### Common issues
 
-1. **レート制限エラー**: 10秒以内に10回以上のリクエストを送信すると429エラーが返ります
-2. **タイムゾーンエラー**: 正確なタイムゾーン情報が必要です
-3. **地理情報取得エラー**: Google Maps APIキーが必要です
-4. **中国暦変換エラー**: 閏月の処理でエラーが発生する場合があります
+1. **Rate-limit error**: sending more than 10 requests within 10 seconds returns a 429 error
+2. **Timezone error**: accurate timezone information is required
+3. **Geocoding error**: a Google Maps API key is required
+4. **Chinese calendar conversion error**: errors can occur when handling leap months
 
-### デバッグ
+### Debugging
 
-- 開発環境ではコンソールログで計算過程を確認できます
-- バンドルサイズ分析: `npm run analyze`
+- In development you can inspect the calculation steps via console logs
+- Bundle size analysis: `npm run analyze`
 
-## 🔄 今後の拡張
+## 🔄 Future Enhancements
 
-- 複数命盤の比較機能
-- 命盤のPDFエクスポート
-- より詳細な運勢分析
-- 流派別の計算方法の追加
-- 多言語対応の拡充
+- Comparison of multiple boards
+- PDF export of a board
+- More detailed fortune analysis
+- Additional per-school calculation methods
+- Expanded multilingual support
 
-## 🔍 four-pillarsとの違い
+## 🔍 Differences from four-pillars
 
-`purple-star`と`four-pillars`は似た構造ですが、以下の違いがあります:
+`purple-star` and `four-pillars` share a similar structure, but differ in the following ways:
 
-1. **占星術システム**: 紫微斗数 vs 四柱推命
-2. **計算方法**: 命盤（12宮） vs 命式（四柱）
-3. **星の概念**: 紫微斗数は星を配置、四柱推命は天干地支を使用
-4. **流派**: 紫微斗数は流派（三合派・飛星派など）を選択可能
-5. **表示方法**: 12宮のグリッド表示 vs 四柱の縦型表示
+1. **Astrology system**: Purple Star Astrology vs Four Pillars of Destiny
+2. **Calculation method**: board (12 palaces) vs chart (four pillars)
+3. **Star concept**: Purple Star places stars, while Four Pillars uses heavenly stems and earthly branches
+4. **Schools**: Purple Star lets you choose a school (San He, Fei Xing, etc.)
+5. **Display**: 12-palace grid vs vertical four-pillar layout

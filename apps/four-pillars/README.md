@@ -1,441 +1,443 @@
-# four-pillars アプリケーション構成解説
+# four-pillars — Application Guide
 
-このドキュメントは、`four-pillars`アプリケーションの構成を初見の開発者向けに解説します。
+*🌐 Languages: **English** | [日本語](./README.ja.md)*
 
-## 📋 概要
+This document explains the structure of the `four-pillars` application for developers seeing it for the first time.
 
-`four-pillars`は、四柱推命（中国占星術）の命式（めいしき）を計算・表示するWebアプリケーションです。ユーザーが生年月日・時刻・出生地を入力すると、四柱推命の詳細な分析結果を表示します。
+## 📋 Overview
 
-**技術スタック**:
+`four-pillars` is a web application that calculates and displays a Four Pillars of Destiny (四柱推命, Chinese astrology) chart. When a user enters their birth date, time, and place, it displays a detailed Four Pillars analysis.
+
+**Tech stack**:
 - **Next.js 14+** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
-- **Sanity CMS** (ブログ機能)
-- **React Hook Form** (フォーム管理)
-- **Upstash Redis** (レート制限)
+- **Sanity CMS** (blog)
+- **React Hook Form** (form management)
+- **Upstash Redis** (rate limiting)
 
-**ポート番号**: 3001
+**Port**: 3001
 
-## 📁 ディレクトリ構造
+## 📁 Directory Structure
 
 ```
 apps/four-pillars/
 ├── app/                          # Next.js App Router
-│   ├── (sanity)/                 # Sanity Studio用ルートグループ
+│   ├── (sanity)/                 # Route group for Sanity Studio
 │   │   └── studio/               # Sanity Studio UI
-│   ├── (website)/                # 公開サイト用ルートグループ
-│   │   ├── chart/                # 命式作成ページ（主要機能）
-│   │   ├── blog/                 # ブログ一覧
-│   │   ├── post/                 # ブログ記事詳細
-│   │   ├── calendar/             # カレンダー機能
-│   │   ├── list/                 # 保存した命式一覧
-│   │   ├── quiz/                 # クイズ機能
-│   │   └── ...                   # その他のページ
+│   ├── (website)/                # Route group for the public site
+│   │   ├── chart/                # Chart creation page (main feature)
+│   │   ├── blog/                 # Blog list
+│   │   ├── post/                 # Blog post detail
+│   │   ├── calendar/             # Calendar feature
+│   │   ├── list/                 # Saved charts list
+│   │   ├── quiz/                 # Quiz feature
+│   │   └── ...                   # Other pages
 │   ├── api/                      # API Routes
-│   │   ├── chart/                # 命式計算API
-│   │   ├── calendar/             # カレンダーAPI
-│   │   ├── geocode/              # 地理情報取得API
-│   │   ├── timezone/             # タイムゾーン取得API
-│   │   └── image/                # 画像生成API（非公開画像生成サービスへのプロキシ）
-│   ├── layout.tsx                # ルートレイアウト
-│   └── types.ts                  # アプリ固有の型定義
-├── components/                   # 共有コンポーネント
-│   ├── blog/                     # ブログ関連コンポーネント
-│   └── ui/                       # UIコンポーネント
+│   │   ├── chart/                # Chart calculation API
+│   │   ├── calendar/             # Calendar API
+│   │   ├── geocode/              # Geocoding API
+│   │   ├── timezone/             # Timezone API
+│   │   └── image/                # Image generation API (proxy to a private image service)
+│   ├── layout.tsx                # Root layout
+│   └── types.ts                  # App-specific type definitions
+├── components/                   # Shared components
+│   ├── blog/                     # Blog-related components
+│   └── ui/                       # UI components
 ├── context/                      # React Context
-│   └── chartContext.tsx          # チャート状態管理
-├── lib/                          # ライブラリ・ユーティリティ
-│   └── sanity/                   # Sanity CMS設定
-├── public/                       # 静的ファイル
-├── styles/                       # グローバルスタイル
-└── utils/                        # ユーティリティ関数
+│   └── chartContext.tsx          # Chart state management
+├── lib/                          # Libraries / utilities
+│   └── sanity/                   # Sanity CMS config
+├── public/                       # Static files
+├── styles/                       # Global styles
+└── utils/                        # Utility functions
 ```
 
-## 🎯 主要機能
+## 🎯 Main Features
 
-### 1. 命式作成（チャート計算）
+### 1. Chart creation (calculation)
 
-**パス**: `/chart`
+**Path**: `/chart`
 
-四柱推命の命式を計算・表示する主要機能です。
+The main feature that calculates and displays a Four Pillars chart.
 
-#### フロントエンド (`app/(website)/chart/`)
+#### Frontend (`app/(website)/chart/`)
 
-- **`page.tsx`**: ページコンポーネント（Server Component）
-- **`Chart.tsx`**: メインのチャートコンポーネント（Client Component）
-  - フォーム入力の管理
-  - API呼び出し
-  - 結果表示の制御
-- **`ResultView.tsx`**: 計算結果の表示
-- **`ResultChart.tsx`**: 命式チャートの可視化
-- **`Datetime.tsx`**: 日時入力コンポーネント
-- **`BirthPlace.tsx`**: 出生地入力コンポーネント
-- **`Gender.tsx`**: 性別選択コンポーネント
-- **`AdvancedSettings.tsx`**: 詳細設定（分割方法、日干変更方法など）
+- **`page.tsx`**: page component (Server Component)
+- **`Chart.tsx`**: main chart component (Client Component)
+  - form input management
+  - API calls
+  - result display control
+- **`ResultView.tsx`**: displays the calculation results
+- **`ResultChart.tsx`**: visualizes the chart
+- **`Datetime.tsx`**: date/time input component
+- **`BirthPlace.tsx`**: birthplace input component
+- **`Gender.tsx`**: gender selection component
+- **`AdvancedSettings.tsx`**: advanced settings (division method, day-stem change method, etc.)
 
-#### バックエンド (`app/api/chart/route.ts`)
+#### Backend (`app/api/chart/route.ts`)
 
 ```typescript
 POST /api/chart
 ```
 
-**処理フロー**:
-1. リクエストバリデーション
-2. レート制限チェック（Upstash Redis使用）
-3. `FourPillarsPersonalInfo`で個人情報を初期化
-4. `FourPillarsData`で命式を計算
-5. 結果をJSON形式で返却
+**Processing flow**:
+1. Request validation
+2. Rate-limit check (Upstash Redis)
+3. Initialize personal info with `FourPillarsPersonalInfo`
+4. Calculate the chart with `FourPillarsData`
+5. Return the result as JSON
 
-**レート制限**: 10リクエスト/10秒（IPアドレスベース）
+**Rate limit**: 10 requests / 10 seconds (per IP address)
 
-### 2. 四柱推命計算の詳細
+### 2. Four Pillars calculation details
 
 #### `FourPillarsPersonalInfo` (`app/api/FourPillarsPersonalInfo.ts`)
 
-個人情報と日時調整を管理するクラスです。
+A class that manages personal info and date/time adjustments.
 
-**主要処理**:
-- 地方時差の計算
-- 均時差の取得
-- 調整後日時の計算
-- 太陽黄経の取得
-- 二十四節気の判定
-- 土用期間の判定
+**Main processing**:
+- Local time difference calculation
+- Equation of time retrieval
+- Adjusted date/time calculation
+- Solar ecliptic longitude retrieval
+- Determination of the 24 solar terms
+- Determination of the "doyō" periods
 
 #### `FourPillarsData` (`app/api/FourPillarsData.ts`)
 
-四柱推命の命式を計算するメインクラスです。
+The main class that calculates the Four Pillars chart.
 
-**主要処理**:
-1. **四柱の生成**: 年柱・月柱・日柱・時柱の計算
-2. **天干地支の抽出**: 天干（10個）と地支（12個）の取得
-3. **干合の計算**: 天干同士の組み合わせ
-4. **地支の関係性計算**:
-   - 三合会局（さんごうかいきょく）
-   - 方合（ほうごう）
-   - 支合（しごう）
-   - 冲（ちゅう）
-   - 破（は）
-   - 害（がい）
-   - 刑（けい）
-5. **大運（たいうん）の計算**: 10年ごとの運勢
-6. **年運の計算**: 1年ごとの運勢
-7. **五行の構成**: 五行（木・火・土・金・水）のバランス
-8. **温度・湿度の計算**: 季節性の指標
+**Main processing**:
+1. **Pillar generation**: calculate the year, month, day, and hour pillars
+2. **Stem/branch extraction**: obtain the heavenly stems (10) and earthly branches (12)
+3. **Stem combination calculation**: combinations between heavenly stems
+4. **Branch relationship calculation**:
+   - Three Harmony (三合会局)
+   - Directional Combination (方合)
+   - Six Harmony (支合)
+   - Clash (冲)
+   - Destruction (破)
+   - Harm (害)
+   - Punishment (刑)
+5. **Decade luck (大運) calculation**: fortune in 10-year cycles
+6. **Yearly luck calculation**: fortune per year
+7. **Five Elements composition**: balance of the Five Elements (Wood, Fire, Earth, Metal, Water)
+8. **Temperature / humidity calculation**: seasonal indicators
 
-### 3. ブログ機能
+### 3. Blog
 
-Sanity CMSを使用したブログ機能です。
+A blog powered by Sanity CMS.
 
-**主要ページ**:
-- `/blog`: ブログ一覧
-- `/post/[slug]`: 記事詳細
-- `/category/[category]`: カテゴリー別一覧
-- `/author/[author]`: 著者別一覧
+**Main pages**:
+- `/blog`: blog list
+- `/post/[slug]`: post detail
+- `/category/[category]`: list by category
+- `/author/[author]`: list by author
 
-**Sanity Studio**: `/studio`でアクセス可能
+**Sanity Studio**: accessible at `/studio`
 
-### 4. カレンダー機能
+### 4. Calendar
 
-**パス**: `/calendar`
+**Path**: `/calendar`
 
-四柱推命のカレンダーを表示します。
+Displays a Four Pillars calendar.
 
-### 5. 保存した命式一覧
+### 5. Saved charts list
 
-**パス**: `/list`
+**Path**: `/list`
 
-LocalStorageに保存された命式の一覧を表示します。
+Displays the list of charts saved in LocalStorage.
 
-## 🔄 データフロー
+## 🔄 Data Flow
 
-### 命式計算の流れ
+### Chart calculation flow
 
 ```
-1. ユーザー入力（Chart.tsx）
+1. User input (Chart.tsx)
    ↓
-2. フォームバリデーション（React Hook Form）
+2. Form validation (React Hook Form)
    ↓
-3. APIリクエスト送信（POST /api/chart）
+3. Send API request (POST /api/chart)
    ↓
-4. サーバー側処理
-   ├─ リクエストバリデーション
-   ├─ レート制限チェック
+4. Server-side processing
+   ├─ Request validation
+   ├─ Rate-limit check
    ├─ FourPillarsPersonalInfo.init()
-   │  ├─ 地方時差計算
-   │  ├─ 均時差取得
-   │  ├─ 調整後日時計算
-   │  └─ 二十四節気判定
+   │  ├─ Local time difference
+   │  ├─ Equation of time
+   │  ├─ Adjusted date/time
+   │  └─ 24 solar terms
    └─ FourPillarsData.init()
-      ├─ 四柱生成
-      ├─ 天干地支抽出
-      ├─ 干合・支合計算
-      ├─ 大運計算
-      └─ 五行構成計算
+      ├─ Pillar generation
+      ├─ Stem/branch extraction
+      ├─ Combination/harmony calculation
+      ├─ Decade luck calculation
+      └─ Five Elements composition
    ↓
-5. JSONレスポンス返却
+5. Return JSON response
    ↓
-6. 結果表示（ResultView.tsx）
-   ├─ 命式チャート表示（ResultChart.tsx）
-   ├─ 詳細情報表示（ResultInfo.tsx）
-   └─ 大運・年運表示（DecadeLuck.tsx, YearlyLucks.tsx）
+6. Display results (ResultView.tsx)
+   ├─ Chart display (ResultChart.tsx)
+   ├─ Detail display (ResultInfo.tsx)
+   └─ Decade/yearly luck display (DecadeLuck.tsx, YearlyLucks.tsx)
 ```
 
-## 🧩 主要コンポーネント
+## 🧩 Main Components
 
-### チャート関連
+### Chart-related
 
-- **`Chart.tsx`**: メインのフォームコンポーネント
-  - React Hook Formでフォーム管理
-  - API呼び出しとエラーハンドリング
-  - 結果表示の制御
+- **`Chart.tsx`**: main form component
+  - form management with React Hook Form
+  - API calls and error handling
+  - result display control
 
-- **`ResultView.tsx`**: 計算結果の表示コンテナ
-  - 複数の結果コンポーネントを統合
+- **`ResultView.tsx`**: results container
+  - integrates multiple result components
 
-- **`ResultChart.tsx`**: 命式チャートの可視化
-  - 天干地支の表示
-  - 干合・支合などの関係性の表示
+- **`ResultChart.tsx`**: chart visualization
+  - displays stems and branches
+  - displays relationships such as combinations and harmonies
 
-- **`ResultInfo.tsx`**: 詳細情報の表示
-  - 生年月日情報
-  - タイムゾーン情報
-  - 二十四節気情報
+- **`ResultInfo.tsx`**: detailed info display
+  - birth date/time info
+  - timezone info
+  - 24-solar-term info
 
-- **`DecadeLuck.tsx`**: 大運の表示
-- **`YearlyLucks.tsx`**: 年運の表示
+- **`DecadeLuck.tsx`**: decade luck display
+- **`YearlyLucks.tsx`**: yearly luck display
 
-### 入力コンポーネント
+### Input components
 
-- **`Datetime.tsx`**: 日時入力
-- **`BirthPlace.tsx`**: 出生地入力（Google Maps Autocomplete使用）
-- **`Gender.tsx`**: 性別選択
-- **`AdvancedSettings.tsx`**: 詳細設定
-  - 分割方法（節切り/空間分割）
-  - 日干変更方法
-  - 画像生成オプション
+- **`Datetime.tsx`**: date/time input
+- **`BirthPlace.tsx`**: birthplace input (uses Google Maps Autocomplete)
+- **`Gender.tsx`**: gender selection
+- **`AdvancedSettings.tsx`**: advanced settings
+  - division method (solar-term cut / spatial division)
+  - day-stem change method
+  - image-generation option
 
-### 共有コンポーネント
+### Shared components
 
-- **`components/navbar.js`**: ナビゲーションバー
-- **`components/footer.js`**: フッター
-- **`components/sidebar.js`**: サイドバー（ブログ用）
+- **`components/navbar.js`**: navigation bar
+- **`components/footer.js`**: footer
+- **`components/sidebar.js`**: sidebar (for blog)
 
-## 🔌 APIエンドポイント
+## 🔌 API Endpoints
 
 ### `/api/chart` (POST)
 
-命式計算のメインAPI。
+The main chart-calculation API.
 
-**リクエストボディ**:
+**Request body**:
 ```typescript
 {
-  isoDate: string;           // ISO形式の日時
-  longitude: number;          // 経度
-  latitude: number;           // 緯度
-  timezoneOffset: number;     // タイムゾーンオフセット
-  gender: Gender;             // 性別
-  languageCode: string;       // 言語コード
-  utcOffset: number;          // UTCオフセット
-  dstOffset: number;          // サマータイムオフセット
-  useSpaceMethod: boolean;    // 空間分割法を使用するか
-  createImage: boolean;       // 画像生成するか
-  isHourUnknown: boolean;     // 生時不明か
-  changeDayStem: boolean;     // 日干変更方法
-  yearlyLucks?: boolean;      // 年運を取得するか
-  yearlyLuckStart?: number;   // 年運開始年
-  yearlyLuckEnd?: number;     // 年運終了年
+  isoDate: string;           // ISO date/time
+  longitude: number;          // longitude
+  latitude: number;           // latitude
+  timezoneOffset: number;     // timezone offset
+  gender: Gender;             // gender
+  languageCode: string;       // language code
+  utcOffset: number;          // UTC offset
+  dstOffset: number;          // daylight saving offset
+  useSpaceMethod: boolean;    // whether to use spatial division
+  createImage: boolean;       // whether to generate an image
+  isHourUnknown: boolean;     // whether the birth hour is unknown
+  changeDayStem: boolean;     // day-stem change method
+  yearlyLucks?: boolean;      // whether to fetch yearly luck
+  yearlyLuckStart?: number;   // yearly luck start year
+  yearlyLuckEnd?: number;     // yearly luck end year
 }
 ```
 
-**レスポンス**:
+**Response**:
 ```typescript
 {
   status: 200;
-  // FourPillarsDataの全プロパティ
+  // All properties of FourPillarsData
   heavenlyStems: HeavenlyStem[];
   earthlyBranches: EarthlyBranch[];
   decadeLucks: DecadeLuck[];
-  // ... その他
+  // ... etc.
 }
 ```
 
 ### `/api/calendar` (POST)
 
-カレンダー情報を取得するAPI。
+API that returns calendar information.
 
 ### `/api/geocode/mapbox` (POST)
 
-Mapboxを使用した地理情報取得API。
+Geocoding API using Mapbox.
 
 ### `/api/timezone/google` (POST)
 
-Google Timezone APIを使用したタイムゾーン取得API。
+Timezone API using the Google Timezone API.
 
 ### `/api/image` (POST)
 
-命式画像生成API。実際の画像生成（プロンプト組み立て・生成モデル呼び出し）は非公開の外部サービスに隔離されており、このエンドポイントは認証トークンを付けてリクエストを転送する薄いプロキシです。
+Chart image-generation API. The actual image generation (prompt assembly and generation-model calls) is isolated in a private external service; this endpoint is a thin proxy that forwards the request with an authentication token.
 
-## 🎨 状態管理
+## 🎨 State Management
 
 ### React Context
 
 **`context/chartContext.tsx`**:
-- `isFormView`: フォーム表示フラグ
-- `isJapanese`: 日本語表示フラグ
+- `isFormView`: form-view flag
+- `isJapanese`: Japanese-display flag
 
 ### LocalStorage
 
-保存した命式はLocalStorageに保存され、`/list`ページで一覧表示されます。
+Saved charts are stored in LocalStorage and listed on the `/list` page.
 
-## 🔐 セキュリティ
+## 🔐 Security
 
-### レート制限
+### Rate limiting
 
-Upstash Redisを使用したレート制限を実装しています。
-- 10リクエスト/10秒（スライディングウィンドウ方式）
-- IPアドレスベースの制限
+Rate limiting is implemented using Upstash Redis.
+- 10 requests / 10 seconds (sliding window)
+- per IP address
 
-### バリデーション
+### Validation
 
-`utils`パッケージの`validateFourPillarsRequest`関数でリクエストをバリデーションします。
+Requests are validated with the `validateFourPillarsRequest` function from the `utils` package.
 
-## 🛠️ 開発コマンド
+## 🛠️ Development Commands
 
 ```bash
-# 開発サーバー起動（ポート3001）
+# Start dev server (port 3001)
 npm run dev
 
-# ビルド
+# Build
 npm run build
 
-# 本番サーバー起動
+# Start production server
 npm run start
 
-# Sanity Studio起動
+# Launch Sanity Studio
 npm run sanity
 
-# Sanityデータインポート
+# Import Sanity data
 npm run sanity-import
 
-# Sanityデータエクスポート
+# Export Sanity data
 npm run sanity-export
 
-# バンドルサイズ分析
+# Bundle size analysis
 npm run analyze
 
-# リント
+# Lint
 npm run lint
 ```
 
-> **Note:** 公開リポジトリには Sanity のデータセットシード（`lib/sanity/data/production.tar.gz`）は含まれていません。`npm run sanity-import` を利用する場合は、自身の Sanity プロジェクトから `npm run sanity-export` でエクスポートを用意してください。
+> **Note:** The Sanity dataset seed (`lib/sanity/data/production.tar.gz`) is **not** included in this repository. If you use `npm run sanity-import`, generate an export from your own Sanity project with `npm run sanity-export`.
 
-## 📦 依存関係
+## 📦 Dependencies
 
-### 主要な依存パッケージ
+### Main packages
 
-- **Next.js**: Webフレームワーク
-- **React Hook Form**: フォーム管理
-- **Tailwind CSS**: スタイリング
-- **@heroui/react**: UIコンポーネント
-- **next-sanity**: Sanity CMS統合
-- **@upstash/ratelimit**: レート制限
-- **@upstash/redis**: Redis接続
-- **types**: 共有型定義パッケージ
-- **utils**: 共有ユーティリティパッケージ
+- **Next.js**: web framework
+- **React Hook Form**: form management
+- **Tailwind CSS**: styling
+- **@heroui/react**: UI components
+- **next-sanity**: Sanity CMS integration
+- **@upstash/ratelimit**: rate limiting
+- **@upstash/redis**: Redis connection
+- **types**: shared type-definition package
+- **utils**: shared utility package
 
-## 🔧 設定ファイル
+## 🔧 Configuration Files
 
 ### `next.config.js`
 
-- 画像最適化設定
-- TypeScript/ESLintエラーの無視設定（本番環境）
-- バンドルアナライザー統合
-- 外部パッケージのトランスパイル設定
+- image optimization settings
+- ignore TypeScript/ESLint errors (production)
+- bundle analyzer integration
+- external package transpilation
 
 ### `sanity.config.ts`
 
-Sanity Studioの設定:
-- プロジェクトID・データセット
-- プラグイン設定
-- スキーマ定義
+Sanity Studio configuration:
+- project ID / dataset
+- plugin settings
+- schema definitions
 
 ### `tailwind.config.js`
 
-Tailwind CSSの設定:
-- カスタムカラー
-- フォント設定
-- プラグイン設定
+Tailwind CSS configuration:
+- custom colors
+- font settings
+- plugin settings
 
-## 📝 型定義
+## 📝 Type Definitions
 
 ### `app/types.ts`
 
-アプリ固有の型定義:
-- `FourPillarsData`: 命式データの型
-- `SubmitData`: フォーム送信データの型
-- `OptionData`: 表示オプションの型
-- `FourPillarsUrlData`: URLパラメータの型
+App-specific type definitions:
+- `FourPillarsData`: chart data type
+- `SubmitData`: form submission data type
+- `OptionData`: display option type
+- `FourPillarsUrlData`: URL parameter type
 
 ### `packages/types`
 
-共有型定義パッケージから使用:
-- `HeavenlyStem`: 天干
-- `EarthlyBranch`: 地支
-- `Gender`: 性別
-- その他四柱推命関連の型
+Used from the shared type-definition package:
+- `HeavenlyStem`: heavenly stem
+- `EarthlyBranch`: earthly branch
+- `Gender`: gender
+- and other Four Pillars types
 
-## 🚀 デプロイ
+## 🚀 Deployment
 
-Vercelなどのプラットフォームでデプロイ可能です。
+Deployable on platforms such as Vercel.
 
-**必要な環境変数**:
-- `NEXT_PUBLIC_SANITY_PROJECT_ID`: SanityプロジェクトID
-- `NEXT_PUBLIC_SANITY_DATASET`: Sanityデータセット名
-- `NEXT_PUBLIC_SANITY_API_VERSION`: Sanity APIバージョン
+**Required environment variables**:
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`: Sanity project ID
+- `NEXT_PUBLIC_SANITY_DATASET`: Sanity dataset name
+- `NEXT_PUBLIC_SANITY_API_VERSION`: Sanity API version
 - `UPSTASH_REDIS_REST_URL`: Upstash Redis URL
-- `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis トークン
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps APIキー（住所オートコンプリート）
-- `GOOGLE_TIMEZONE_API_KEY`: Google Time Zone APIキー（サーバー）
-- `MAPBOX_GEOCODING_API_KEY`: Mapbox Geocoding APIキー（サーバー）
-- `IMAGE_SERVICE_URL`: 非公開画像生成サービスのベースURL（サーバー専用）
-- `SERVICE_SHARED_SECRET`: 画像生成サービスとの共有認証トークン（サーバー専用）
+- `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis token
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps API key (address autocomplete)
+- `GOOGLE_TIMEZONE_API_KEY`: Google Time Zone API key (server)
+- `MAPBOX_GEOCODING_API_KEY`: Mapbox Geocoding API key (server)
+- `IMAGE_SERVICE_URL`: base URL of the private image-generation service (server only)
+- `SERVICE_SHARED_SECRET`: shared auth token for the image-generation service (server only)
 
-## 📚 参考資料
+## 📚 Reference
 
-### 四柱推命の概念
+### Four Pillars concepts
 
-- **四柱**: 年柱・月柱・日柱・時柱の4つの柱
-- **天干**: 甲・乙・丙・丁・戊・己・庚・辛・壬・癸（10個）
-- **地支**: 子・丑・寅・卯・辰・巳・午・未・申・酉・戌・亥（12個）
-- **大運**: 10年ごとの運勢
-- **年運**: 1年ごとの運勢
-- **干合**: 天干同士の組み合わせ
-- **支合**: 地支同士の組み合わせ
+- **Four Pillars**: the four pillars — year, month, day, and hour
+- **Heavenly stems**: 甲・乙・丙・丁・戊・己・庚・辛・壬・癸 (10)
+- **Earthly branches**: 子・丑・寅・卯・辰・巳・午・未・申・酉・戌・亥 (12)
+- **Decade luck**: fortune in 10-year cycles
+- **Yearly luck**: fortune per year
+- **Stem combination (干合)**: combinations between heavenly stems
+- **Branch harmony (支合)**: combinations between earthly branches
 
-### 技術ドキュメント
+### Technical documentation
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Sanity Documentation](https://www.sanity.io/docs)
 - [React Hook Form](https://react-hook-form.com/)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 
-## 🐛 トラブルシューティング
+## 🐛 Troubleshooting
 
-### よくある問題
+### Common issues
 
-1. **レート制限エラー**: 10秒以内に10回以上のリクエストを送信すると429エラーが返ります
-2. **タイムゾーンエラー**: 正確なタイムゾーン情報が必要です
-3. **地理情報取得エラー**: Google Maps APIキーが必要です
+1. **Rate-limit error**: sending more than 10 requests within 10 seconds returns a 429 error
+2. **Timezone error**: accurate timezone information is required
+3. **Geocoding error**: a Google Maps API key is required
 
-### デバッグ
+### Debugging
 
-- 開発環境では`next.config.js`の`config.optimization.minimize`を`false`に設定できます
-- バンドルサイズ分析: `npm run analyze`
+- In development you can set `config.optimization.minimize` to `false` in `next.config.js`
+- Bundle size analysis: `npm run analyze`
 
-## 🔄 今後の拡張
+## 🔄 Future Enhancements
 
-- 複数命式の比較機能
-- 命式のPDFエクスポート
-- より詳細な運勢分析
-- 多言語対応の拡充
+- Comparison of multiple charts
+- PDF export of a chart
+- More detailed fortune analysis
+- Expanded multilingual support
