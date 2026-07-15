@@ -1,375 +1,375 @@
-# リポジトリ構成解説
+# Repository Overview
 
-このリポジトリは、四柱推命・紫微斗数のWebアプリケーション群を管理する**Turborepoモノレポ**です。
+*🌐 Languages: **English** | [日本語](./README.ja.md)*
 
-> 占星術（ホロスコープ）アプリと占星術計算APIは別リポジトリへ分離されました。本リポジトリには `four-pillars` と `purple-star` の2アプリが含まれます。
+This repository is a **Turborepo monorepo** that manages a set of web applications for Four Pillars of Destiny (四柱推命) and Purple Star Astrology (紫微斗数).
 
-## 📄 ライセンス / License
+> The horoscope (Western astrology) app and the astrology calculation API have been split into separate repositories. This repository contains two apps: `four-pillars` and `purple-star`.
 
-本リポジトリのオリジナルコード（四柱推命・紫微斗数の計算エンジンおよび各機能）は [MIT License](./LICENSE) の下で公開されています。ただし、ブログ/CMS層など一部は [Stablo テンプレート（Web3Templates）](https://web3templates.com) 由来で、**MIT ではなく Web3Templates のライセンス**に従います。ライセンスの境界の詳細は [NOTICE.md](./NOTICE.md) を参照してください。
+## 📄 License
 
-This project's original code is licensed under the [MIT License](./LICENSE). Portions derived from the Stablo template (Web3Templates) are governed by a separate license — see [NOTICE.md](./NOTICE.md).
+The original code in this repository (the Four Pillars / Purple Star calculation engines and their features) is released under the [MIT License](./LICENSE). However, some portions — such as the blog / CMS layer — are derived from the [Stablo template (Web3Templates)](https://web3templates.com) and are governed by the **Web3Templates license, not MIT**. See [NOTICE.md](./NOTICE.md) for details on the license boundary.
 
-## 🚀 クイックスタート
+## 🚀 Quick Start
 
 ```bash
-# 依存関係のインストール
+# Install dependencies
 npm install
 
-# 全アプリケーションを開発モードで起動
+# Start all apps in development mode
 npm run dev
 
-# 個別に起動する場合
-cd apps/four-pillars && npm run dev   # ポート3001
-cd apps/purple-star && npm run dev    # ポート3002
+# Or start an app individually
+cd apps/four-pillars && npm run dev   # port 3001
+cd apps/purple-star && npm run dev    # port 3002
 ```
 
-## 📁 全体構造
+## 📁 Overall Structure
 
 ```
 eastern-astrology/
-├── apps/                    # アプリケーション（フロントエンド + 各自のAPIルート）
-│   ├── four-pillars/        # 四柱推命Webサイト（ポート3001）
-│   └── purple-star/         # 紫微斗数Webサイト（ポート3002）
-├── packages/                # 共有パッケージ
-│   ├── types/               # TypeScript型定義
-│   ├── utils/               # ユーティリティ関数
-│   ├── ui/                  # 共有UIコンポーネント
-│   └── tsconfig/            # 共有TypeScript設定
-├── package.json             # ルートの依存関係管理（npm workspaces）
-├── turbo.json               # Turborepoの設定
-├── eslint.config.mjs        # ESLint設定（Flat Config）
+├── apps/                    # Applications (frontend + their own API routes)
+│   ├── four-pillars/        # Four Pillars website (port 3001)
+│   └── purple-star/         # Purple Star website (port 3002)
+├── packages/                # Shared packages
+│   ├── types/               # TypeScript type definitions
+│   ├── utils/               # Utility functions
+│   ├── ui/                  # Shared UI components
+│   └── tsconfig/            # Shared TypeScript config
+├── package.json             # Root dependency management (npm workspaces)
+├── turbo.json               # Turborepo configuration
+├── eslint.config.mjs        # ESLint config (Flat Config)
 └── README.md
 ```
 
-## 🏗️ アーキテクチャ概要
+## 🏗️ Architecture Overview
 
-各アプリは**自己完結型のNext.jsアプリ**で、フロントエンドのページと、計算を担う自前のAPIルート（`app/api/`）の両方を持ちます。共通の型・ユーティリティ・UIは `packages/` から共有します。
+Each app is a **self-contained Next.js app** that owns both its frontend pages and its own API routes (`app/api/`) responsible for calculations. Shared types, utilities, and UI live in `packages/`.
 
 ```
-┌─────────────────────────────┐      ┌─────────────────────────────┐
-│  four-pillars (ポート3001)   │      │  purple-star (ポート3002)    │
-│  ├─ app/(website)/  画面     │      │  ├─ app/(website)/  画面     │
-│  ├─ app/api/        計算API  │      │  ├─ app/api/        計算API  │
-│  └─ app/(sanity)/   Studio   │      │  └─ Sanity CMS              │
-│  ← Sanity CMS               │      │                             │
-└──────────────┬──────────────┘      └──────────────┬──────────────┘
-               │                                     │
-               └──────────────┬──────────────────────┘
-                              │ 共通パッケージを利用
-                              ▼
-                  ┌─────────────────────┐
-                  │  packages/          │
-                  │  - types  型定義     │
-                  │  - utils  ユーティリティ │
-                  │  - ui     UIコンポーネント │
-                  └─────────────────────┘
+┌──────────────────────────────┐   ┌──────────────────────────────┐
+│  four-pillars (port 3001)    │   │  purple-star (port 3002)     │
+│  ├─ app/(website)/  UI       │   │  ├─ app/(website)/  UI       │
+│  ├─ app/api/        Calc API │   │  ├─ app/api/        Calc API │
+│  └─ app/(sanity)/   Studio   │   │  └─ app/(sanity)/   Studio   │
+│  ← Sanity CMS                │   │  ← Sanity CMS                │
+└───────────────┬──────────────┘   └───────────────┬──────────────┘
+                │                                   │
+                └─────────────────┬─────────────────┘
+                                  │ uses shared packages
+                                  ▼
+                    ┌───────────────────────────┐
+                    │  packages/                │
+                    │  - types  (type defs)     │
+                    │  - utils  (utilities)     │
+                    │  - ui     (UI components) │
+                    └───────────────────────────┘
 ```
 
-## 🏗️ モノレポ構成
+## 🏗️ Monorepo Setup
 
-このプロジェクトは**Turborepo**を使用したモノレポ構成です。複数のアプリケーションと共有パッケージを効率的に管理できます。
+This project uses a **Turborepo** monorepo setup, which lets multiple apps and shared packages be managed efficiently together.
 
-### 主な特徴
+### Key Characteristics
 
-- **ワークスペース管理**: npm workspacesで依存関係を一元管理
-- **ビルド最適化**: Turborepoによる並列ビルドとキャッシング
-- **型安全性**: 全プロジェクトでTypeScriptを使用
-- **コード共有**: 共通の型定義、ユーティリティ、UIコンポーネントを共有
+- **Workspace management**: dependencies are centrally managed with npm workspaces
+- **Build optimization**: parallel builds and caching via Turborepo
+- **Type safety**: TypeScript across all projects
+- **Code sharing**: shared type definitions, utilities, and UI components
 
-### 依存関係の流れ
+### Dependency Flow
 
 ```
 apps/four-pillars
-  ├─ types (型定義)
-  ├─ utils (ユーティリティ)
-  └─ ui    (UIコンポーネント)
+  ├─ types (type definitions)
+  ├─ utils (utilities)
+  └─ ui    (UI components)
 
 apps/purple-star
-  ├─ types (型定義)
-  ├─ utils (ユーティリティ)
-  └─ ui    (UIコンポーネント)
+  ├─ types (type definitions)
+  ├─ utils (utilities)
+  └─ ui    (UI components)
 ```
 
-## 📱 アプリケーション（apps/）
+## 📱 Applications (apps/)
 
-### 1. `four-pillars` - 四柱推命Webサイト
+### 1. `four-pillars` — Four Pillars of Destiny website
 
-**ポート**: 3001
-**技術スタック**: Next.js (App Router), Sanity CMS, Tailwind CSS
-**ディレクトリ**: `apps/four-pillars/`
+**Port**: 3001
+**Tech stack**: Next.js (App Router), Sanity CMS, Tailwind CSS
+**Directory**: `apps/four-pillars/`
 
-四柱推命（中国占星術）の計算とコンテンツ管理を行うWebサイトです。計算用のAPIルートを内蔵しています。
+A website that performs Four Pillars of Destiny (Chinese astrology) calculations and manages content. Calculation API routes are built in.
 
-**主要機能**:
+**Main features**:
 
-- 四柱推命チャートの計算と表示（天干地支、大運、流年など）
-- ブログ機能（Sanity CMS）
-- カレンダー機能
-- チャート画像生成
-- クイズ機能
+- Calculation and display of Four Pillars charts (heavenly stems / earthly branches, decade luck, yearly luck, etc.)
+- Blog (Sanity CMS)
+- Calendar
+- Chart image generation
+- Quiz
 
-**API（`app/api/`）**:
+**API (`app/api/`)**:
 
-- `app/api/chart/` - 四柱推命チャート計算
-- `app/api/calendar/` - カレンダー
-- `app/api/image/` - チャート画像生成
-- `app/api/timezone/`, `app/api/geocode/` - タイムゾーン・ジオコーディング
+- `app/api/chart/` — Four Pillars chart calculation
+- `app/api/calendar/` — calendar
+- `app/api/image/` — chart image generation
+- `app/api/timezone/`, `app/api/geocode/` — timezone / geocoding
 
-**特徴**:
+**Details**:
 
-- Sanity Studio統合（`/studio`でアクセス、`npm run sanity`で起動） - `app/(sanity)/studio/`
-- レート制限（Upstash Redis） - `app/api/chart/route.ts`
-- 型定義: `packages/types`（`four-pillars/` サブツリー）を使用
-- ユーティリティ: `packages/utils`を使用
-- UIコンポーネント: `packages/ui`を使用
+- Sanity Studio integration (accessible at `/studio`, launched with `npm run sanity`) — `app/(sanity)/studio/`
+- Rate limiting (Upstash Redis) — `app/api/chart/route.ts`
+- Types: uses `packages/types` (`four-pillars/` subtree)
+- Utilities: uses `packages/utils`
+- UI components: uses `packages/ui`
 
-**重要なディレクトリ**:
+**Important directories**:
 
-- `app/(website)/chart/` - チャート表示ページ
-- `app/(website)/blog/`, `post/`, `category/` - ブログ関連
-- `app/(sanity)/studio/` - Sanity Studio設定
-- `lib/sanity/` - Sanityクライアント設定
+- `app/(website)/chart/` — chart display page
+- `app/(website)/blog/`, `post/`, `category/` — blog-related
+- `app/(sanity)/studio/` — Sanity Studio config
+- `lib/sanity/` — Sanity client config
 
-### 2. `purple-star` - 紫微斗数Webサイト
+### 2. `purple-star` — Purple Star Astrology website
 
-**ポート**: 3002
-**技術スタック**: Next.js (App Router), Sanity CMS, Tailwind CSS
-**ディレクトリ**: `apps/purple-star/`
+**Port**: 3002
+**Tech stack**: Next.js (App Router), Sanity CMS, Tailwind CSS
+**Directory**: `apps/purple-star/`
 
-紫微斗数（中国占星術の一種）のWebサイトです。`four-pillars`と同様の構成で、計算用のAPIルートを内蔵しています。
+A website for Purple Star Astrology (a form of Chinese astrology). It follows the same structure as `four-pillars`, with built-in calculation API routes.
 
-**主要機能**:
+**Main features**:
 
-- 紫微斗数の命盤（ボード）の計算と表示
-- ブログ機能（Sanity CMS）
-- コンテンツ管理
+- Calculation and display of the Purple Star chart (board)
+- Blog (Sanity CMS)
+- Content management
 
-**API（`app/api/`）**:
+**API (`app/api/`)**:
 
-- `app/api/board/` - 命盤計算
-- `app/api/months/` - 月情報
-- `app/api/timezone/` - タイムゾーン
+- `app/api/board/` — board calculation
+- `app/api/months/` — monthly luck
+- `app/api/timezone/` — timezone
 
-**特徴**:
+**Details**:
 
-- `four-pillars`と同様の構成
-- Sanity Studio統合（`/studio`でアクセス、`npm run sanity`で起動）
-- レート制限（Upstash Redis） - `app/api/board/route.ts`
-- 型定義: `packages/types`（`purple-star/` サブツリー）を使用
-- ユーティリティ: `packages/utils`を使用
-- UIコンポーネント: `packages/ui`を使用
+- Same structure as `four-pillars`
+- Sanity Studio integration (accessible at `/studio`, launched with `npm run sanity`)
+- Rate limiting (Upstash Redis) — `app/api/board/route.ts`
+- Types: uses `packages/types` (`purple-star/` subtree)
+- Utilities: uses `packages/utils`
+- UI components: uses `packages/ui`
 
-## 📦 共有パッケージ（packages/）
+## 📦 Shared Packages (packages/)
 
-### 1. `types` - 型定義
+### 1. `types` — Type definitions
 
-**ディレクトリ**: `packages/types/`
-全アプリケーションで共有されるTypeScript型定義です。エントリは `packages/types/index.ts`（各 `src/*` を re-export）。
+**Directory**: `packages/types/`
+Shared TypeScript type definitions used across all apps. The entry point is `packages/types/index.ts` (which re-exports each `src/*`).
 
-**主要な型定義**:
+**Main type definitions**:
 
-- `src/four-pillars/` - 四柱推命関連の型
-  - `HeavenlyStem.ts` - 天干の型定義
-  - `EarthlyBranch.ts` - 地支の型定義
-  - `types.ts` - 四柱推命の主要型
-  - `constants.ts` - 定数定義
-- `src/purple-star/` - 紫微斗数関連の型
-  - `types.ts` - 紫微斗数の主要型
-  - `constants.ts` - 定数定義
-- `src/PersonalInfo.ts` - 個人情報の型定義（生年月日、場所など）
-- `src/types.ts` - 共通型定義
-- `src/constants.ts` - 共通定数
+- `src/four-pillars/` — Four Pillars types
+  - `HeavenlyStem.ts` — heavenly stem types
+  - `EarthlyBranch.ts` — earthly branch types
+  - `types.ts` — main Four Pillars types
+  - `constants.ts` — constants
+- `src/purple-star/` — Purple Star types
+  - `types.ts` — main Purple Star types
+  - `constants.ts` — constants
+- `src/PersonalInfo.ts` — personal info types (birth date, location, etc.)
+- `src/types.ts` — shared types
+- `src/constants.ts` — shared constants
 
-**使用方法**:
+**Usage**:
 
 ```typescript
 import { PersonalInfo, HEAVENLY_STEMS, EARTHLY_BRANCHES } from 'types';
 ```
 
-### 2. `utils` - ユーティリティ関数
+### 2. `utils` — Utility functions
 
-**ディレクトリ**: `packages/utils/`
-全アプリケーションで使用される共通ユーティリティ関数です。エントリは `packages/utils/index.ts`。
+**Directory**: `packages/utils/`
+Shared utility functions used across all apps. The entry point is `packages/utils/index.ts`.
 
-**主要モジュール**:
+**Main modules**:
 
-- `src/astro.ts` - 天文計算（黄経・均時差など、`astronomia`を使用）
-- `src/calendar.ts` - カレンダー・旧暦処理
-- `src/time.ts` - 時間・タイムゾーン処理（年齢計算、サマータイム判定など）
-- `src/number.ts` - 数値処理（範囲生成、丸め、度分秒変換など）
-- `src/array.ts` - 配列操作（循環取得、ペア生成など）
-- `src/validate.ts` - リクエストバリデーション（four-pillars / purple-star 用）
+- `src/astro.ts` — astronomical calculations (ecliptic longitude, equation of time, etc.; uses `astronomia`)
+- `src/calendar.ts` — calendar / lunar-calendar processing
+- `src/time.ts` — time / timezone processing (age calculation, DST detection, etc.)
+- `src/number.ts` — numeric processing (range generation, rounding, DMS conversion, etc.)
+- `src/array.ts` — array operations (cyclic access, pair generation, etc.)
+- `src/validate.ts` — request validation (for four-pillars / purple-star)
 
-**使用方法**:
+**Usage**:
 
 ```typescript
 import { range, roundDecimal, getItemsFromArrayCycle } from 'utils';
 ```
 
-### 3. `ui` - UIコンポーネント
+### 3. `ui` — UI components
 
-**ディレクトリ**: `packages/ui/`
-共有UIコンポーネントライブラリです。`four-pillars`と`purple-star`で使用されます。エントリは `packages/ui/index.tsx`。
+**Directory**: `packages/ui/`
+A shared UI component library used by `four-pillars` and `purple-star`. The entry point is `packages/ui/index.tsx`.
 
-**主要コンポーネント**:
+**Main components**:
 
-- `Breadcrumbs.tsx` - パンくずリスト
-- `ErrorView.tsx` - エラー表示コンポーネント
-- `TableOfContents.tsx` - 目次コンポーネント
-- `icons/` - アイコンコンポーネント
-  - `StemIcon.tsx` - 天干アイコン
-  - `BranchIcon.tsx` - 地支アイコン
-  - `ChevronDownIcon.tsx`, `LoadingIcon.tsx`, `SpinnerIcon.tsx` - 汎用アイコン
+- `Breadcrumbs.tsx` — breadcrumbs
+- `ErrorView.tsx` — error display component
+- `TableOfContents.tsx` — table of contents component
+- `icons/` — icon components
+  - `StemIcon.tsx` — heavenly stem icon
+  - `BranchIcon.tsx` — earthly branch icon
+  - `ChevronDownIcon.tsx`, `LoadingIcon.tsx`, `SpinnerIcon.tsx` — generic icons
 
-**使用方法**:
+**Usage**:
 
 ```typescript
 import { Breadcrumbs, ErrorView, StemIcon, BranchIcon } from 'ui';
 ```
 
-### 4. `tsconfig` - TypeScript設定
+### 4. `tsconfig` — TypeScript config
 
-**ディレクトリ**: `packages/tsconfig/`
-プロジェクト全体で共有されるTypeScriptのベース設定です。
+**Directory**: `packages/tsconfig/`
+The base TypeScript configuration shared across the whole project.
 
-## 🛠️ 開発コマンド
+## 🛠️ Development Commands
 
-### ルートレベル
+### Root level
 
 ```bash
-# 全アプリケーションを開発モードで起動
+# Start all apps in development mode
 npm run dev
 
-# 全アプリケーションをビルド
+# Build all apps
 npm run build
 
-# リント実行
+# Lint
 npm run lint
 
-# テスト実行（ユニット / ビジュアル回帰）
+# Test (unit / visual regression)
 npm run test
 npm run test:visual
 
-# コードフォーマット
+# Format code
 npm run format
 ```
 
-### 個別アプリケーション
+### Individual apps
 
 ```bash
-# 四柱推命アプリケーション
+# Four Pillars app
 cd apps/four-pillars
-npm run dev      # ポート3001で起動
-npm run sanity   # Sanity Studio起動
+npm run dev      # start on port 3001
+npm run sanity   # launch Sanity Studio
 
-# 紫微斗数アプリケーション
+# Purple Star app
 cd apps/purple-star
-npm run dev      # ポート3002で起動
-npm run sanity   # Sanity Studio起動
+npm run dev      # start on port 3002
+npm run sanity   # launch Sanity Studio
 ```
 
-## 🔧 技術スタック
+## 🔧 Tech Stack
 
-### フロントエンド
+### Frontend
 
-- **Next.js 14+** - Reactフレームワーク（App Router使用）
-- **React 18** - UIライブラリ
-- **TypeScript** - 型安全性
-- **Tailwind CSS** - ユーティリティファーストCSS
-- **HeroUI** - UIコンポーネント
+- **Next.js 14+** — React framework (App Router)
+- **React 18** — UI library
+- **TypeScript** — type safety
+- **Tailwind CSS** — utility-first CSS
+- **HeroUI** — UI components
 
-### バックエンド（各アプリのAPIルート）
+### Backend (each app's API routes)
 
-- **Next.js API Routes** - 各アプリ内蔵のAPIエンドポイント
-- **astronomia** - 天文計算（`packages/utils/src/astro.ts`）
-- **Upstash Redis** - レート制限
+- **Next.js API Routes** — API endpoints built into each app
+- **astronomia** — astronomical calculations (`packages/utils/src/astro.ts`)
+- **Upstash Redis** — rate limiting
 
 ### CMS
 
-- **Sanity** - ヘッドレスCMS（four-pillars, purple-star）
+- **Sanity** — headless CMS (four-pillars, purple-star)
 
-### その他
+### Other
 
-- **Turborepo** - モノレポ管理
-- **Luxon / date-fns** - 日時処理
+- **Turborepo** — monorepo management
+- **Luxon / date-fns** — date/time handling
 
-## 📊 データフロー
+## 📊 Data Flow
 
-### 計算の流れ
+### Calculation flow
 
-1. **フロントエンド**（`app/(website)/`）がユーザー入力を受け取る
-2. 同一アプリ内の**APIルート**（`app/api/`）にリクエストを送信
-3. APIルートが四柱推命／紫微斗数の計算を実行
-4. 結果をJSON形式で返却
-5. フロントエンドが結果を表示
+1. The **frontend** (`app/(website)/`) receives user input
+2. It sends a request to the **API route** (`app/api/`) in the same app
+3. The API route runs the Four Pillars / Purple Star calculation
+4. The result is returned as JSON
+5. The frontend displays the result
 
-### レート制限
+### Rate limiting
 
-各アプリのAPIルートで**Upstash Redis**を用いてリクエスト数を制限します。
+Each app's API routes limit request volume using **Upstash Redis**.
 
 - four-pillars: `apps/four-pillars/app/api/chart/route.ts`
 - purple-star: `apps/purple-star/app/api/board/route.ts`
 
-## 🔐 環境変数
+## 🔐 Environment Variables
 
-主要な環境変数（完全な一覧は`turbo.json`を参照）:
+Key environment variables (see `turbo.json` for the complete list):
 
-- `NEXT_PUBLIC_ROUTE_HANDLER_URL` - APIルートのベースURL
-- `NEXT_PUBLIC_SANITY_PROJECT_ID` - SanityプロジェクトID
-- `NEXT_PUBLIC_SANITY_DATASET` - Sanityデータセット名
-- `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` - Upstash Redis
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` / `GOOGLE_TIMEZONE_API_KEY` - Google Maps / タイムゾーン
-- `MAPBOX_GEOCODING_API_KEY` - Mapbox ジオコーディング
-- `IMAGE_SERVICE_URL` / `SERVICE_SHARED_SECRET` - チャート画像生成（非公開の画像生成サービスへのプロキシ用）
+- `NEXT_PUBLIC_ROUTE_HANDLER_URL` — base URL for API routes
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` — Sanity project ID
+- `NEXT_PUBLIC_SANITY_DATASET` — Sanity dataset name
+- `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — Upstash Redis
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` / `GOOGLE_TIMEZONE_API_KEY` — Google Maps / Timezone
+- `MAPBOX_GEOCODING_API_KEY` — Mapbox geocoding
+- `IMAGE_SERVICE_URL` / `SERVICE_SHARED_SECRET` — chart image generation (for the proxy to the private image-generation service)
 
-## 📝 開発時の注意点
+## 📝 Development Notes
 
-### ポート番号
+### Port numbers
 
-各アプリケーションは異なるポートで動作します：
+Each app runs on a different port:
 
 - **four-pillars**: 3001
 - **purple-star**: 3002
 
-### 依存関係の管理
+### Dependency management
 
-1. **インストール**: ルートで`npm install`を実行すると、全ワークスペースの依存関係がインストールされます
-2. **共有パッケージの変更**: `packages/`内のファイルを変更した場合、依存するアプリケーションを再起動する必要があります
-3. **型定義の変更**: `packages/types`を変更すると型チェックに即時反映されますが、ビルドが必要な場合があります
+1. **Install**: running `npm install` at the root installs dependencies for all workspaces
+2. **Changing shared packages**: after editing files under `packages/`, restart the apps that depend on them
+3. **Changing type definitions**: changes to `packages/types` are reflected in type checking immediately, though a build may be required in some cases
 
-### Sanity設定
+### Sanity configuration
 
-`four-pillars`と`purple-star`はSanity CMSを使用します。`sanity.config.ts`で設定を確認できます。
+`four-pillars` and `purple-star` use Sanity CMS. You can review the configuration in `sanity.config.ts`.
 
-> **補足**: 各アプリの `npm run sanity-import` が参照する初期データ（`lib/sanity/data/production.tar.gz`）は、サイズと配布の都合により本リポジトリには含まれていません。シードが必要な場合は、ご自身のSanityデータセットから `npm run sanity-export` で生成してください。
+> **Note**: The seed data referenced by each app's `npm run sanity-import` (`lib/sanity/data/production.tar.gz`) is **not** included in this repository, for size and distribution reasons. If you need a seed, generate one from your own Sanity dataset with `npm run sanity-export`.
 
-### 開発ワークフロー
+### Development workflow
 
-1. **新機能の追加**
-   - 共有機能は`packages/`に追加
-   - アプリ固有の機能は各`apps/`に追加
-2. **型定義の追加**
-   - アプリ固有の型は各アプリ内に定義
-   - 複数アプリで使用する型は`packages/types`に追加
-3. **ビルドとテスト**
-   - ルートで`npm run build`を実行すると全アプリがビルドされます
+1. **Adding a new feature**
+   - Add shared functionality to `packages/`
+   - Add app-specific functionality to each `apps/`
+2. **Adding type definitions**
+   - Define app-specific types within each app
+   - Add types used by multiple apps to `packages/types`
+3. **Build and test**
+   - Running `npm run build` at the root builds all apps
 
-## 🚀 デプロイ
+## 🚀 Deployment
 
-各アプリケーションは独立してデプロイ可能です。Vercelなどのプラットフォームで個別にデプロイできます。Turborepoのリモートキャッシングを使用することで、CI/CDパイプラインでのビルド時間を短縮できます。
+Each app can be deployed independently, e.g. individually on platforms such as Vercel. Using Turborepo's remote caching can shorten build times in CI/CD pipelines.
 
-## 👋 初見の開発者向けガイド
+## 👋 Guide for New Developers
 
-### 最初に理解すべきこと
+### What to understand first
 
-1. **モノレポ構造**: 複数のアプリケーションと共有パッケージを1つのリポジトリで管理しています
-2. **Turborepo**: ビルドとタスクの実行を最適化するツールです
-3. **npm workspaces**: 依存関係を一元管理する仕組みです
+1. **Monorepo structure**: multiple apps and shared packages are managed in a single repository
+2. **Turborepo**: a tool that optimizes build and task execution
+3. **npm workspaces**: a mechanism for centrally managing dependencies
 
-### 開発を始める手順
+### Getting started
 
-1. **リポジトリのクローンとセットアップ**
+1. **Clone and set up the repository**
 
    ```bash
    git clone <repository-url>
@@ -377,34 +377,34 @@ npm run sanity   # Sanity Studio起動
    npm install
    ```
 
-2. **環境変数の設定**
-   - 各アプリケーションのディレクトリに`.env.local`ファイルを作成
-   - 必要な環境変数は`turbo.json`を参照
+2. **Configure environment variables**
+   - Create a `.env.local` file in each app's directory
+   - See `turbo.json` for the required environment variables
 
-3. **開発サーバーの起動**
+3. **Start the development server**
 
    ```bash
-   # 全アプリを起動
+   # Start all apps
    npm run dev
 
-   # または個別に起動
+   # Or start one individually
    cd apps/four-pillars && npm run dev
    ```
 
-4. **コードの探索**
-   - まず`packages/types`で型定義を確認
-   - 次に各アプリの`app/api/`で計算ロジックを確認
-   - 最後に`app/(website)/`でフロントエンドを確認
+4. **Explore the code**
+   - First, review the type definitions in `packages/types`
+   - Next, review the calculation logic in each app's `app/api/`
+   - Finally, review the frontend in `app/(website)/`
 
-### よくある質問
+### FAQ
 
-**Q: 共有パッケージを変更したらどうなりますか？**
-A: 変更は即座に反映されますが、TypeScriptの型エラーが出る場合は再ビルドが必要です。
+**Q: What happens when I change a shared package?**
+A: Changes are reflected immediately, but if TypeScript type errors appear, a rebuild may be required.
 
-**Q: 新しいアプリを追加するには？**
-A: `apps/`ディレクトリに新しいNext.jsアプリを作成し、ルート`package.json`のworkspacesに追加します。
+**Q: How do I add a new app?**
+A: Create a new Next.js app under the `apps/` directory and add it to the `workspaces` field in the root `package.json`.
 
-## 📚 関連ドキュメント
+## 📚 Related Documentation
 
 - [Turborepo Documentation](https://turbo.build/repo/docs)
 - [Next.js Documentation](https://nextjs.org/docs)
