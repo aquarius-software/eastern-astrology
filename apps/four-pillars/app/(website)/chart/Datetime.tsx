@@ -361,8 +361,8 @@ export default function DateTime(): JSX.Element {
                       tabs: { hidden: true },
                       textField: {
                         fullWidth: true,
-                        InputProps: {
-                          className: "h-12 text-sm"
+                        slotProps: {
+                          input: { className: "h-12 text-sm" }
                         }
                       },
                       shortcuts: {
