@@ -361,8 +361,8 @@ export default function DateTime(): JSX.Element {
                       tabs: { hidden: true },
                       textField: {
                         fullWidth: true,
-                        InputProps: {
-                          className: "h-12 text-sm"
+                        slotProps: {
+                          input: { className: "h-12 text-sm" }
                         }
                       },
                       shortcuts: {
@@ -375,6 +375,16 @@ export default function DateTime(): JSX.Element {
                           },
                         ],
                       },
+                      layout: {
+                        sx: {
+                          // MUI X 8.10.0 で landscape 時の shortcuts が左列に移動したため、
+                          // 従来どおりカレンダーの上（8.9.2 の配置）に戻す
+                          '& .MuiPickersLayout-shortcuts': {
+                            gridColumn: '2 / 4',
+                            gridRow: 1
+                          }
+                        }
+                      }
                     }}
                     onAccept={(newValue: Date) => {
                       if (newValue) {
