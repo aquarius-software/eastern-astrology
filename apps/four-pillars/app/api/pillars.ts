@@ -173,11 +173,11 @@ export const getThreeHarmonyBranches = (
  * 三合会局半会判定
  *
  * @param {EarthlyBranch[]} branches 地支の配列
- * @returns {(HarmonyBranchCombination | undefined)} 三合会局半会、存在しなければundefined
+ * @returns {HarmonyBranchCombination[]} 三合会局半会の配列、存在しなければ空配列
  */
 export const getTwoHarmonyBranches = (
   branches: EarthlyBranch[]
-): HarmonyBranchCombination[] | undefined => {
+): HarmonyBranchCombination[] => {
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
     ''
@@ -194,12 +194,12 @@ export const getTwoHarmonyBranches = (
  *
  * @param {EarthlyBranch[]} branches
  * @param {EarthlyBranch} decadeLuckBranch
- * @returns {(HarmonyBranchCombination[] | undefined)}
+ * @returns {HarmonyBranchCombination[]}
  */
 export const getTwoHarmonyBranchesWithDecadeLuck = (
   branches: EarthlyBranch[],
   decadeLuckBranch: EarthlyBranch
-): HarmonyBranchCombination[] | undefined => {
+): HarmonyBranchCombination[] => {
   // 命式の各地支と大運の地支とのペア文字列から成る配列を生成
   const branchPairs = branches.map(branch => {
     return branch.value.concat(decadeLuckBranch.value);
@@ -251,11 +251,11 @@ export const getThreeSeasonalBranches = (
  * 方合半会判定
  *
  * @param {EarthlyBranch[]} branches 地支の配列
- * @returns {(SeasonalBranchCombination | undefined)} 方合、存在しなければundefined
+ * @returns {SeasonalBranchCombination[]} 方合半会の配列、存在しなければ空配列
  */
 export const getTwoSeasonalBranches = (
   branches: EarthlyBranch[]
-): SeasonalBranchCombination[] | undefined => {
+): SeasonalBranchCombination[] => {
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
     ''
@@ -271,12 +271,12 @@ export const getTwoSeasonalBranches = (
  *
  * @param {EarthlyBranch[]} branches
  * @param {EarthlyBranch} decadeLuckBranch
- * @returns {(HarmonyBranchCombination[] | undefined)}
+ * @returns {SeasonalBranchCombination[]}
  */
 export const getTwoSeasonalBranchesWithDecadeLuck = (
   branches: EarthlyBranch[],
   decadeLuckBranch: EarthlyBranch
-): SeasonalBranchCombination[] | undefined => {
+): SeasonalBranchCombination[] => {
   // 命式の各地支と大運の地支とのペア文字列から成る配列を生成
   const branchPairs = branches.map(branch => {
     return branch.value.concat(decadeLuckBranch.value);
