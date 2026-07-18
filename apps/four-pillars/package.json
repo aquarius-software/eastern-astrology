@@ -12,7 +12,6 @@
     "sanity-export": "sanity dataset export production lib/sanity/data/production.tar.gz",
     "lint": "eslint .",
     "test": "vitest run --passWithNoTests",
-    "analyze": "ANALYZE=true next build",
-    "postinstall": "patch-package"
+    "analyze": "ANALYZE=true next build"
   }
 }

@@ -35,7 +35,6 @@
     "eslint-config-turbo": "^2.10.5",
     "jsdom": "^29.1.1",
     "knip": "^6.27.0",
-    "patch-package": "^8.0.1",
     "postcss": "^8.5.19",
     "prettier": "^3.9.5",
     "prettier-plugin-tailwindcss": "^0.8.0",
