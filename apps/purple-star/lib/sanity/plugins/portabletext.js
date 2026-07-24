@@ -6,18 +6,18 @@ import Iframe from "react-iframe";
 import getVideoId from "get-video-id";
 import { cx } from "@/utils/all";
 
-import Refractor from "react-refractor";
+import { Refractor, registerLanguage } from "react-refractor";
 import js from "refractor/lang/javascript";
 import jsx from "refractor/lang/jsx";
 import html from "refractor/lang/markup";
 import css from "refractor/lang/css";
 import bash from "refractor/lang/bash";
 
-Refractor.registerLanguage(js);
-Refractor.registerLanguage(jsx);
-Refractor.registerLanguage(html);
-Refractor.registerLanguage(css);
-Refractor.registerLanguage(bash);
+registerLanguage(js);
+registerLanguage(jsx);
+registerLanguage(html);
+registerLanguage(css);
+registerLanguage(bash);
 
 // Barebones lazy-loaded image component
 const ImageComponent = ({ value }) => {
