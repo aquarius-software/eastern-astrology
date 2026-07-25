@@ -7,11 +7,11 @@ import getVideoId from "get-video-id";
 import { cx } from "@/utils/all";
 
 import { Refractor, registerLanguage } from "react-refractor";
-import js from "refractor/lang/javascript";
-import jsx from "refractor/lang/jsx";
-import html from "refractor/lang/markup";
-import css from "refractor/lang/css";
-import bash from "refractor/lang/bash";
+import js from "refractor/javascript";
+import jsx from "refractor/jsx";
+import html from "refractor/markup";
+import css from "refractor/css";
+import bash from "refractor/bash";
 
 registerLanguage(js);
 registerLanguage(jsx);

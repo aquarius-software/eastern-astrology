@@ -15,6 +15,6 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
-    "refractor": "^4.9.0"
+    "refractor": "^5.0.0"
   }
 }
