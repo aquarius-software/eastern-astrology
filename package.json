@@ -60,7 +60,7 @@
     "@heroui/react": "^2.7.11",
     "@mui/material": "7.3.11",
     "@mui/x-date-pickers": "^9.10.1",
-    "@portabletext/react": "^3.2.4",
+    "@portabletext/react": "^5.0.0",
     "@react-google-maps/api": "^2.20.8",
     "@sanity/code-input": "^4.1.4",
     "@sanity/icons": "^3.8.0",
