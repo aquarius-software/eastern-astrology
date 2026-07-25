@@ -13,5 +13,8 @@
     "lint": "eslint .",
     "test": "vitest run --passWithNoTests",
     "analyze": "ANALYZE=true next build"
+  },
+  "dependencies": {
+    "refractor": "^5.0.0"
   }
 }
