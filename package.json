@@ -58,7 +58,7 @@
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
     "@heroui/react": "^2.7.11",
-    "@mui/material": "7.3.11",
+    "@mui/material": "^9.2.0",
     "@mui/x-date-pickers": "^9.10.1",
     "@portabletext/react": "^6.2.0",
     "@react-google-maps/api": "^2.20.8",
@@ -111,9 +111,5 @@
     "use-places-autocomplete": "^4.0.1",
     "utils": "^0.3.1",
     "uuid": "^14.0.1"
-  },
-  "overrides": {
-    "@mui/system": "7.2.0",
-    "@mui/styled-engine": "7.2.0"
   }
 }
