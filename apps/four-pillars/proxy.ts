@@ -4,6 +4,6 @@ export const config = {
   matcher: ['/author/:path*']
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   return NextResponse.redirect(new URL('/', request.url));
 }
