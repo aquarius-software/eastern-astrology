@@ -14,7 +14,8 @@ async function getAuthor(slug) {
   return posts?.[0]?.author || {};
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const author = await getAuthor(params.author);
 
   return {
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }) {
     }
   };
 }
-export default async function AuthorPage({ params }) {
+export default async function AuthorPage(props) {
+  const params = await props.params;
   const posts = await getAuthorPostsBySlug(params.author);
   const author = await getAuthor(params.author);
   return <Author posts={posts} author={author} />;

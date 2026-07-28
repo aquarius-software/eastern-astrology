@@ -41,21 +41,18 @@ async function sharedMetaData(params: { slug: string }) {
   };
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { slug: string };
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
 }) {
+  const params = await props.params;
   return await sharedMetaData(params);
 }
 
-export default async function Layout({
-  children,
-  params
-}: {
+export default async function Layout(props: {
   children: React.ReactNode,
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
+  const { children } = props;
   const settings = await getSettings();
   return (
     <UIProviders>

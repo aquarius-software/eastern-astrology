@@ -11,9 +11,8 @@ const FLAG_LENGTH = 8;
 const INVALID_URL_MESSAGE =
   "400 Bad Request（URLパラメータが無効です）";
 
-export async function generateMetadata({
-  searchParams
-}): Promise<Metadata> {
+export async function generateMetadata(props): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   const { t, b, l, o, n, f, z, r, d }: {
     t: string;
     b: string;
@@ -40,21 +39,22 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({
-  searchParams
-}: {
-  searchParams: {
-    t: string;
-    b: string;
-    l: string;
-    o: string;
-    n: string;
-    f: string;
-    z: string;
-    r: string;
-    d: string;
-  };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{
+      t: string;
+      b: string;
+      l: string;
+      o: string;
+      n: string;
+      f: string;
+      z: string;
+      r: string;
+      d: string;
+    }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   let resultData: FourPillarsData | null = null;
   let message = "";
   let nickname = "";
