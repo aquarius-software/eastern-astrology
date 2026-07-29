@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-// import LocalStorageTable from './LocalStorageTable';
 import BreadCrumb from "ui/Breadcrumbs";
 import Container from "@/components/container";
-
-const LocalStorageTable = dynamic(
-  () => import("./LocalStorageTable"),
-  {
-    ssr: false
-  }
-);
-// https://nextjs.org/docs/messages/react-hydration-error
+import LocalStorageTable from "./LocalStorageTableClient";
 
 export const metadata: Metadata = {
   title: "命式リスト",
