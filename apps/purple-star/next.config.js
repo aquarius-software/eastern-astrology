@@ -1,8 +1,12 @@
+const path = require("path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {},
+  // モノレポのため Turbopack のワークスペースルートを明示
+  turbopack: {
+    root: path.join(__dirname, "../..")
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     dangerouslyAllowSVG: true,
@@ -11,10 +15,6 @@ const nextConfig = {
   typescript: {
     // Set this to false if you want production builds to abort if there's type errors
     ignoreBuildErrors: process.env.VERCEL_ENV === "production"
-  },
-  eslint: {
-    /// Set this to false if you want production builds to abort if there's lint errors
-    ignoreDuringBuilds: process.env.VERCEL_ENV === "production"
   },
   transpilePackages: ["type", "utils"]
 };
