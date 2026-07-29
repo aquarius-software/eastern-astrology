@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/*! purgecss start ignore */
-@import "prism.css";
-/*! purgecss end ignore */
+/* prism.css は app/layout.tsx でこのファイルの直後に読み込んでいる。
+   @tailwind の展開後は @import が先頭に来ず、CSS 仕様違反として
+   Turbopack がエラーにするため、ここには置けない。 */
 
 /*Custom Styles Here*/
 .input-label-header {
