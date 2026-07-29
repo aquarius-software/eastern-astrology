@@ -8,8 +8,9 @@ const TablePreview = ({ table }) => {
       {head.cells.filter(Boolean).length > 0 && (
         <thead>
           <tr>
-            {head.cells.map(cell => (
-              <th style={{ textAlign: "left" }} key={cell}>
+            {/* セルの中身は空文字や重複がありうるため、key には位置を使う */}
+            {head.cells.map((cell, cellIndex) => (
+              <th style={{ textAlign: "left" }} key={cellIndex}>
                 {cell}
               </th>
             ))}
@@ -17,10 +18,10 @@ const TablePreview = ({ table }) => {
         </thead>
       )}
       <tbody>
-        {rows.map((row, index) => (
-          <tr key={index}>
-            {row.cells.map((cell, index) => {
-              return <td key={cell}>{cell}</td>;
+        {rows.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.cells.map((cell, cellIndex) => {
+              return <td key={cellIndex}>{cell}</td>;
             })}
           </tr>
         ))}
