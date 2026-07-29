@@ -2,6 +2,8 @@ import ImageSwitch from "./ImageSwitch";
 import DivisionMethod from "./DivisionMethod";
 import DayStemMethod from "./DayStemMethod";
 
+import type { JSX } from "react";
+
 export default function AdvancedSettings(): JSX.Element {
   return (
     <>

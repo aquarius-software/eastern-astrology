@@ -1,5 +1,7 @@
 import SchoolSelect from "./SchoolSelect";
 
+import type { JSX } from "react";
+
 export default function AdvancedSettings(): JSX.Element {
   return (
     <>

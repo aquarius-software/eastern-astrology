@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type JSX } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import DateTime from "./Datetime";
 import BirthPlace from "./BirthPlace";
@@ -159,7 +159,7 @@ export default function Board(): JSX.Element {
       )}
       {isSubmitSuccessful && isSuccess && result && (
         // grid-template-columns: repeat(autofit, minmax(25rem, 1fr));
-        <ResultView result={result}></ResultView>
+        (<ResultView result={result}></ResultView>)
       )}
       {isSubmitSuccessful && !isSuccess && (
         <ErrorView message="エラーが発生しました。しばらくしてから操作し直してください。"></ErrorView>

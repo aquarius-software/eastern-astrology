@@ -3,6 +3,8 @@ import { FourPillarsProps } from "@/app/types";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { dmsToDecimalMinutes } from "utils";
 
+import type { JSX } from "react";
+
 export default function ResultTime({
   result
 }: FourPillarsProps): JSX.Element {

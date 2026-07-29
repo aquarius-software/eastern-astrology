@@ -1,5 +1,7 @@
 import { useFormContext } from "react-hook-form";
 
+import type { JSX } from "react";
+
 export default function DayStemMethod(): JSX.Element {
   const {
     register,

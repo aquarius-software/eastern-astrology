@@ -1,6 +1,8 @@
 import { useFormContext } from "react-hook-form";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
+import type { JSX } from "react";
+
 export default function Nickname(): JSX.Element {
   const {
     register,

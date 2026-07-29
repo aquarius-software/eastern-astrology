@@ -11,6 +11,8 @@ import { Shippori_Mincho_B1 } from "next/font/google";
 import { StemIcon, BranchIcon } from "ui";
 import { Tooltip } from "react-tooltip";
 
+import type { JSX } from "react";
+
 const useFont = false; // フォントを使用する場合はtrue、SVGを使用する場合はfalse
 
 const ship = Shippori_Mincho_B1({

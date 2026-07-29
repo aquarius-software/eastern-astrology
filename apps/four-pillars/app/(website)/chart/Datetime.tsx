@@ -8,6 +8,8 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useChartContext } from "@/context/chartContext";
 import { parseISO } from "date-fns";
 
+import type { JSX } from "react";
+
 /**
  * 月のoptionオブジェクトを生成
  *

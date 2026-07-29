@@ -1,6 +1,8 @@
 import { useFormContext, Controller } from "react-hook-form";
 import { Switch } from "@heroui/react";
 
+import type { JSX } from "react";
+
 export default function Location(): JSX.Element {
   const { register, control } = useFormContext();
 

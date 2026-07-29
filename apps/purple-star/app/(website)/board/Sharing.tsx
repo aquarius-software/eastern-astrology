@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type JSX } from "react";
 import { PurpleStarProps } from "@/app/types";
 import {
   ShareIcon,

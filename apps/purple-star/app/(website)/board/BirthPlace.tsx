@@ -7,6 +7,8 @@ import {
 } from "@react-google-maps/api";
 import { Tabs, Tab, Card, CardBody } from "@heroui/react";
 
+import type { JSX } from "react";
+
 const libraries: LoadScriptProps["libraries"] = ["places"];
 
 export default function BirthPlace({

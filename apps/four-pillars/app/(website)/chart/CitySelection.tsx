@@ -4,6 +4,8 @@ import { roundDecimal } from "utils";
 import { ChevronDownIcon } from "ui";
 import { useChartContext } from "@/context/chartContext";
 
+import type { JSX } from "react";
+
 const cityOptions = prefectures.map(pref => {
   return (
     <option key={pref.code} value={pref.code}>

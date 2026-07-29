@@ -4,6 +4,8 @@ import { SCHOOLS } from "@/app/api/constants";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "ui";
 
+import type { JSX } from "react";
+
 export default function SchoolSelect(): JSX.Element {
   const {
     register,

@@ -9,7 +9,7 @@ import {
   Input,
   useDisclosure,
 } from "@heroui/react";
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState, useEffect, type JSX } from "react";
 import Link from 'next/link';
 import { generateUrlFromResult } from "@/utils/url";
 import { usePathname } from "next/navigation";

@@ -5,6 +5,8 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { DateTime as Luxon } from "luxon";
 import { Button } from "@heroui/react";
 
+import type { JSX } from "react";
+
 /**
  * 月のoptionオブジェクトを生成
  *
