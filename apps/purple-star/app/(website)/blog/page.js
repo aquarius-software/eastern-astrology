@@ -36,5 +36,3 @@ export default async function ArchivePage() {
     </Suspense>
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

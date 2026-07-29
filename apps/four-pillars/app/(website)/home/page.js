@@ -13,5 +13,3 @@ export default async function LifeStyleHomePage() {
   const posts = await getAllPosts();
   return <HomeLifeStyle posts={posts} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

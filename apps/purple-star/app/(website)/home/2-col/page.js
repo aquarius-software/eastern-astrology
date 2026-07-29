@@ -13,5 +13,3 @@ export default async function TwoColumnHomePage() {
   const posts = await getAllPosts();
   return <HomeTwoCol posts={posts} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

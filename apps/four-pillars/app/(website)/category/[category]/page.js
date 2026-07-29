@@ -41,5 +41,3 @@ export default async function PostDefault(props) {
     />
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

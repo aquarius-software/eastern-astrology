@@ -29,9 +29,21 @@ if (!projectId) {
 /**
  * Checks if it's safe to create a client instance, as `@sanity/client` will throw an error if `projectId` is false
  */
-const client = projectId
+const baseClient = projectId
   ? createClient({ projectId, dataset, apiVersion, useCdn })
   : null;
+
+/**
+ * Next.js 16 では Route Segment Config (`export const revalidate`) が
+ * 静的なリテラルしか受け付けなくなったため、ISR の間隔は fetch 単位で指定する。
+ * 環境変数による調整を維持するためのラッパー。
+ */
+const client = baseClient && {
+  fetch: (query: string, params?: any) =>
+    baseClient.fetch(query, params ?? {}, {
+      next: { revalidate: Number(process.env.REVALIDATE_SECONDS) }
+    })
+};
 
 export const fetcher = async ([query, params]) => {
   return client ? client.fetch(query, params) : [];

@@ -18,5 +18,3 @@ export default async function ChartPage() {
       <Chart />
     </>);
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

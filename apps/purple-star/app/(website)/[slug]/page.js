@@ -26,5 +26,3 @@ export default async function PageDefault(props) {
   const page = await getPageBySlug(params.slug);
   return <Page page={page} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

@@ -24,5 +24,3 @@ export default async function PostDefault(props) {
   const post = await getPostBySlug(params.slug);
   return <PostPage post={post} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

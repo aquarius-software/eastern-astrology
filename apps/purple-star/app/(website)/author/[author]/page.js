@@ -32,5 +32,3 @@ export default async function AuthorPage(props) {
   const author = await getAuthor(params.author);
   return <Author posts={posts} author={author} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

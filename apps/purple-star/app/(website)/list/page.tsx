@@ -46,5 +46,3 @@ export default function ListPage() {
     </>
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

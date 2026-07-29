@@ -23,5 +23,3 @@ export default async function ContactPage() {
     </>
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

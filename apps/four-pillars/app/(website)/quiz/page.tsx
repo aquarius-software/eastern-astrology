@@ -28,5 +28,3 @@ export default async function QuizPage() {
     </>
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

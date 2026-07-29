@@ -28,5 +28,3 @@ export default async function PostDefault(props) {
   const categories = await getTopCategories();
   return <PostPage post={post} categories={categories} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);
