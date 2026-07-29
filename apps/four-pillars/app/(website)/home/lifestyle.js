@@ -12,8 +12,9 @@ export default function HomeLifeStyle({ posts }) {
       <div className={`fixed left-0 top-0 z-[-1] h-screen w-full`}>
         <Image
           src={BackgroundImage}
-          layout={`fill`}
-          objectFit={`cover`}
+          alt=""
+          fill
+          className="object-cover"
         />
       </div>
       <Featured />
