@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import CitySelection from "./CitySelection";
 import GeoCode from "./GeoCode";
 import LocationAutocomplete from "./AutocompleteGoogle";

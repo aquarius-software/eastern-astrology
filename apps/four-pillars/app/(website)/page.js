@@ -15,5 +15,3 @@ export default async function IndexPage() {
   const posts = await getAllPosts();
   return <LifeStyleHomePage posts={posts} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

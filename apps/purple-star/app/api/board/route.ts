@@ -65,7 +65,7 @@ export async function POST(request: Request) {
   const utcDate = new Date(isoDate);
 
   // リクエスト回数制限
-  const ip = headers().get("x-forwarded-for");
+  const ip = (await headers()).get("x-forwarded-for");
   const { success } = await ratelimit.limit(ip as string);
   if (!success) {
     console.error("Ratelimit Exceeded", ip);

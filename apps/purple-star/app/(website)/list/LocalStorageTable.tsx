@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Key, useState, useEffect } from "react";
+import React, { Key, useState, useEffect, type JSX } from "react";
 import {
   Table,
   TableHeader,

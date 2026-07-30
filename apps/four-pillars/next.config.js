@@ -1,32 +1,27 @@
+const path = require("path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {},
+  // モノレポのため Turbopack のワークスペースルートを明示
+  turbopack: {
+    root: path.join(__dirname, "../..")
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     dangerouslyAllowSVG: true,
-    remotePatterns: [{ hostname: "cdn.sanity.io" }],
-    domains: [
-      "pub-3626123a908346a7a8be8d9295f44e26.r2.dev",
-      "**.r2.dev",
+    // Next.js 16 で images.domains が非推奨になったため remotePatterns に統合
+    remotePatterns: [
+      { hostname: "cdn.sanity.io" },
+      { hostname: "pub-3626123a908346a7a8be8d9295f44e26.r2.dev" },
+      { hostname: "**.r2.dev" }
     ]
   },
   typescript: {
     // Set this to false if you want production builds to abort if there's type errors
     ignoreBuildErrors: process.env.VERCEL_ENV === "production"
   },
-  eslint: {
-    /// Set this to false if you want production builds to abort if there's lint errors
-    ignoreDuringBuilds: process.env.VERCEL_ENV === "production"
-  },
-  transpilePackages: ["type", "utils"],
-  webpack: (config, { isServer }) => {
-    // デバッグ時にはfalseに設定する
-    config.optimization.minimize = true;
-
-    return config;
-  }
+  transpilePackages: ["type", "utils"]
   // 本番運用を開始したら以下は必ずコメントアウト
   /*
   async headers() {

@@ -8,7 +8,7 @@ import { TableCellsIcon } from "@heroicons/react/24/outline";
 import { Shippori_Mincho_B1 } from "next/font/google";
 import { StemIcon, BranchIcon } from "ui";
 import { Tooltip } from "react-tooltip";
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import { Branch } from "types";
 import { DateTime } from "luxon";
 

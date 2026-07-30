@@ -2,6 +2,8 @@ import { DateTime } from "luxon";
 import { PurpleStarProps } from "@/app/types";
 import { ClockIcon } from "@heroicons/react/24/outline";
 
+import type { JSX } from "react";
+
 export default function ResultTime({
   result
 }: PurpleStarProps): JSX.Element {

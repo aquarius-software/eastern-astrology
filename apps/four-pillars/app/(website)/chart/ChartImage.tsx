@@ -3,6 +3,8 @@ import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { ExclamationCircleIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
 
+import type { JSX } from "react";
+
 const imageStyle = {
   borderRadius: "0.5%"
 };

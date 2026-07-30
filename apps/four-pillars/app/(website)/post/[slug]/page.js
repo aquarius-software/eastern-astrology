@@ -6,7 +6,8 @@ export async function generateStaticParams() {
   return await getAllPostsSlugs();
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const post = await getPostBySlug(params.slug);
 
   return {
@@ -18,9 +19,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function PostDefault({ params }) {
+export default async function PostDefault(props) {
+  const params = await props.params;
   const post = await getPostBySlug(params.slug);
   return <PostPage post={post} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

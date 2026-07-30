@@ -19,5 +19,3 @@ export default async function BoardPage() {
     </>
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import { useFormContext } from "react-hook-form";
 import usePlacesAutocomplete, {
   getGeocode,

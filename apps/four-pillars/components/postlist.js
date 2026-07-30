@@ -107,8 +107,7 @@ export default function PostList({
                     prefetch={false}
                     href={`/post/${
                       pathPrefix ? `${pathPrefix}/` : ""
-                    }${post.slug.current}`}
-                    legacyBehavior>
+                    }${post.slug.current}`}>
                     {post.excerpt}
                   </Link>
                 </p>
@@ -118,8 +117,7 @@ export default function PostList({
             {/* <div className="mt-3 flex items-center space-x-2 text-gray-500 dark:text-gray-400">
               <Link
                 prefetch={false}
-                href={`/author/${post.author.slug.current}`}
-                legacyBehavior>
+                href={`/author/${post.author.slug.current}`}>
                 <div className="flex items-center gap-3">
                   <span className="truncate text-sm">
                     {post.author.name}

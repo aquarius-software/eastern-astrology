@@ -1,4 +1,5 @@
 import "@/styles/tailwind.css";
+import "@/styles/prism.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora, Noto_Sans_JP } from "next/font/google";

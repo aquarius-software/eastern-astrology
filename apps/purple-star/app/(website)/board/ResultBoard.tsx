@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type JSX } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { PurpleStarData, PurpleStarProps } from "@/app/types";
 import { TableCellsIcon } from "@heroicons/react/24/outline";

@@ -8,7 +8,6 @@ import AuthorCard from "@/components/blog/authorCard";
 import Sidebar from "@/components/sidebar";
 import BreadCrumb from "ui/Breadcrumbs";
 import PostCategoryLabel from "@/components/blog/postCategory";
-import { Chip } from "@heroui/react";
 import { TableOfContents } from "ui/TableOfContents";
 
 // https://kittygiraudel.com/2022/05/19/table-of-contents-with-sanity-portable-text/

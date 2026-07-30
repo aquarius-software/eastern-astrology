@@ -44,17 +44,18 @@ const PortableTextTable = ({ value }) => {
       {head.cells.filter(Boolean).length > 0 && (
         <thead>
           <tr>
-            {head.cells.map(cell => (
-              <th key={cell}>{cell}</th>
+            {/* セルの中身は空文字や重複がありうるため、key には位置を使う */}
+            {head.cells.map((cell, cellIndex) => (
+              <th key={cellIndex}>{cell}</th>
             ))}
           </tr>
         </thead>
       )}
       <tbody>
-        {rows.map((row, index) => (
-          <tr key={index}>
-            {row.cells.map((cell, index) => {
-              return <td key={cell}>{cell}</td>;
+        {rows.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.cells.map((cell, cellIndex) => {
+              return <td key={cellIndex}>{cell}</td>;
             })}
           </tr>
         ))}

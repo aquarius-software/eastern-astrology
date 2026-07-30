@@ -1,5 +1,7 @@
 import { useFormContext } from "react-hook-form";
 
+import type { JSX } from "react";
+
 export default function DivisionMethod(): JSX.Element {
   const {
     register,

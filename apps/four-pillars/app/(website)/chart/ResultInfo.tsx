@@ -2,6 +2,8 @@ import { DateTime } from "luxon";
 import { FourPillarsProps } from "@/app/types";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
+import type { JSX } from "react";
+
 export default function ResultInfo({
   result
 }: FourPillarsProps): JSX.Element {

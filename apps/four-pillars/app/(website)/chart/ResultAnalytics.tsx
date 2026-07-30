@@ -2,6 +2,8 @@ import { FourPillarsProps } from "@/app/types";
 import { BranchPair } from "types";
 import { CalculatorIcon } from "@heroicons/react/24/outline";
 
+import type { JSX } from "react";
+
 export default function ResultAnalytics({
   result
 }: FourPillarsProps): JSX.Element {

@@ -37,11 +37,13 @@ async function sharedMetaData(params) {
   };
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   return await sharedMetaData(params);
 }
 
-export default async function Layout({ children, params }) {
+export default async function Layout(props) {
+  const { children } = props;
   const settings = await getSettings();
   return (
     <UIProviders>

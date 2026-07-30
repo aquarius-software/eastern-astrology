@@ -15,7 +15,7 @@ export const metadata = {
 
 export default async function ContactPage() {
   const settings = await getSettings();
-  const ip = headers().get("x-forwarded-for");
+  const ip = (await headers()).get("x-forwarded-for");
 
   return (
     <>
@@ -23,5 +23,3 @@ export default async function ContactPage() {
     </>
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

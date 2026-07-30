@@ -2,6 +2,8 @@ import { useForm, UseFormSetValue } from "react-hook-form";
 import { FourPillarsData, OptionData } from "@/app/types";
 import { Tooltip } from 'react-tooltip'
 
+import type { JSX } from "react";
+
 export default function OptionSwitches({
   setValue
 }: {

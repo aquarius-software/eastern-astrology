@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, type JSX } from "react";
 import { PurpleStarData } from "@/app/types";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { SEXAGENARY_CYCLE, Palace, LunarMonth } from "types";

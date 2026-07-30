@@ -13,5 +13,3 @@ export default async function AltHomePage() {
   const posts = await getAllPosts();
   return <AltHome posts={posts} />;
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);

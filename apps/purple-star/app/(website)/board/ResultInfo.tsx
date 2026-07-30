@@ -3,6 +3,8 @@ import { PurpleStarData } from "@/app/types";
 import { PALACE_BRANCHES, LunarMonth } from "types";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
+import type { JSX } from "react";
+
 export default function ResultInfo({
   result
 }: {

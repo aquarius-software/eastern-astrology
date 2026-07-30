@@ -16,7 +16,8 @@ async function getCategoryPosts(category) {
   return { title, posts };
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const data = await getCategoryPosts(params.category);
 
   return {
@@ -28,7 +29,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function PostDefault({ params }) {
+export default async function PostDefault(props) {
+  const params = await props.params;
   const data = await getCategoryPosts(params.category);
   const { title, posts } = data;
   return (
@@ -39,5 +41,3 @@ export default async function PostDefault({ params }) {
     />
   );
 }
-
-export const revalidate = Number(process.env.REVALIDATE_SECONDS);
