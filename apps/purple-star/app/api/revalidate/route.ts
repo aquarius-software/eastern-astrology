@@ -28,7 +28,6 @@ type StaleRoute = "/" | `/post/${string}`;
 type StaleRoutesBody = {
   _type: string;
   _id: string;
-  date?: string;
   slug?: {
     current: string;
   };
@@ -87,17 +86,6 @@ async function queryStaleRoutes(
       if (body.slug?.current) {
         staleRoutes.push(`/post/${body.slug.current}`);
       }
-      // 「More stories」の並び順に使う日付から、削除された記事が一覧に載っていたか判定する
-      const moreStories = await client.fetch(
-        groq`count(
-          *[_type == "post"] | order(date desc, _updatedAt desc) [0...3] [dateTime(date) > dateTime($date)]
-        )`,
-        { date: body.date }
-      );
-      // 新しい日付の記事が3件未満なら全件を再検証する
-      if (moreStories < 3) {
-        return [...new Set([...(await queryAllRoutes(client)), ...staleRoutes])];
-      }
       return staleRoutes;
     }
   }
@@ -114,36 +102,21 @@ async function queryStaleRoutes(
   }
 }
 
-async function _queryAllRoutes(client: SanityClient): Promise<string[]> {
-  return await client.fetch(groq`*[_type == "post"].slug.current`);
-}
-
+/** サイト全体に影響する設定（settings）が変わった場合に全ページを再検証する */
 async function queryAllRoutes(client: SanityClient): Promise<StaleRoute[]> {
-  const slugs = await _queryAllRoutes(client);
+  const slugs = await client.fetch<string[]>(
+    groq`*[_type == "post"].slug.current`
+  );
 
   return ["/", ...slugs.map(slug => `/post/${slug}` as StaleRoute)];
 }
 
-async function mergeWithMoreStories(
-  client: SanityClient,
-  slugs: string[]
-): Promise<string[]> {
-  const moreStories = await client.fetch(
-    groq`*[_type == "post"] | order(date desc, _updatedAt desc) [0...3].slug.current`
-  );
-  if (slugs.some(slug => moreStories.includes(slug))) {
-    const allSlugs = await _queryAllRoutes(client);
-    return [...new Set([...slugs, ...allSlugs])];
-  }
-
-  return slugs;
-}
-
+/** 著者が更新されたら、その著者の記事ページとトップページを再検証する */
 async function queryStaleAuthorRoutes(
   client: SanityClient,
   id: string
 ): Promise<StaleRoute[]> {
-  let slugs = await client.fetch<string[]>(
+  const slugs = await client.fetch<string[]>(
     groq`*[_type == "author" && _id == $id] {
     "slug": *[_type == "post" && references(^._id)].slug.current
   }["slug"][]`,
@@ -151,23 +124,21 @@ async function queryStaleAuthorRoutes(
   );
 
   if (slugs.length > 0) {
-    slugs = await mergeWithMoreStories(client, slugs);
     return ["/", ...slugs.map(slug => `/post/${slug}` as StaleRoute)];
   }
 
   return [];
 }
 
+/** 記事が更新されたら、その記事ページとトップページのみを再検証する */
 async function queryStalePostRoutes(
   client: SanityClient,
   id: string
 ): Promise<StaleRoute[]> {
-  let slugs = await client.fetch<string[]>(
+  const slugs = await client.fetch<string[]>(
     groq`*[_type == "post" && _id == $id].slug.current`,
     { id }
   );
-
-  slugs = await mergeWithMoreStories(client, slugs);
 
   return ["/", ...slugs.map(slug => `/post/${slug}` as StaleRoute)];
 }
