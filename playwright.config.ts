@@ -34,13 +34,13 @@ export default defineConfig({
   // purple-star の spec は絶対 URL(:3002) で開くため baseURL には含めない。
   webServer: [
     {
-      command: 'npm run dev -w four-pillars',
+      command: 'pnpm --filter four-pillars run dev',
       url: 'http://localhost:3001/chart',
       reuseExistingServer: !process.env.CI,
       timeout: 120_000
     },
     {
-      command: 'npm run dev -w purple-star',
+      command: 'pnpm --filter purple-star run dev',
       url: 'http://localhost:3002/board',
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,

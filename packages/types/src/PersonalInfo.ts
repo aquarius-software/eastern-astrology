@@ -1,4 +1,4 @@
-import type { DMS, Gender, LanguageCode } from 'types';
+import type { DMS, Gender, LanguageCode } from './types';
 import { DateTime } from "luxon";
 
 /**

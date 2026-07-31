@@ -35,28 +35,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # setup-node の cache: pnpm より前に実行する必要がある
+      - uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright (chromium)
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       # 通常（PR）: 既存の Linux 基準と比較
       - name: Run visual regression (compare)
         if: ${{ github.event.inputs.update != 'true' }}
-        run: npm run test:visual
+        run: pnpm run test:visual
 
       # 手動 update: Linux 基準を再生成してコミット
       - name: Update baselines and commit
         if: ${{ github.event.inputs.update == 'true' }}
         run: |
-          npm run test:visual:update
+          pnpm run test:visual:update
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add e2e/__screenshots__

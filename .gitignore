@@ -4,6 +4,8 @@
 node_modules
 .pnp
 .pnp.js
+# pnpm がリポジトリ内にストアを作った場合の保険（通常はホーム配下に作られる）
+.pnpm-store/
 
 # testing
 coverage

@@ -14,14 +14,14 @@ The original code in this repository (the Four Pillars / Purple Star calculation
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start all apps in development mode
-npm run dev
+pnpm run dev
 
 # Or start an app individually
-cd apps/four-pillars && npm run dev   # port 3001
-cd apps/purple-star && npm run dev    # port 3002
+cd apps/four-pillars && pnpm run dev   # port 3001
+cd apps/purple-star && pnpm run dev    # port 3002
 ```
 
 ## 📁 Overall Structure
@@ -36,7 +36,7 @@ eastern-astrology/
 │   ├── utils/               # Utility functions
 │   ├── ui/                  # Shared UI components
 │   └── tsconfig/            # Shared TypeScript config
-├── package.json             # Root dependency management (npm workspaces)
+├── package.json             # Root dependency management (pnpm workspaces)
 ├── turbo.json               # Turborepo configuration
 ├── eslint.config.mjs        # ESLint config (Flat Config)
 └── README.md
@@ -72,7 +72,7 @@ This project uses a **Turborepo** monorepo setup, which lets multiple apps and s
 
 ### Key Characteristics
 
-- **Workspace management**: dependencies are centrally managed with npm workspaces
+- **Workspace management**: dependencies are centrally managed with pnpm workspaces
 - **Build optimization**: parallel builds and caching via Turborepo
 - **Type safety**: TypeScript across all projects
 - **Code sharing**: shared type definitions, utilities, and UI components
@@ -118,7 +118,7 @@ A website that performs Four Pillars of Destiny (Chinese astrology) calculations
 
 **Details**:
 
-- Sanity Studio integration (accessible at `/studio`, launched with `npm run sanity`) — `app/(sanity)/studio/`
+- Sanity Studio integration (accessible at `/studio`, launched with `pnpm run sanity`) — `app/(sanity)/studio/`
 - Rate limiting (Upstash Redis) — `app/api/chart/route.ts`
 - Types: uses `packages/types` (`four-pillars/` subtree)
 - Utilities: uses `packages/utils`
@@ -154,7 +154,7 @@ A website for Purple Star Astrology (a form of Chinese astrology). It follows th
 **Details**:
 
 - Same structure as `four-pillars`
-- Sanity Studio integration (accessible at `/studio`, launched with `npm run sanity`)
+- Sanity Studio integration (accessible at `/studio`, launched with `pnpm run sanity`)
 - Rate limiting (Upstash Redis) — `app/api/board/route.ts`
 - Types: uses `packages/types` (`purple-star/` subtree)
 - Utilities: uses `packages/utils`
@@ -239,20 +239,20 @@ The base TypeScript configuration shared across the whole project.
 
 ```bash
 # Start all apps in development mode
-npm run dev
+pnpm run dev
 
 # Build all apps
-npm run build
+pnpm run build
 
 # Lint
-npm run lint
+pnpm run lint
 
 # Test (unit / visual regression)
-npm run test
-npm run test:visual
+pnpm run test
+pnpm run test:visual
 
 # Format code
-npm run format
+pnpm run format
 ```
 
 ### Individual apps
@@ -260,13 +260,13 @@ npm run format
 ```bash
 # Four Pillars app
 cd apps/four-pillars
-npm run dev      # start on port 3001
-npm run sanity   # launch Sanity Studio
+pnpm run dev      # start on port 3001
+pnpm run sanity   # launch Sanity Studio
 
 # Purple Star app
 cd apps/purple-star
-npm run dev      # start on port 3002
-npm run sanity   # launch Sanity Studio
+pnpm run dev      # start on port 3002
+pnpm run sanity   # launch Sanity Studio
 ```
 
 ## 🔧 Tech Stack
@@ -334,7 +334,7 @@ Each app runs on a different port:
 
 ### Dependency management
 
-1. **Install**: running `npm install` at the root installs dependencies for all workspaces
+1. **Install**: running `pnpm install` at the root installs dependencies for all workspaces
 2. **Changing shared packages**: after editing files under `packages/`, restart the apps that depend on them
 3. **Changing type definitions**: changes to `packages/types` are reflected in type checking immediately, though a build may be required in some cases
 
@@ -342,7 +342,7 @@ Each app runs on a different port:
 
 `four-pillars` and `purple-star` use Sanity CMS. You can review the configuration in `sanity.config.ts`.
 
-> **Note**: The seed data referenced by each app's `npm run sanity-import` (`lib/sanity/data/production.tar.gz`) is **not** included in this repository, for size and distribution reasons. If you need a seed, generate one from your own Sanity dataset with `npm run sanity-export`.
+> **Note**: The seed data referenced by each app's `pnpm run sanity-import` (`lib/sanity/data/production.tar.gz`) is **not** included in this repository, for size and distribution reasons. If you need a seed, generate one from your own Sanity dataset with `pnpm run sanity-export`.
 
 ### Development workflow
 
@@ -353,7 +353,7 @@ Each app runs on a different port:
    - Define app-specific types within each app
    - Add types used by multiple apps to `packages/types`
 3. **Build and test**
-   - Running `npm run build` at the root builds all apps
+   - Running `pnpm run build` at the root builds all apps
 
 ## 🚀 Deployment
 
@@ -365,7 +365,7 @@ Each app can be deployed independently, e.g. individually on platforms such as V
 
 1. **Monorepo structure**: multiple apps and shared packages are managed in a single repository
 2. **Turborepo**: a tool that optimizes build and task execution
-3. **npm workspaces**: a mechanism for centrally managing dependencies
+3. **pnpm workspaces**: a mechanism for centrally managing dependencies
 
 ### Getting started
 
@@ -374,7 +374,7 @@ Each app can be deployed independently, e.g. individually on platforms such as V
    ```bash
    git clone <repository-url>
    cd eastern-astrology
-   npm install
+   pnpm install
    ```
 
 2. **Configure environment variables**
@@ -385,10 +385,10 @@ Each app can be deployed independently, e.g. individually on platforms such as V
 
    ```bash
    # Start all apps
-   npm run dev
+   pnpm run dev
 
    # Or start one individually
-   cd apps/four-pillars && npm run dev
+   cd apps/four-pillars && pnpm run dev
    ```
 
 4. **Explore the code**

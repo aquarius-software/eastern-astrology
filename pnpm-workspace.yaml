@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# いずれもプリビルドバイナリを使うため、ビルドスクリプトは不要
+# （実行を許可しない方がサプライチェーン上安全）
+allowBuilds:
+  '@heroui/shared-utils': false
+  esbuild: false
+  sharp: false
+  unrs-resolver: false

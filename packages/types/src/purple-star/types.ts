@@ -1,4 +1,4 @@
-import type { Stem, Branch, StemIndex, BranchIndex } from 'types';
+import type { Stem, Branch, StemIndex, BranchIndex } from '../types';
 
 /**
  * 十干

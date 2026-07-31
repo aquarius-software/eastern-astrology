@@ -15,6 +15,11 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
-    "refractor": "^5.0.0"
+    "@heroui/system": "^2.4.28",
+    "@heroui/theme": "^2.4.26",
+    "refractor": "^5.0.0",
+    "types": "workspace:*",
+    "ui": "workspace:*",
+    "utils": "workspace:*"
   }
 }

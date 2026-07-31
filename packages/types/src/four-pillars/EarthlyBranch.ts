@@ -1,10 +1,5 @@
-import type {
-  HiddenStem,
-  PillarPosition,
-  Branch,
-  FiveElementsId,
-  FourSeasonsId
-} from 'types';
+import type { HiddenStem, PillarPosition, FourSeasonsId } from './types';
+import type { Branch, FiveElementsId } from '../types';
 
 /**
  * 地支

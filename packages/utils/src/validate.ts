@@ -1,5 +1,7 @@
 import { ChartRequest, BoardRequest } from "types";
-import { isValidDate, isValidYearMonthDay } from "utils";
+// 同一パッケージ内なので相対 import で参照する
+// （自身のパッケージ名で import すると pnpm では自己リンクが無く解決できない）
+import { isValidDate, isValidYearMonthDay } from "./time";
 
 /**
  * 四柱推命リクエスト内のパラメータに対してバリデーションを行う
