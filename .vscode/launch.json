@@ -5,7 +5,7 @@
       "name": "Next.js: debug four-pillars server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev",
+      "command": "pnpm run dev",
       "cwd": "${workspaceFolder}/apps/four-pillars"
     },
     {
