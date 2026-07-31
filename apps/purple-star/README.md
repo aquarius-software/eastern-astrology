@@ -346,31 +346,31 @@ Requests are validated with the `validatePurpleStarRequest` function from the `u
 
 ```bash
 # Start dev server (port 3002)
-npm run dev
+pnpm run dev
 
 # Build
-npm run build
+pnpm run build
 
 # Start production server
-npm run start
+pnpm run start
 
 # Launch Sanity Studio
-npm run sanity
+pnpm run sanity
 
 # Import Sanity data
-npm run sanity-import
+pnpm run sanity-import
 
 # Export Sanity data
-npm run sanity-export
+pnpm run sanity-export
 
 # Bundle size analysis
-npm run analyze
+pnpm run analyze
 
 # Lint
-npm run lint
+pnpm run lint
 ```
 
-> **Note:** The Sanity dataset seed (`lib/sanity/data/production.tar.gz`) is **not** included in this repository. If you use `npm run sanity-import`, generate an export from your own Sanity project with `npm run sanity-export`.
+> **Note:** The Sanity dataset seed (`lib/sanity/data/production.tar.gz`) is **not** included in this repository. If you use `pnpm run sanity-import`, generate an export from your own Sanity project with `pnpm run sanity-export`.
 
 ## 📦 Dependencies
 
@@ -481,7 +481,7 @@ Deployable on platforms such as Vercel.
 ### Debugging
 
 - In development you can inspect the calculation steps via console logs
-- Bundle size analysis: `npm run analyze`
+- Bundle size analysis: `pnpm run analyze`
 
 ## 🔄 Future Enhancements
 
