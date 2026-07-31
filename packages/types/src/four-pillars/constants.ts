@@ -1,10 +1,10 @@
+import type { HeavenlyStem } from './HeavenlyStem';
+import type { EarthlyBranch } from './EarthlyBranch';
 import type {
-  HeavenlyStem,
-  EarthlyBranch,
   HarmonyBranchCombination,
   SeasonalBranchCombination,
   BranchPunishmentData
-} from 'types';
+} from './types';
 
 /**
  * 十干

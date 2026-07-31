@@ -1,4 +1,4 @@
-import type { PalaceStem, PalaceBranch, PalaceName } from 'types';
+import type { PalaceStem, PalaceBranch, PalaceName } from './types';
 
 /**
  * 宮（簡易バージョン）

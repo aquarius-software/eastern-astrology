@@ -4,7 +4,7 @@ import type {
   TimeZone,
   SolarTerm,
   Branch
-} from 'types';
+} from './types';
 
 /**
  * 地支（簡易バージョン）

@@ -3,10 +3,10 @@ import type {
   Branch,
   SexagenaryCycle,
   SexagenaryCycleName,
-  FiveElementsId,
-  EarthlyBranch,
-  HeavenlyStem
-} from 'types';
+  FiveElementsId
+} from '../types';
+import type { EarthlyBranch } from './EarthlyBranch';
+import type { HeavenlyStem } from './HeavenlyStem';
 
 /**
  * 四柱

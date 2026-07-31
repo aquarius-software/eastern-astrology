@@ -1,11 +1,5 @@
-import type {
-  ChangingStar,
-  PillarPosition,
-  TwelveLuck,
-  FiveElementsId,
-  Stem,
-  Branch
-} from 'types';
+import type { ChangingStar, PillarPosition, TwelveLuck } from './types';
+import type { FiveElementsId, Stem, Branch } from '../types';
 
 /**
  * 天干
