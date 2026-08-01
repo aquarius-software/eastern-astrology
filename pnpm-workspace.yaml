@@ -16,3 +16,16 @@ allowBuilds:
   esbuild: false
   sharp: false
   unrs-resolver: false
+
+minimumReleaseAgeExclude:
+  - '@types/lodash@4.17.25'
+  - '@upstash/redis@1.38.1'
+  - '@turbo/darwin-64@2.10.8'
+  - '@turbo/darwin-arm64@2.10.8'
+  - '@turbo/linux-64@2.10.8'
+  - '@turbo/linux-arm64@2.10.8'
+  - '@turbo/windows-64@2.10.8'
+  - '@turbo/windows-arm64@2.10.8'
+  - eslint-config-turbo@2.10.8
+  - eslint-plugin-turbo@2.10.8
+  - turbo@2.10.8
