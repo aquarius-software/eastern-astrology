@@ -266,10 +266,10 @@ TypeScriptの設定を確認するには：
 
 ```bash
 # 設定を確認
-npx tsc --showConfig
+pnpm exec tsc --showConfig
 
 # 型チェックのみ実行（コンパイルしない）
-npx tsc --noEmit
+pnpm exec tsc --noEmit
 ```
 
 ## 💡 ベストプラクティス

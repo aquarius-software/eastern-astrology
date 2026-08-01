@@ -2,6 +2,13 @@ packages:
   - "apps/*"
   - "packages/*"
 
+# サードパーティの .d.ts（例: @fullcalendar/react）は自身の位置から
+# `import React from 'react'` を解決するため、@types/* が root の
+# node_modules から辿れる必要がある。依存を各ワークスペースへ移した結果
+# root から @types/* が消え、型解決に失敗したのでホイストを明示する。
+publicHoistPattern:
+  - '@types/*'
+
 # いずれもプリビルドバイナリを使うため、ビルドスクリプトは不要
 # （実行を許可しない方がサプライチェーン上安全）
 allowBuilds:

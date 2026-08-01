@@ -21,7 +21,9 @@ const nextConfig = {
     // Set this to false if you want production builds to abort if there's type errors
     ignoreBuildErrors: process.env.VERCEL_ENV === "production"
   },
-  transpilePackages: ["type", "utils"]
+  // ワークスペースパッケージは TS ソースのまま提供されるため Next 側で変換する
+  // （旧設定の "type" はタイポでどのパッケージにも一致していなかった）
+  transpilePackages: ["types", "ui", "utils"]
   // 本番運用を開始したら以下は必ずコメントアウト
   /*
   async headers() {
