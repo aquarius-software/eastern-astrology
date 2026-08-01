@@ -1,6 +1,8 @@
 import IframePreview from "./previews/iframe";
 import TablePreview from "./previews/table";
-import { DocumentTextIcon } from "@sanity/icons";
+// @sanity/icons v5 から個別アイコンはサブパス export になった
+// （メインエントリは Icon / icons のみを公開する）
+import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 
 /**
  * This is the schema definition for the rich text fields used for
