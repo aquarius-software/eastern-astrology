@@ -29,3 +29,4 @@ minimumReleaseAgeExclude:
   - eslint-config-turbo@2.10.8
   - eslint-plugin-turbo@2.10.8
   - turbo@2.10.8
+  - '@types/luxon@3.7.3'
