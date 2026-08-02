@@ -1,4 +1,6 @@
-import { CogIcon } from "@sanity/icons";
+// @sanity/icons v5 から個別アイコンはサブパス export になった
+// （メインエントリは Icon / icons のみを公開する）
+import { CogIcon } from "@sanity/icons/Cog";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export default defineType({
