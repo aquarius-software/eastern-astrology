@@ -48,8 +48,8 @@ The Stablo-derived portions include, but are not limited to, the blog / CMS
 presentation layer and related scaffolding, e.g.:
 
 - **Blog and CMS UI components** — `apps/*/components`
-  (e.g. `navbar`, `navbaralt`, `footer`, `sidebar`, `postlist`, `postalt`,
-  `container`, theme switchers, `ogimage`, `blog/*`)
+  (e.g. `navbaralt`, `footer`, `sidebar`, `postlist`, `container`, theme switchers,
+  `ogimage`, `blog/*`)
 - **Sanity CMS integration and Studio** — `apps/*/lib/sanity`, the Sanity Studio route
 - **Blog-related routes** —
   `apps/*/app/(website)/{blog,post,[slug],category,author,search,contact}`

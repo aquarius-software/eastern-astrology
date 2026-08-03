@@ -1,6 +1,6 @@
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
-import GetNavbar from "@/components/getnavbar";
+import NavbarAlt from "@/components/navbaralt";
 import { urlForImage } from "@/lib/sanity/image";
 import UIProviders from "./uiProviders";
 
@@ -47,7 +47,7 @@ export default async function Layout(props) {
   const settings = await getSettings();
   return (
     <UIProviders>
-      <GetNavbar {...settings} />
+      <NavbarAlt {...settings} />
       <div className="mt-20 md:mt-20">{children}</div>
       <Footer {...settings} />
     </UIProviders>

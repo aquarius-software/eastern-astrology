@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
-import GetNavbar from "@/components/getnavbar";
+import NavbarAlt from "@/components/navbaralt";
 
 export default async function NotFound() {
   const settings = await getSettings();
 
   return (
     <>
-      <GetNavbar {...settings} />
+      <NavbarAlt {...settings} />
       <div className="flex flex-col items-center">
         <h1 className="mb-5 text-2xl font-semibold dark:text-white">
           404 Not Found

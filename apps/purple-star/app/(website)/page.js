@@ -1,8 +1,4 @@
 import HomePage from "./home";
-import TwoColumnHomePage from "./home/2-col/page";
-import AltHomePage from "./home/alt/page";
-import LifeStyleHomePage from "./home/lifestyle/page";
-import MinimalHomePage from "./home/minimal/page";
 import { getAllPosts } from "@/lib/sanity/client";
 
 export const metadata = {
