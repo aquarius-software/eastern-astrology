@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
-import GetNavbar from "@/components/getnavbar";
+import NavbarAlt from "@/components/navbaralt";
 import BreadCrumb from "ui/Breadcrumbs";
 
 export default async function NotFound() {
@@ -9,7 +9,7 @@ export default async function NotFound() {
 
   return (
     <>
-      <GetNavbar {...settings} />
+      <NavbarAlt {...settings} />
       <div className="mt-20">
         <BreadCrumb
           items={[
