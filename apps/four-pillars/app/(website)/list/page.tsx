@@ -26,7 +26,7 @@ export default function ListPage() {
         ]}></BreadCrumb>
 
       <Container className="!pt-0">
-        <div className="mx-auto mb-4 mt-8 max-w-screen-md">
+        <div className="mx-auto mb-4 mt-8 max-w-(--breakpoint-md)">
           <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
             命式リスト
           </h1>

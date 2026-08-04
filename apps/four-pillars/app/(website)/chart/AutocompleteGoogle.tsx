@@ -138,7 +138,7 @@ export default function LocationAutocompleteGoogle({
             !ready ||
             watch("isHourUnknown")
           }>
-          <div className="cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
+          <div className="cursor-default overflow-hidden bg-white text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
             <Combobox.Input
               id="location"
               className={`input-text placeholder-gray-500 ${errors.location
@@ -170,7 +170,7 @@ export default function LocationAutocompleteGoogle({
               </p>
             )}
             {isComboboxOpen && (
-              <Combobox.Options static className="mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+              <Combobox.Options static className="mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg focus:outline-hidden sm:text-sm">
                 {status === "OK" &&
                   data.map(({ place_id, description }, i) => (
                     <Combobox.Option
