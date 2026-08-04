@@ -11,5 +11,6 @@
     "rangeStart": 0,
     "plugins": [
         "prettier-plugin-tailwindcss"
-    ]
+    ],
+    "tailwindStylesheet": "./styles/tailwind.css"
 }

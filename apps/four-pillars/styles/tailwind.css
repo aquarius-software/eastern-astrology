@@ -1,140 +1,228 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* source() で自動検出の基点を apps/four-pillars に固定する。
+   指定しないとモノレポのルートまで遡って purple-star まで走査してしまう。
+   v3 の content は app/pages/components だけで lib/ や utils/ が漏れていた
+   （例: lib/sanity/plugins/portabletext.js のクラス）が、これで塞がる。 */
+@import "tailwindcss" source("../");
 
 /* prism.css は app/layout.tsx でこのファイルの直後に読み込んでいる。
-   @tailwind の展開後は @import が先頭に来ず、CSS 仕様違反として
-   Turbopack がエラーにするため、ここには置けない。 */
+   @import は先頭にまとめる必要があり、後続の規則より下には置けないため
+   ここには追加しない（v3 の @tailwind 時代からの制約と同じ）。 */
 
-/*Custom Styles Here*/
-.input-label-header {
-  @apply mb-6 mt-0 rounded border-1 border-solid border-teal-300 bg-gradient-to-r from-teal-200 to-teal-100 px-4 py-3 text-base font-bold dark:from-gray-600 dark:to-gray-500 dark:text-gray-100;
+@plugin "@tailwindcss/typography";
+@plugin "../hero.ts";
+
+/* v4 は node_modules を自動走査しないため、HeroUI のテーマ由来クラスを
+   明示的に対象へ加える。pnpm の隔離 node_modules でも、four-pillars は
+   @heroui/theme を直接依存に持つのでこの相対パスが必ず解決できる
+   （v3 の require.resolve による解決はここでは使えない）。 */
+@source "../node_modules/@heroui/theme/dist/**/*.{js,mjs}";
+
+/* packages/ui は symlink 経由の参照で自動検出の対象外。
+   v3 の content にも含まれておらず、元々クラスが生成されていなかった。 */
+@source "../../../packages/ui/**/*.{ts,tsx}";
+
+/* 旧 darkMode: "class" 相当。next-themes の attribute="class" と対になる。 */
+@custom-variant dark (&:is(.dark *));
+
+/* v3 の theme.extend から移設。
+   next/font の CSS 変数を参照するため inline が必須（inline でないと
+   ユーティリティ側が var(--font-sans) 経由の二重参照になり解決できない）。
+   フォントスタックの既定値は v3 と v4 で異なるため、見た目を変えないよう
+   v3 の defaultTheme の内容をそのまま書き下している。 */
+@theme inline {
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-serif:
+    var(--font-lora), ui-serif, Georgia, Cambria, "Times New Roman",
+    Times, serif;
+  --font-stock:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-chart: "游教科書体", "YuKyokasho";
+  --font-table:
+    var(--font-noto), "Hiragino Sans", "ヒラギノ角ゴシック";
+  --font-ship: var(--font-ship);
 }
 
-.input-label-text {
-  @apply mb-2 block text-base font-bold uppercase tracking-wide text-gray-700 dark:text-gray-300;
+/* 色は inline にしない。inline にすると :root へ --color-gray-* が出力されず、
+   CSS から var(--color-gray-500) で参照できなくなるため。 */
+@theme {
+  /* v3 の colors: { gray: colors.neutral } 相当 */
+  --color-gray-50: var(--color-neutral-50);
+  --color-gray-100: var(--color-neutral-100);
+  --color-gray-200: var(--color-neutral-200);
+  --color-gray-300: var(--color-neutral-300);
+  --color-gray-400: var(--color-neutral-400);
+  --color-gray-500: var(--color-neutral-500);
+  --color-gray-600: var(--color-neutral-600);
+  --color-gray-700: var(--color-neutral-700);
+  --color-gray-800: var(--color-neutral-800);
+  --color-gray-900: var(--color-neutral-900);
+  --color-gray-950: var(--color-neutral-950);
 }
 
-.input-text {
-  @apply block w-full appearance-none rounded border bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-200 focus:bg-white focus:outline-none disabled:bg-slate-50;
+/* v3 の preflight は border-color の既定値を #e5e5e5（gray を neutral へ
+   差し替えているため neutral-200）にしていたが、v4 は currentColor になる。
+   色指定のない `border` が全て文字色の枠線に変わってしまうため、v3 の
+   既定値を復元する。 */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  /* v3 の preflight は padding を一括リセットしておらず（fieldset・legend・
+     menu・dialog のみ）、ブラウザ既定の `td, th { padding: 1px }` が残って
+     いた。v4 は全要素に padding: 0 を当てるため、パディング指定のない
+     セルが 1 行あたり 2px 縮む（命式グリッドで実測）。
+     パディングのユーティリティを持つセルは utilities レイヤーが
+     優先されるので影響しない。 */
+  th,
+  td {
+    padding: 1px;
+  }
 }
 
-.input-select {
-  @apply block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none disabled:bg-slate-50;
-}
+/* v3 ではレスポンシブユーティリティがこれらの custom クラスより後ろに
+   出力されていたため md:w-1/3 等が勝っていた。v4 はユーティリティが
+   @layer utilities に入り、レイヤー無しの CSS は常にレイヤー付きより
+   優先されるため、レイヤーに入れないと w-full がブレークポイント指定を
+   打ち消してしまう（例: .chart-form-box + md:w-1/3 が 1 カラムに潰れる）。 */
+@layer components {
+  .input-label-header {
+    @apply mb-6 mt-0 rounded border-1 border-solid border-teal-300 bg-gradient-to-r from-teal-200 to-teal-100 px-4 py-3 text-base font-bold dark:from-gray-600 dark:to-gray-500 dark:text-gray-100;
+  }
 
-.input-radio {
-  @apply h-3.5 w-3.5 border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700;
-}
+  .input-label-text {
+    @apply mb-2 block text-base font-bold uppercase tracking-wide text-gray-700 dark:text-gray-300;
+  }
 
-.input-label-radio {
-  @apply mb-0.5 ml-2 w-full py-3 text-base font-medium text-gray-900 dark:text-gray-300;
-}
+  .input-text {
+    @apply block w-full appearance-none rounded border bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-200 focus:bg-white focus:outline-hidden disabled:bg-slate-50;
+  }
 
-.form-ul {
-  @apply w-full items-center rounded-lg border bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white sm:flex;
-}
+  .input-select {
+    @apply block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-hidden disabled:bg-slate-50;
+  }
 
-.form-li {
-  @apply w-full border-b border-gray-200 dark:border-gray-600 sm:border-b-0 sm:border-r;
-}
+  .input-radio {
+    @apply h-3.5 w-3.5 border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700;
+  }
 
-.chevron-icon-container {
-  @apply pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-400;
-}
+  .input-label-radio {
+    @apply mb-0.5 ml-2 w-full py-3 text-base font-medium text-gray-900 dark:text-gray-300;
+  }
 
-.pillar-text {
-  @apply m-2 place-self-center text-center font-ship text-3xl font-normal text-gray-600 dark:text-gray-900 sm:text-4xl md:text-5xl;
-}
+  .form-ul {
+    @apply w-full items-center rounded-lg border bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white sm:flex;
+  }
 
-.pillar-icon {
-  @apply m-1 mx-auto h-2/5 w-2/5 place-self-center;
-}
+  .form-li {
+    @apply w-full border-b border-gray-200 dark:border-gray-600 sm:border-b-0 sm:border-r;
+  }
 
-.chart-text {
-  @apply place-self-center text-center font-ship text-base font-normal text-gray-600 dark:text-gray-200 md:text-lg lg:text-xl;
-}
+  .chevron-icon-container {
+    @apply pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-400;
+  }
 
-.chart-heading {
-  @apply flex w-full place-content-center rounded bg-gray-100 dark:bg-gray-600;
-}
+  .pillar-text {
+    @apply m-2 place-self-center text-center font-ship text-3xl font-normal text-gray-600 dark:text-gray-900 sm:text-4xl md:text-5xl;
+  }
 
-.pillar-content {
-  @apply flex aspect-[1/1] w-full place-content-center rounded border-0 border-neutral-300 shadow transition-all hover:scale-105 dark:border-white;
-}
+  .pillar-icon {
+    @apply m-1 mx-auto h-2/5 w-2/5 place-self-center;
+  }
 
-.pillar-sub-content {
-  @apply flex w-full place-content-center rounded bg-gray-100 dark:bg-gray-700;
-}
+  .chart-text {
+    @apply place-self-center text-center font-ship text-base font-normal text-gray-600 dark:text-gray-200 md:text-lg lg:text-xl;
+  }
 
-.section-table {
-  @apply w-full table-auto bg-white text-left text-base dark:bg-gray-800;
-}
+  .chart-heading {
+    @apply flex w-full place-content-center rounded bg-gray-100 dark:bg-gray-600;
+  }
 
-.luck-table {
-  @apply w-full table-auto bg-white text-left text-base dark:bg-gray-800 md:text-base;
-}
+  .pillar-content {
+    @apply flex aspect-[1/1] w-full place-content-center rounded border-0 border-neutral-300 shadow transition-all hover:scale-105 dark:border-white;
+  }
 
-.section-table-body {
-  @apply divide-y text-gray-600 dark:divide-gray-600 dark:text-white;
-}
+  .pillar-sub-content {
+    @apply flex w-full place-content-center rounded bg-gray-100 dark:bg-gray-700;
+  }
 
-.table-row {
-  @apply dark:divide-gray-600 dark:text-gray-300;
-}
+  .section-table {
+    @apply w-full table-auto bg-white text-left text-base dark:bg-gray-800;
+  }
 
-.table-left-header {
-  @apply w-1/3 whitespace-nowrap px-4 py-2 font-bold md:px-4 md:py-2;
-}
+  .luck-table {
+    @apply w-full table-auto bg-white text-left text-base dark:bg-gray-800 md:text-base;
+  }
 
-.table-top-header {
-  @apply whitespace-nowrap border border-slate-200 bg-gray-100 px-3 py-2 dark:bg-gray-600;
-}
+  .section-table-body {
+    @apply divide-y text-gray-600 dark:divide-gray-600 dark:text-white;
+  }
 
-.table-cell-content {
-  @apply whitespace-nowrap border border-slate-200 px-2 py-2 dark:bg-gray-600 md:px-3 md:py-2;
-}
+  .table-row {
+    @apply dark:divide-gray-600 dark:text-gray-300;
+  }
 
-.table-cell-content-without-border {
-  @apply whitespace-nowrap border-slate-200 px-3 py-2 dark:bg-gray-600;
-}
+  .table-left-header {
+    @apply w-1/3 whitespace-nowrap px-4 py-2 font-bold md:px-4 md:py-2;
+  }
 
-.section-header {
-  @apply whitespace-nowrap bg-gradient-to-r from-stone-100 to-stone-50 px-4 py-2 text-base font-bold text-gray-600 dark:from-gray-600 dark:to-gray-400 dark:text-white md:px-5 md:py-3;
-}
+  .table-top-header {
+    @apply whitespace-nowrap border border-slate-200 bg-gray-100 px-3 py-2 dark:bg-gray-600;
+  }
 
-.section-container {
-  @apply w-full overflow-x-auto rounded-lg border bg-white shadow dark:border-0 dark:bg-gray-600;
-}
+  .table-cell-content {
+    @apply whitespace-nowrap border border-slate-200 px-2 py-2 dark:bg-gray-600 md:px-3 md:py-2;
+  }
 
-.section-icon {
-  @apply mr-1 inline-block h-6 w-6;
-}
+  .table-cell-content-without-border {
+    @apply whitespace-nowrap border-slate-200 px-3 py-2 dark:bg-gray-600;
+  }
 
-.error-message-icon {
-  @apply mb-0 mr-1 inline-block h-5 w-5 pb-0.5 font-bold;
-}
+  .section-header {
+    @apply whitespace-nowrap bg-gradient-to-r from-stone-100 to-stone-50 px-4 py-2 text-base font-bold text-gray-600 dark:from-gray-600 dark:to-gray-400 dark:text-white md:px-5 md:py-3;
+  }
 
-.loading-container {
-  @apply mx-auto mt-10 text-center md:w-8/12;
-}
+  .section-container {
+    @apply w-full overflow-x-auto rounded-lg border bg-white shadow dark:border-0 dark:bg-gray-600;
+  }
 
-.chart-form-category {
-  @apply mb-10;
-}
+  .section-icon {
+    @apply mr-1 inline-block h-6 w-6;
+  }
 
-.chart-form-row {
-  @apply -mx-3 mb-4 flex flex-wrap last:mb-0;
-}
+  .error-message-icon {
+    @apply mb-0 mr-1 inline-block h-5 w-5 pb-0.5 font-bold;
+  }
 
-.chart-form-box {
-  @apply mb-4 w-full px-3;
-}
+  .loading-container {
+    @apply mx-auto mt-10 text-center md:w-8/12;
+  }
 
-.chart-form-error {
-  @apply text-sm font-bold text-red-500;
-}
+  .chart-form-category {
+    @apply mb-10;
+  }
 
-.required-field {
-  @apply ml-2 rounded-md bg-gray-100 px-2 py-0.5 text-sm font-bold text-red-500;
+  .chart-form-row {
+    @apply -mx-3 mb-4 flex flex-wrap last:mb-0;
+  }
+
+  .chart-form-box {
+    @apply mb-4 w-full px-3;
+  }
+
+  .chart-form-error {
+    @apply text-sm font-bold text-red-500;
+  }
+
+  .required-field {
+    @apply ml-2 rounded-md bg-gray-100 px-2 py-0.5 text-sm font-bold text-red-500;
+  }
 }

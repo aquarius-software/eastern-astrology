@@ -1,3 +1,11 @@
+/* このファイルは layout.tsx から tailwind.css とは別に読み込まれるため、
+   v4 では @apply がテーマを解決できない。@reference でテーマ定義だけを
+   取り込む（CSS は出力されない）。
+   tailwindcss ではなくアプリのスタイルシートを参照する必要がある:
+   gray を neutral へ差し替えているため、既定テーマを参照すると
+   下の text-gray-500 / text-gray-400 の色が変わってしまう。 */
+@reference "./tailwind.css";
+
 .token.tag,
 .token.class-name,
 .token.selector,
