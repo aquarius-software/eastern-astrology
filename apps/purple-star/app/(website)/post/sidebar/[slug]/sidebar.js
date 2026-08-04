@@ -47,7 +47,7 @@ export default function Post(props) {
           </div>
         )}
 
-        <div className="mx-auto max-w-screen-lg px-5 py-20 text-center">
+        <div className="mx-auto max-w-(--breakpoint-lg) px-5 py-20 text-center">
           <h1 className="text-brand-primary mb-3 mt-2 text-3xl font-semibold tracking-tight text-white lg:text-5xl lg:leading-tight">
             {post.title}
           </h1>
@@ -102,7 +102,7 @@ export default function Post(props) {
       </div>
 
       {/* {post?.mainImage && <MainImage image={post.mainImage} />} */}
-      <div className="mx-auto mt-14 flex max-w-screen-xl flex-col gap-5 px-5 md:flex-row">
+      <div className="mx-auto mt-14 flex max-w-(--breakpoint-xl) flex-col gap-5 px-5 md:flex-row">
         <article className="flex-1">
           <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-blue-500">
             {post.body && <PortableText value={post.body} />}

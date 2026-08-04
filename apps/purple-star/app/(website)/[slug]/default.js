@@ -25,7 +25,7 @@ export default function Page(props) {
         ]}></BreadCrumb>
 
       <Container className="!pt-0">
-        <div className="mx-auto mb-4 mt-8 max-w-screen-md">
+        <div className="mx-auto mb-4 mt-8 max-w-(--breakpoint-md)">
           <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
             {page.title}
           </h1>
@@ -49,7 +49,7 @@ export default function Page(props) {
       </Container>
 
       <Container>
-        <article className="mx-auto mt-0 max-w-screen-md rounded-xl bg-white pb-5 pt-10">
+        <article className="mx-auto mt-0 max-w-(--breakpoint-md) rounded-xl bg-white pb-5 pt-10">
           <div className="prose mx-auto my-3 px-3 dark:prose-invert prose-a:text-blue-600">
             {page.body && <PortableText value={page.body} />}
           </div>

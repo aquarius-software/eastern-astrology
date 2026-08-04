@@ -90,7 +90,7 @@ export default function Contact({ settings, ip }) {
                   type="text"
                   placeholder="お名前"
                   autoComplete="false"
-                  className={`w-full rounded-md border-2 px-4 py-3 outline-none placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white   dark:placeholder:text-gray-200  ${
+                  className={`w-full rounded-md border-2 px-4 py-3 outline-hidden placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white   dark:placeholder:text-gray-200  ${
                     errors.name
                       ? "border-red-600 ring-red-100 focus:border-red-600 dark:ring-0"
                       : "border-gray-300 ring-gray-100 focus:border-gray-600 dark:border-gray-600 dark:ring-0 dark:focus:border-white"
@@ -120,7 +120,7 @@ export default function Contact({ settings, ip }) {
                   placeholder="メールアドレス"
                   name="email"
                   autoComplete="false"
-                  className={`w-full rounded-md border-2 px-4 py-3 outline-none placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white   dark:placeholder:text-gray-200  ${
+                  className={`w-full rounded-md border-2 px-4 py-3 outline-hidden placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white   dark:placeholder:text-gray-200  ${
                     errors.email
                       ? "border-red-600 ring-red-100 focus:border-red-600 dark:ring-0"
                       : "border-gray-300 ring-gray-100 focus:border-gray-600 dark:border-gray-600 dark:ring-0 dark:focus:border-white"
@@ -150,7 +150,7 @@ export default function Contact({ settings, ip }) {
                 <textarea
                   name="message"
                   placeholder="お問い合わせ内容"
-                  className={`h-40 w-full rounded-md border-2 px-4 py-3 outline-none placeholder:text-gray-800   focus:ring-4 dark:bg-gray-900  dark:text-white dark:placeholder:text-gray-200  ${
+                  className={`h-40 w-full rounded-md border-2 px-4 py-3 outline-hidden placeholder:text-gray-800   focus:ring-4 dark:bg-gray-900  dark:text-white dark:placeholder:text-gray-200  ${
                     errors.message
                       ? "border-red-600 ring-red-100 focus:border-red-600 dark:ring-0"
                       : "border-gray-300 ring-gray-100 focus:border-gray-600 dark:border-gray-600 dark:ring-0 dark:focus:border-white"
@@ -182,7 +182,7 @@ export default function Contact({ settings, ip }) {
               <div className="flex items-center justify-center">
                 <button
                   type="submit"
-                  className="w-8/12 rounded-md bg-gray-900 px-7 py-4 font-semibold text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-200 focus:ring-offset-2 dark:bg-white dark:text-black ">
+                  className="w-8/12 rounded-md bg-gray-900 px-7 py-4 font-semibold text-white transition-colors hover:bg-gray-800 focus:outline-hidden focus:ring-3 focus:ring-gray-200 focus:ring-offset-2 dark:bg-white dark:text-black ">
                   {isSubmitting ? (
                     <svg
                       className="mx-auto h-5 w-5 animate-spin text-white dark:text-black"

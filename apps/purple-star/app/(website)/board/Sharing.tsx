@@ -127,7 +127,7 @@ export default function Sharing({
                 autoComplete="false"
                 readOnly
                 value={sharedUrl}
-                className="block h-full w-full appearance-none rounded-bl-md rounded-tl-md border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 placeholder-[#929DA7] outline-none transition focus:border-gray-200 focus:bg-white focus:outline-none"
+                className="block h-full w-full appearance-none rounded-bl-md rounded-tl-md border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 placeholder-[#929DA7] outline-hidden transition focus:border-gray-200 focus:bg-white focus:outline-hidden"
               />
               <button
                 id="copyToClipboardButton"
@@ -145,7 +145,7 @@ export default function Sharing({
               autoComplete="false"
               readOnly
               value={sharedUrl}
-              className="block h-full w-full appearance-none rounded-md border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 placeholder-[#929DA7] outline-none transition focus:border-gray-200 focus:bg-white focus:outline-none"
+              className="block h-full w-full appearance-none rounded-md border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 placeholder-[#929DA7] outline-hidden transition focus:border-gray-200 focus:bg-white focus:outline-hidden"
             />
           }
         </div>

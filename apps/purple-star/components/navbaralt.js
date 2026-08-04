@@ -107,7 +107,7 @@ export default function NavbarAlt(props) {
                             setIsFormView(true);
                           }}
                           key={index + item.label}
-                          className="rounded-full px-5 py-2 font-bold text-gray-600 outline-none ring-blue-100 hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
+                          className="rounded-full px-5 py-2 font-bold text-gray-600 outline-hidden ring-blue-100 hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
                           target={item.external ? "_blank" : ""}
                           rel={item.external ? "noopener" : ""}>
                           {item.label}
@@ -123,7 +123,7 @@ export default function NavbarAlt(props) {
                 </div>
                 <Disclosure.Button
                   aria-label="Toggle Menu"
-                  className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-blue-500 focus:outline-none dark:text-gray-300 lg:hidden ">
+                  className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-blue-500 focus:outline-hidden dark:text-gray-300 lg:hidden ">
                   <svg
                     className="h-6 w-6 fill-current"
                     xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@ export default function NavbarAlt(props) {
                         href={item.href}
                         prefetch={false}
                         key={index + item.label}
-                        className="rounded-full px-5 py-2 text-sm font-bold text-gray-600 outline-none ring-blue-100 hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
+                        className="rounded-full px-5 py-2 text-sm font-bold text-gray-600 outline-hidden ring-blue-100 hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
                         target={item.external ? "_blank" : ""}
                         rel={item.external ? "noopener" : ""}>
                         {item.label}
@@ -202,13 +202,16 @@ const DropdownMenu = ({ menu, items, mobile }) => {
         <>
           <Menu.Button
             className={cx(
-              "flex items-center gap-x-1 rounded-full px-5 py-2  font-bold outline-none ring-blue-100 transition-all focus-visible:text-blue-500 focus-visible:ring-2",
+              "flex items-center gap-x-1 rounded-full px-5 py-2  font-bold outline-hidden ring-blue-100 transition-all focus-visible:text-blue-500 focus-visible:ring-2",
               open
                 ? "text-blue-500 hover:text-blue-500"
                 : " text-gray-600 dark:text-white ",
-              mobile
-                ? "w-full px-4 py-2 text-sm"
-                : "inline-block px-4 py-2"
+              // 先頭の flex と競合するため inline-block は付けない。
+              // v3 は .inline-block → .flex の順に出力していたため flex が
+              // 勝っていたが、v4 は順序が逆転し inline-block が勝つ。
+              // その結果ラベルとアイコンが inline 化して折り返し、fixed な
+              // nav が本文側の mt-20 を超えて重なる。
+              mobile ? "w-full px-4 py-2 text-sm" : "px-4 py-2"
             )}>
             <span>{menu.label}</span>
             <ChevronDownIcon className="mt-0.5 h-4 w-4" />
@@ -223,7 +226,7 @@ const DropdownMenu = ({ menu, items, mobile }) => {
             leaveTo="lg:transform lg:opacity-0 lg:scale-95">
             <Menu.Items
               className={cx(
-                "z-20 origin-top-left rounded-md  focus:outline-none  lg:absolute lg:left-0  lg:w-56",
+                "z-20 origin-top-left rounded-md  focus:outline-hidden  lg:absolute lg:left-0  lg:w-56",
                 !mobile && "bg-white shadow-lg  dark:bg-gray-800"
               )}>
               <div className={cx(!mobile && "py-3")}>

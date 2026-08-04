@@ -35,7 +35,7 @@ export default function Post(props) {
           }
         ]}></BreadCrumb>
       <Container className="!p-0">
-        <div className="mx-auto mt-10 max-w-screen-md px-5 ">
+        <div className="mx-auto mt-10 max-w-(--breakpoint-md) px-5 ">
           <h1 className="text-brand-primary mb-3 mt-2 text-3xl font-semibold tracking-tight dark:text-white lg:text-5xl lg:leading-tight">
             {post.title}
           </h1>
@@ -88,7 +88,7 @@ export default function Post(props) {
 
       {/* {post?.mainImage && <MainImage image={post.mainImage} />} */}
       <Container>
-        <article className="mx-auto max-w-screen-md ">
+        <article className="mx-auto max-w-(--breakpoint-md) ">
           <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-blue-500">
             {post.body && <PortableText value={post.body} />}
           </div>

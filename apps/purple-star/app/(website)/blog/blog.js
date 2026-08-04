@@ -109,7 +109,7 @@ export default function Post({
         )}
         <div className="mt-10 flex items-center justify-center">
           <nav
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+            className="isolate inline-flex -space-x-px rounded-md shadow-xs"
             aria-label="Pagination">
             <button
               disabled={isFirstPage}

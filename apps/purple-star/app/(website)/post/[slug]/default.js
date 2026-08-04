@@ -36,7 +36,7 @@ export default function Post(props) {
           }
         ]}></BreadCrumb>
       <Container className="!pt-0">
-        <div className="mx-auto max-w-screen-md ">
+        <div className="mx-auto max-w-(--breakpoint-md) ">
           <div className="flex justify-center">
             <CategoryLabel categories={post.categories} />
           </div>
@@ -90,7 +90,7 @@ export default function Post(props) {
         </div>
       </Container>
 
-      <div className="relative z-0 mx-auto aspect-video max-w-screen-lg overflow-hidden lg:rounded-lg">
+      <div className="relative z-0 mx-auto aspect-video max-w-(--breakpoint-lg) overflow-hidden lg:rounded-lg">
         {imageProps && (
           <Image
             src={imageProps.src}
@@ -104,7 +104,7 @@ export default function Post(props) {
       </div>
 
       <Container>
-        <article className="mx-auto max-w-screen-md ">
+        <article className="mx-auto max-w-(--breakpoint-md) ">
           <div className="prose mx-auto my-3 dark:prose-invert prose-a:text-blue-600">
             {post.body && <PortableText value={post.body} />}
           </div>
