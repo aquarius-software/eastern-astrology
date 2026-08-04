@@ -15,7 +15,7 @@ export type BreadcrumbsProps = {
 
 export default function BreadCrumb({ items }: BreadcrumbsProps) {
   return (
-    <div className="w-full px-8 py-1.5 shadow-sm mb-4">
+    <div className="w-full px-8 py-1.5 shadow-xs mb-4">
       <Breadcrumbs classNames={{
         list: "flex-nowrap"
       }}>
