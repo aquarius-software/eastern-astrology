@@ -85,14 +85,14 @@ export default function ResultInfo({
               </td>
             </tr>
           )}
-          {(currentAge >= 0 && currentAge <= 120) &&
+          {currentAge >= 0 && currentAge <= 120 && (
             <tr className="table-row">
               <td className="table-left-header">満年齢</td>
               <td className="table-cell-content-without-border">
                 {currentAge}歳
               </td>
             </tr>
-          }
+          )}
           <tr className="table-row">
             <td className="table-left-header">性別</td>
             <td className="table-cell-content-without-border">
@@ -156,6 +156,6 @@ export default function ResultInfo({
           </tr>
         </tbody>
       </table>
-    </div >
+    </div>
   );
 }

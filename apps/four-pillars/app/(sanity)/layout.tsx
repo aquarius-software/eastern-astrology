@@ -5,9 +5,9 @@
  * hydration mismatch が発生する。
  */
 export default function StudioLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return <>{children}</>
+  return <>{children}</>;
 }

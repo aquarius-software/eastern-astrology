@@ -1,25 +1,28 @@
-import { NextResponse } from 'next/server';
-import { MapboxGeoCode } from 'types';
+import { NextResponse } from "next/server";
+import { MapboxGeoCode } from "types";
 
 export async function POST(request: Request) {
-  const origin = request.headers.get('origin');
+  const origin = request.headers.get("origin");
 
   // ボディが空・不正 JSON の場合に未処理例外（スタックトレース）を出さない。
   // クライアントが送信中にページを閉じた中断リクエストでも発生し得る
   let req: any;
   try {
     req = await request.json();
-    if (!req || typeof req !== 'object') {
-      throw new Error('JSON body is not an object');
+    if (!req || typeof req !== "object") {
+      throw new Error("JSON body is not an object");
     }
   } catch {
-    console.error("400 Bad Request:", "Invalid or empty JSON body in Mapbox Geocode API");
+    console.error(
+      "400 Bad Request:",
+      "Invalid or empty JSON body in Mapbox Geocode API"
+    );
     return new NextResponse(null, {
       status: 400,
-      statusText: 'Bad Request',
+      statusText: "Bad Request",
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Content-Type': 'text/plain'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Content-Type": "text/plain"
       }
     });
   }
@@ -29,10 +32,10 @@ export async function POST(request: Request) {
   if (!address)
     return new NextResponse(null, {
       status: 400,
-      statusText: 'One or more required parameters missing.',
+      statusText: "One or more required parameters missing.",
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Content-Type': 'text/plain'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Content-Type": "text/plain"
       }
     });
 
@@ -57,22 +60,24 @@ export async function POST(request: Request) {
       longitude: feature.center[0],
       latitude: feature.center[1],
       isJapan: isJapan
-    }
+    };
 
-    return NextResponse.json(
-      geoCode,
-      {
-        headers: {
-          'Access-Control-Allow-Origin': origin || '*',
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Content-Type': 'application/json'
-        }
+    return NextResponse.json(geoCode, {
+      headers: {
+        "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json"
       }
-    );
+    });
   } catch (error: any) {
-    console.error('An error occurred when calling the GeoCoding API:', error);
-    const message = error.response ? `${error.response.status} ${error.response.data}` : error.message;
+    console.error(
+      "An error occurred when calling the GeoCoding API:",
+      error
+    );
+    const message = error.response
+      ? `${error.response.status} ${error.response.data}`
+      : error.message;
 
     return NextResponse.json(
       {
@@ -81,10 +86,10 @@ export async function POST(request: Request) {
       },
       {
         headers: {
-          'Access-Control-Allow-Origin': origin || '*',
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Content-Type': 'application/json'
+          "Access-Control-Allow-Origin": origin || "*",
+          "Access-Control-Allow-Methods": "POST",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Content-Type": "application/json"
         }
       }
     );
@@ -92,7 +97,7 @@ export async function POST(request: Request) {
 }
 
 export async function OPTIONS(request: Request) {
-  const origin = request.headers.get('origin');
+  const origin = request.headers.get("origin");
 
   const response = NextResponse.json(
     {
@@ -100,9 +105,9 @@ export async function OPTIONS(request: Request) {
     },
     {
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Access-Control-Allow-Methods': 'OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Methods": "OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
       }
     }
   );

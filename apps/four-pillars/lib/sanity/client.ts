@@ -58,7 +58,7 @@ export async function getAllPosts() {
 
 export async function getNumberOfPosts() {
   if (client) {
-    return (await client.fetch(countPostsQuery));
+    return await client.fetch(countPostsQuery);
   }
   return [];
 }

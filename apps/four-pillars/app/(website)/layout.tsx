@@ -10,14 +10,10 @@ async function sharedMetaData(params: { slug: string }) {
   return {
     metadataBase: new URL(settings.url),
     title: {
-      default:
-        settings?.title ||
-        "",
+      default: settings?.title || "",
       template: "%s | 四柱推命ネクスト"
     },
-    description:
-      settings?.description ||
-      "",
+    description: settings?.description || "",
     canonical: settings?.url,
     openGraph: {
       images: [
@@ -49,8 +45,8 @@ export async function generateMetadata(props: {
 }
 
 export default async function Layout(props: {
-  children: React.ReactNode,
-  params: Promise<{ slug: string }>
+  children: React.ReactNode;
+  params: Promise<{ slug: string }>;
 }) {
   const { children } = props;
   const settings = await getSettings();
@@ -59,6 +55,6 @@ export default async function Layout(props: {
       <NavbarAlt {...settings} />
       <div className="mt-20 md:mt-20">{children}</div>
       <Footer {...settings} />
-    </UIProviders >
+    </UIProviders>
   );
 }

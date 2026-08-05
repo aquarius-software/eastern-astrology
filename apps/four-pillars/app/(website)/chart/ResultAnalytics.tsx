@@ -18,7 +18,7 @@ export default function ResultAnalytics({
     branchBreaks,
     branchHarms,
     branchPunishments,
-    emptyPeriods,
+    emptyPeriods
   } = result;
 
   /**
@@ -59,7 +59,10 @@ export default function ResultAnalytics({
    * @returns {string}
    */
   const harmonyBranches = (): string => {
-    if (!threeHarmonyBranches || threeHarmonyBranches.elementId === 2) {
+    if (
+      !threeHarmonyBranches ||
+      threeHarmonyBranches.elementId === 2
+    ) {
       return "";
     }
     const branchesStr = threeHarmonyBranches.branches
@@ -74,7 +77,10 @@ export default function ResultAnalytics({
    * @returns {string}
    */
   const earthBranches = (): string => {
-    if (!threeHarmonyBranches || threeHarmonyBranches.elementId !== 2) {
+    if (
+      !threeHarmonyBranches ||
+      threeHarmonyBranches.elementId !== 2
+    ) {
       return "";
     }
     const branchesStr = threeHarmonyBranches.branches
@@ -105,9 +111,7 @@ export default function ResultAnalytics({
       <table className="section-table">
         <tbody className="section-table-body">
           <tr className="table-row">
-            <th
-              colSpan={2}
-              className="section-header">
+            <th colSpan={2} className="section-header">
               <div className="flex items-center">
                 <CalculatorIcon className="section-icon" />
                 命式分析
@@ -115,9 +119,7 @@ export default function ResultAnalytics({
             </th>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              干合
-            </td>
+            <td className="table-left-header">干合</td>
             <td className="table-cell-content-without-border">
               {stemPairs && stemPairs.length > 0
                 ? stemPairs.map(pair => pair.name).join("・")
@@ -125,65 +127,55 @@ export default function ResultAnalytics({
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              方合
-            </td>
+            <td className="table-left-header">方合</td>
             <td className="table-cell-content-without-border">
               {seasonalBranches()
                 ? seasonalBranches()
                 : halfSeasonalBranches() &&
-                  halfSeasonalBranches()!.length > 0
+                    halfSeasonalBranches()!.length > 0
                   ? halfSeasonalBranches()!.map(
-                    (halfSeasonalBranch: string, i: number) => {
-                      return (
-                        <div key={i}>{halfSeasonalBranch}</div>
-                      );
-                    }
-                  )
+                      (halfSeasonalBranch: string, i: number) => {
+                        return (
+                          <div key={i}>{halfSeasonalBranch}</div>
+                        );
+                      }
+                    )
                   : "なし"}
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              三合
-            </td>
+            <td className="table-left-header">三合</td>
             <td className="table-cell-content-without-border">
               {harmonyBranches()
                 ? harmonyBranches()
                 : halfHarmonyBranches() &&
-                  halfHarmonyBranches()!.length > 0
+                    halfHarmonyBranches()!.length > 0
                   ? halfHarmonyBranches()!.map(
-                    (halfHarmonyBranch, i) => {
-                      return <div key={i}>{halfHarmonyBranch}</div>;
-                    }
-                  )
+                      (halfHarmonyBranch, i) => {
+                        return <div key={i}>{halfHarmonyBranch}</div>;
+                      }
+                    )
                   : "なし"}
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              四墓
-            </td>
+            <td className="table-left-header">四墓</td>
             <td className="table-cell-content-without-border">
               {earthBranches() ? earthBranches() : "なし"}
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              支合
-            </td>
+            <td className="table-left-header">支合</td>
             <td className="table-cell-content-without-border">
               {branchPairs && branchPairs.length > 0
                 ? branchPairs
-                  .map((pair: BranchPair) => pair.name)
-                  .join("・")
+                    .map((pair: BranchPair) => pair.name)
+                    .join("・")
                 : "なし"}
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              冲
-            </td>
+            <td className="table-left-header">冲</td>
             <td className="table-cell-content-without-border">
               {branchClashes && branchClashes.length
                 ? branchClashes.map(pair => pair.name).join("・")
@@ -191,9 +183,7 @@ export default function ResultAnalytics({
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              刑
-            </td>
+            <td className="table-left-header">刑</td>
             <td className="table-cell-content-without-border">
               {branchPunishments && branchPunishments.length
                 ? branchPunishments.map(pair => pair.name).join("・")
@@ -201,9 +191,7 @@ export default function ResultAnalytics({
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              破
-            </td>
+            <td className="table-left-header">破</td>
             <td className="table-cell-content-without-border">
               {branchBreaks && branchBreaks.length
                 ? branchBreaks.map(pair => pair.name).join("・")
@@ -211,9 +199,7 @@ export default function ResultAnalytics({
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              害
-            </td>
+            <td className="table-left-header">害</td>
             <td className="table-cell-content-without-border">
               {branchHarms && branchHarms.length
                 ? branchHarms.map(pair => pair.name).join("・")
@@ -221,9 +207,7 @@ export default function ResultAnalytics({
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              空亡
-            </td>
+            <td className="table-left-header">空亡</td>
             <td className="table-cell-content-without-border">
               {emptyPeriods &&
                 emptyPeriods.map(branch => {

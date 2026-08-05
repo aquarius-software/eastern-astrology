@@ -1,17 +1,24 @@
 import {
   getLichunFromYearBySpace,
   getLichunFromYearByTime
-} from 'utils';
-import { getItemsFromArrayCycle } from 'utils';
+} from "utils";
+import { getItemsFromArrayCycle } from "utils";
 import {
   getYearPillar,
   getChangingStar,
   getTwelveLuck,
   getTwoHarmonyBranchesWithDecadeLuck,
   getTwoSeasonalBranchesWithDecadeLuck
-} from './pillars';
-import { HEAVENLY_STEMS, EARTHLY_BRANCHES, SEXAGENARY_CYCLE } from 'types';
-import { getThreeHarmonyBranches, getThreeSeasonalBranches } from './pillars';
+} from "./pillars";
+import {
+  HEAVENLY_STEMS,
+  EARTHLY_BRANCHES,
+  SEXAGENARY_CYCLE
+} from "types";
+import {
+  getThreeHarmonyBranches,
+  getThreeSeasonalBranches
+} from "./pillars";
 import type {
   BranchPair,
   BranchPairName,
@@ -24,10 +31,10 @@ import type {
   Gender,
   SexagenaryCycleName,
   Term
-} from 'types';
-import { HeavenlyStem, EarthlyBranch } from 'types';
-import { DateTime } from 'luxon';
-import { FourPillarsData } from './FourPillarsData';
+} from "types";
+import { HeavenlyStem, EarthlyBranch } from "types";
+import { DateTime } from "luxon";
+import { FourPillarsData } from "./FourPillarsData";
 
 /**
  * 行運判定（性別と年干により順運か逆運かを決定）
@@ -40,9 +47,14 @@ export const isLuckOrderForward = (
   gender: Gender,
   yearStem: string
 ): boolean => {
-  const isMale = gender === '1' ? true : false;
-  const heavenlyStem = HEAVENLY_STEMS.find(stem => stem.value === yearStem);
-  return (isMale && heavenlyStem!.isYang) || (!isMale && !heavenlyStem!.isYang);
+  const isMale = gender === "1" ? true : false;
+  const heavenlyStem = HEAVENLY_STEMS.find(
+    stem => stem.value === yearStem
+  );
+  return (
+    (isMale && heavenlyStem!.isYang) ||
+    (!isMale && !heavenlyStem!.isYang)
+  );
 };
 
 /**
@@ -105,7 +117,9 @@ export const getDecadeLucks = (
 
   return decadeLucks.map((decadeLuck, index) => {
     const luckStartingAge =
-      index === 0 ? 0 : fourPillarsData.startingAge + (index - 1) * 10;
+      index === 0
+        ? 0
+        : fourPillarsData.startingAge + (index - 1) * 10;
     const startingDateTime =
       index === 0
         ? birthDateTime
@@ -121,12 +135,20 @@ export const getDecadeLucks = (
       currentDateTime >= startingDateTime &&
       currentDateTime < endingDateTime
     ) {
-      passedYears = currentDateTime.diff(startingDateTime, ['years']).toObject().years;
+      passedYears = currentDateTime
+        .diff(startingDateTime, ["years"])
+        .toObject().years;
       inCurrentPeriod = true;
     }
 
-    const changingStar = getChangingStar(fourPillars.day.stem, decadeLuck.stem);
-    const twelveLuck = getTwelveLuck(fourPillars.day.stem, decadeLuck.branch);
+    const changingStar = getChangingStar(
+      fourPillars.day.stem,
+      decadeLuck.stem
+    );
+    const twelveLuck = getTwelveLuck(
+      fourPillars.day.stem,
+      decadeLuck.branch
+    );
     const stemCombinations: StemPair[] = [];
     const branchCombinations: BranchPair[] = [];
     const branchClashes: BranchPair[] = [];
@@ -138,7 +160,9 @@ export const getDecadeLucks = (
       branch => branch.value === decadeLuck.branch
     );
 
-    const pillarPositionKeys = Object.keys(fourPillars) as PillarPosition[];
+    const pillarPositionKeys = Object.keys(
+      fourPillars
+    ) as PillarPosition[];
     pillarPositionKeys.forEach(pillarPositionKey => {
       // 干を取り出す
       const stemObj = HEAVENLY_STEMS.find(
@@ -150,7 +174,7 @@ export const getDecadeLucks = (
       const sortedStemPair = HeavenlyStem.sort(stemPair);
       const stemPairStr = sortedStemPair
         .map(p => p.value)
-        .join('') as StemPairName;
+        .join("") as StemPairName;
 
       // 干合チェック
       if (stemObj!.combination === decadeLuck.stem) {
@@ -162,7 +186,7 @@ export const getDecadeLucks = (
               value: stemObj!.value
             },
             {
-              position: 'decade',
+              position: "decade",
               value: decadeLuck.stem
             }
           ]
@@ -176,11 +200,14 @@ export const getDecadeLucks = (
           fourPillars[pillarPositionKey as keyof FourPillars]!.branch
       ) as EarthlyBranch;
       branches.push(branchObj);
-      const branchPair = [branchObj, decadeBranchObj] as EarthlyBranch[];
+      const branchPair = [
+        branchObj,
+        decadeBranchObj
+      ] as EarthlyBranch[];
       const sortedBranchPair = EarthlyBranch.sort(branchPair);
       const branchPairStr = sortedBranchPair
         .map(p => p.value)
-        .join('') as BranchPairName;
+        .join("") as BranchPairName;
 
       // 支合チェック
       if (branchObj!.combination === decadeLuck.branch) {
@@ -192,7 +219,7 @@ export const getDecadeLucks = (
               value: branchObj!.value
             },
             {
-              position: 'decade',
+              position: "decade",
               value: decadeLuck.branch
             }
           ]
@@ -209,7 +236,7 @@ export const getDecadeLucks = (
               value: branchObj!.value
             },
             {
-              position: 'decade',
+              position: "decade",
               value: decadeLuck.branch
             }
           ]
@@ -224,11 +251,14 @@ export const getDecadeLucks = (
     const branchesWithDecadeLuck = [...branches, decadeLuckBranch];
 
     // 三合会局チェック
-    let threeHarmonyBranches = getThreeHarmonyBranches(branchesWithDecadeLuck);
+    let threeHarmonyBranches = getThreeHarmonyBranches(
+      branchesWithDecadeLuck
+    );
     if (
       threeHarmonyBranches &&
       fourPillarsData.threeHarmonyBranches &&
-      threeHarmonyBranches.name === fourPillarsData.threeHarmonyBranches.name
+      threeHarmonyBranches.name ===
+        fourPillarsData.threeHarmonyBranches.name
     ) {
       const branchStr = JSON.stringify(threeHarmonyBranches.branches);
       const originalBranchStr = JSON.stringify(
@@ -249,10 +279,12 @@ export const getDecadeLucks = (
       );
       if (fourPillarsData.threeHarmonyBranches) {
         // 三合会局が存在する場合は重複を削除
-        twoHarmonyBranches = twoHarmonyBranches!.filter(harmonyBranches => {
-          harmonyBranches.elementId !==
-            fourPillarsData.threeHarmonyBranches!.elementId;
-        });
+        twoHarmonyBranches = twoHarmonyBranches!.filter(
+          harmonyBranches => {
+            harmonyBranches.elementId !==
+              fourPillarsData.threeHarmonyBranches!.elementId;
+          }
+        );
       }
     }
 
@@ -263,9 +295,12 @@ export const getDecadeLucks = (
     if (
       threeSeasonalBranches &&
       fourPillarsData.threeSeasonalBranches &&
-      threeSeasonalBranches.name === fourPillarsData.threeSeasonalBranches.name
+      threeSeasonalBranches.name ===
+        fourPillarsData.threeSeasonalBranches.name
     ) {
-      const branchStr = JSON.stringify(threeSeasonalBranches.branches);
+      const branchStr = JSON.stringify(
+        threeSeasonalBranches.branches
+      );
       const originalBranchStr = JSON.stringify(
         fourPillarsData.threeSeasonalBranches.branches
       );
@@ -283,15 +318,20 @@ export const getDecadeLucks = (
 
     // 三方合かつ方合半会が同一五行で重複している場合は、方合半会を削除
     if (twoSeasonalBranches && threeSeasonalBranches) {
-      twoSeasonalBranches = twoSeasonalBranches!.filter(seasonalBranches => {
-        seasonalBranches.elementId !== threeSeasonalBranches!.elementId;
-      });
+      twoSeasonalBranches = twoSeasonalBranches!.filter(
+        seasonalBranches => {
+          seasonalBranches.elementId !==
+            threeSeasonalBranches!.elementId;
+        }
+      );
     }
 
     // 空亡
-    const inEmptyPeriod = fourPillars.day.emptyElements!.some(element => {
-      return element === decadeLuck.branch;
-    });
+    const inEmptyPeriod = fourPillars.day.emptyElements!.some(
+      element => {
+        return element === decadeLuck.branch;
+      }
+    );
 
     const stemBranch = (decadeLuck.stem +
       decadeLuck.branch) as SexagenaryCycleName;
@@ -342,7 +382,8 @@ export const getYearlyLucks = (
   const yearPillar = getYearPillar(startYear);
   const index = SEXAGENARY_CYCLE.findIndex(
     cycle =>
-      cycle.stem === yearPillar.stem && cycle.branch === yearPillar.branch
+      cycle.stem === yearPillar.stem &&
+      cycle.branch === yearPillar.branch
   );
   const yearlyLucks = getItemsFromArrayCycle(
     SEXAGENARY_CYCLE,
@@ -359,8 +400,14 @@ export const getYearlyLucks = (
     const yearlyBranchObj = EARTHLY_BRANCHES.find(
       branch => branch.value === yearlyLuck.branch
     );
-    const changingStar = getChangingStar(fourPillars.day.stem, yearlyLuck.stem);
-    const twelveLuck = getTwelveLuck(fourPillars.day.stem, yearlyLuck.branch);
+    const changingStar = getChangingStar(
+      fourPillars.day.stem,
+      yearlyLuck.stem
+    );
+    const twelveLuck = getTwelveLuck(
+      fourPillars.day.stem,
+      yearlyLuck.branch
+    );
     const stemCombinations: StemPair[] = [];
     const branchCombinations: BranchPair[] = [];
     const branchClashes: BranchPair[] = [];
@@ -368,7 +415,8 @@ export const getYearlyLucks = (
     // 大運取得
     const decadeLucks = fourPillarsData.decadeLucks;
     const decadeLuckArray: SexagenaryCycleName[] = [];
-    const useSpaceMethod = fourPillarsData.personalInfo.useSpaceMethod;
+    const useSpaceMethod =
+      fourPillarsData.personalInfo.useSpaceMethod;
     const lichun = useSpaceMethod
       ? getLichunFromYearBySpace(year)
       : getLichunFromYearByTime(year);
@@ -377,7 +425,9 @@ export const getYearlyLucks = (
         const decadeLuck = decadeLucks[i];
         const nextDecadeLuck =
           i + 1 < decadeLucks.length ? decadeLucks[i + 1] : null;
-        const startingDate = DateTime.fromISO(decadeLuck.startingDate);
+        const startingDate = DateTime.fromISO(
+          decadeLuck.startingDate
+        );
         const endingDate = DateTime.fromISO(decadeLuck.endingDate);
         const lichunDate = DateTime.fromJSDate(lichun);
         const nextLichunDate = lichunDate.plus({ year: 1 });
@@ -388,7 +438,10 @@ export const getYearlyLucks = (
         }
         if (lichunDate >= startingDate && lichunDate <= endingDate) {
           decadeLuckArray.push(decadeLuck.value);
-          if (nextDecadeLuck !== null && nextLichunDate > endingDate) {
+          if (
+            nextDecadeLuck !== null &&
+            nextLichunDate > endingDate
+          ) {
             // 大運が切り替わる年の場合
             decadeLuckArray.push(nextDecadeLuck.value);
           }
@@ -397,11 +450,15 @@ export const getYearlyLucks = (
       }
     }
 
-    let pillarPositionKeys = Object.keys(fourPillars) as PillarPosition[];
+    let pillarPositionKeys = Object.keys(
+      fourPillars
+    ) as PillarPosition[];
 
     // 生時不明の場合は時柱キーを削除（2025.3.15バグ修正）
     if (fourPillarsData.personalInfo.isHourUnknown) {
-      pillarPositionKeys = pillarPositionKeys.filter(key => key !== "hour")
+      pillarPositionKeys = pillarPositionKeys.filter(
+        key => key !== "hour"
+      );
     }
 
     pillarPositionKeys.forEach(pillarPositionKey => {
@@ -415,7 +472,7 @@ export const getYearlyLucks = (
       const sortedStemPair = HeavenlyStem.sort(stemPair);
       const stemPairStr = sortedStemPair
         .map(p => p.value)
-        .join('') as StemPairName;
+        .join("") as StemPairName;
 
       // 干合チェック
       if (stemObj!.combination === yearlyLuck.stem) {
@@ -427,7 +484,7 @@ export const getYearlyLucks = (
               value: stemObj!.value
             },
             {
-              position: 'yearly',
+              position: "yearly",
               value: yearlyLuck.stem
             }
           ]
@@ -440,11 +497,14 @@ export const getYearlyLucks = (
           branch.value ===
           fourPillars[pillarPositionKey as keyof FourPillars]!.branch
       );
-      const branchPair = [branchObj, yearlyBranchObj] as EarthlyBranch[];
+      const branchPair = [
+        branchObj,
+        yearlyBranchObj
+      ] as EarthlyBranch[];
       const sortedBranchPair = EarthlyBranch.sort(branchPair);
       const branchPairStr = sortedBranchPair
         .map(p => p.value)
-        .join('') as BranchPairName;
+        .join("") as BranchPairName;
 
       // 支合チェック
       if (branchObj!.combination === yearlyLuck.branch) {
@@ -456,7 +516,7 @@ export const getYearlyLucks = (
               value: branchObj!.value
             },
             {
-              position: 'yearly',
+              position: "yearly",
               value: yearlyLuck.branch
             }
           ]
@@ -473,7 +533,7 @@ export const getYearlyLucks = (
               value: branchObj!.value
             },
             {
-              position: 'yearly',
+              position: "yearly",
               value: yearlyLuck.branch
             }
           ]
@@ -482,9 +542,11 @@ export const getYearlyLucks = (
     });
 
     // 空亡チェック
-    const inEmptyPeriod = fourPillars.day.emptyElements!.some(element => {
-      return element === yearlyLuck.branch;
-    });
+    const inEmptyPeriod = fourPillars.day.emptyElements!.some(
+      element => {
+        return element === yearlyLuck.branch;
+      }
+    );
 
     const stemBranch = (yearlyLuck.stem +
       yearlyLuck.branch) as SexagenaryCycleName;

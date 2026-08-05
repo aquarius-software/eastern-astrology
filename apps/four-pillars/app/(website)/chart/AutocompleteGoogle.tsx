@@ -39,8 +39,11 @@ export default function LocationAutocompleteGoogle({
     cache: 24 * 60 * 60 * 7 // 7日間キャッシュを保持
   });
   const { setIsJapanese } = useChartContext();
-  const [isComboboxOpen, setIsComboboxOpen] = useState<boolean>(false);
-  const MAX_USED_COUNT = Number(process.env.NEXT_PUBLIC_MAX_USED_COUNT);
+  const [isComboboxOpen, setIsComboboxOpen] =
+    useState<boolean>(false);
+  const MAX_USED_COUNT = Number(
+    process.env.NEXT_PUBLIC_MAX_USED_COUNT
+  );
 
   useEffect(() => {
     if (data.length > 0) {
@@ -48,13 +51,11 @@ export default function LocationAutocompleteGoogle({
       if (usedCount + 1 > MAX_USED_COUNT) {
         clearSuggestions();
         upaSetValue("");
-        setMessage(
-          "地域名の最大取得回数に達しました。"
-        );
+        setMessage("地域名の最大取得回数に達しました。");
       }
       setIsComboboxOpen(true);
     }
-  }, [data])
+  }, [data]);
 
   /**
    * 地域名が選択された時に呼ばれるハンドラ
@@ -95,9 +96,7 @@ export default function LocationAutocompleteGoogle({
       }
       clearErrors("location");
       if (usedCount >= MAX_USED_COUNT) {
-        setMessage(
-          "地域名の最大取得回数に達しました。"
-        );
+        setMessage("地域名の最大取得回数に達しました。");
       } else {
         setMessage("");
       }
@@ -111,15 +110,13 @@ export default function LocationAutocompleteGoogle({
   };
 
   // https://github.com/tailwindlabs/headlessui/discussions/1292
-  const onInputFocus = (event) => {
+  const onInputFocus = event => {
     if (usedCount >= MAX_USED_COUNT) {
-      event.target.value = '';
+      event.target.value = "";
       event.target.disabled = true;
-      setMessage(
-        "地域名の最大取得回数に達しました。"
-      );
+      setMessage("地域名の最大取得回数に達しました。");
     }
-  }
+  };
 
   // https://www.reddit.com/r/reactjs/comments/14tko60/struggling_with_integrating_headlessui_combobox/
   return (
@@ -129,22 +126,24 @@ export default function LocationAutocompleteGoogle({
           地域名を直接入力
         </label>
         <p className="mb-3 text-base text-gray-500 dark:text-gray-300">
-          <strong>地域名の一部を入力</strong>し、表示された候補の中から<strong>選択</strong>すると、緯度・経度が自動で入力されます。<strong>最大{MAX_USED_COUNT}回まで</strong>地域名を取得可能です。
+          <strong>地域名の一部を入力</strong>
+          し、表示された候補の中から<strong>選択</strong>
+          すると、緯度・経度が自動で入力されます。
+          <strong>最大{MAX_USED_COUNT}回まで</strong>
+          地域名を取得可能です。
         </p>
         <Combobox
           value={value}
           onChange={handleSelect}
-          disabled={
-            !ready ||
-            watch("isHourUnknown")
-          }>
+          disabled={!ready || watch("isHourUnknown")}>
           <div className="cursor-default overflow-hidden bg-white text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
             <Combobox.Input
               id="location"
-              className={`input-text placeholder-gray-500 ${errors.location
-                ? "mb-3 border-red-500"
-                : "border-gray-200"
-                }`}
+              className={`input-text placeholder-gray-500 ${
+                errors.location
+                  ? "mb-3 border-red-500"
+                  : "border-gray-200"
+              }`}
               maxLength={100}
               onFocus={onInputFocus}
               autoFocus={false}
@@ -170,15 +169,20 @@ export default function LocationAutocompleteGoogle({
               </p>
             )}
             {isComboboxOpen && (
-              <Combobox.Options static className="mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg focus:outline-hidden sm:text-sm">
+              <Combobox.Options
+                static
+                className="mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg focus:outline-hidden sm:text-sm">
                 {status === "OK" &&
                   data.map(({ place_id, description }, i) => (
                     <Combobox.Option
                       className={({ active }) =>
-                        `border-x border-t ${i === 0 && "rounded-t"} ${i === data.length - 1 && "rounded-b border-b"
-                        } relative cursor-default select-none py-2 pl-4 pr-4 ${active
-                          ? "bg-teal-600 text-white"
-                          : "text-gray-900"
+                        `border-x border-t ${i === 0 && "rounded-t"} ${
+                          i === data.length - 1 &&
+                          "rounded-b border-b"
+                        } relative cursor-default py-2 pr-4 pl-4 select-none ${
+                          active
+                            ? "bg-teal-600 text-white"
+                            : "text-gray-900"
                         }`
                       }
                       key={place_id}

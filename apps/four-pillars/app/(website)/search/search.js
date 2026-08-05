@@ -40,8 +40,8 @@ export default function Search(props) {
           }
         ]}></BreadCrumb>
       <div>
-        <div className="mt-14 flex items-center justify-center ">
-          <h1 className="text-brand-primary text-xl font-semibold tracking-tight dark:text-white lg:text-3xl lg:leading-tight">
+        <div className="mt-14 flex items-center justify-center">
+          <h1 className="text-brand-primary text-xl font-semibold tracking-tight lg:text-3xl lg:leading-tight dark:text-white">
             {query ? `「${query}」の検索結果` : "ブログを検索"}
           </h1>
         </div>
@@ -61,7 +61,7 @@ export default function Search(props) {
             <Link
               prefetch={false}
               href="/"
-              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
+              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500">
               ← ホームに戻る
             </Link>
           </div>

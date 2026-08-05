@@ -75,7 +75,7 @@ export default function Post({
           }
         ]}></BreadCrumb>
       <Container>
-        <h1 className="text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+        <h1 className="text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
           ブログ
         </h1>
         <div className="text-center">

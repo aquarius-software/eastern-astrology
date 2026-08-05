@@ -9,14 +9,20 @@ import {
   Title,
   Tooltip,
   TooltipItem,
-  Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+  Legend
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 import { SunIcon } from "@heroicons/react/24/outline";
 
 // https://codesandbox.io/p/devbox/reactchartjs-react-chartjs-2-horizontal-or99p
 
-export default function TemperatureHumidity({ result, isDarkMode = false }: { result: FourPillarsData, isDarkMode: boolean }) {
+export default function TemperatureHumidity({
+  result,
+  isDarkMode = false
+}: {
+  result: FourPillarsData;
+  isDarkMode: boolean;
+}) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -31,45 +37,45 @@ export default function TemperatureHumidity({ result, isDarkMode = false }: { re
 
   const { temperature, humidity } = result;
   const temperatureOptions = {
-    indexAxis: 'y' as const,
+    indexAxis: "y" as const,
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
       legend: {
         display: false,
-        position: 'top' as const,
+        position: "top" as const
       },
       title: {
         display: true,
-        text: '寒暖',
+        text: "寒暖",
         font: {
-          size: 16,
-        },
-      },
-    },
+          size: 16
+        }
+      }
+    }
   };
 
   const humidityOptions = {
-    indexAxis: 'y' as const,
+    indexAxis: "y" as const,
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
       legend: {
         display: false,
-        position: 'top' as const,
+        position: "top" as const
       },
       title: {
         display: true,
-        text: '燥湿',
+        text: "燥湿",
         font: {
-          size: 16,
-        },
-      },
-    },
+          size: 16
+        }
+      }
+    }
   };
 
-  const temperatureLabels = ['寒', '暖',];
-  const humidityLabels = ['燥', '湿'];
+  const temperatureLabels = ["寒", "暖"];
+  const humidityLabels = ["燥", "湿"];
 
   const temperatureData = (temperature: number) => {
     const cold = (1.0 - temperature) * 100;
@@ -81,19 +87,22 @@ export default function TemperatureHumidity({ result, isDarkMode = false }: { re
         {
           data: [cold, heat],
           color: false ? "rgb(209 213 219)" : "rgb(75 85 99)",
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: ['rgba(53, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: [
+            "rgba(53, 162, 235, 0.5)",
+            "rgba(255, 99, 132, 0.5)"
+          ],
           borderWidth: 0,
           tooltip: {
             callbacks: {
-              label: function (context: TooltipItem<'bar'>) {
+              label: function (context: TooltipItem<"bar">) {
                 const temperatureValue = Number(context.raw);
-                return `${temperatureValue.toFixed()}%`
+                return `${temperatureValue.toFixed()}%`;
               }
             }
           }
         }
-      ],
+      ]
     };
   };
 
@@ -106,20 +115,20 @@ export default function TemperatureHumidity({ result, isDarkMode = false }: { re
       datasets: [
         {
           data: [dryness, moistness],
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: ['rgb(178,223,138)', 'rgb(166,206,227)'],
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: ["rgb(178,223,138)", "rgb(166,206,227)"],
           borderWidth: 0,
           tooltip: {
             callbacks: {
-              label: function (context: TooltipItem<'bar'>) {
+              label: function (context: TooltipItem<"bar">) {
                 const humidityValue = Number(context.raw);
-                return `${humidityValue.toFixed()}%`
+                return `${humidityValue.toFixed()}%`;
               }
             }
           }
         }
       ]
-    }
+    };
   };
 
   return (
@@ -128,11 +137,17 @@ export default function TemperatureHumidity({ result, isDarkMode = false }: { re
         <SunIcon className="section-icon" />
         寒暖・燥湿
       </div>
-      <div className="flex w-full content-center justify-center overflow-hidden p-4 bg-white dark:bg-gray-800 rounded-b-lg">
-        <Bar options={temperatureOptions} data={temperatureData(temperature)} />
+      <div className="flex w-full content-center justify-center overflow-hidden rounded-b-lg bg-white p-4 dark:bg-gray-800">
+        <Bar
+          options={temperatureOptions}
+          data={temperatureData(temperature)}
+        />
       </div>
-      <div className="flex w-full content-center justify-center overflow-hidden p-4 bg-white dark:bg-gray-800 rounded-b-lg">
-        <Bar options={humidityOptions} data={humidityData(humidity)} />
+      <div className="flex w-full content-center justify-center overflow-hidden rounded-b-lg bg-white p-4 dark:bg-gray-800">
+        <Bar
+          options={humidityOptions}
+          data={humidityData(humidity)}
+        />
       </div>
     </div>
   );

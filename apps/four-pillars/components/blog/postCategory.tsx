@@ -10,7 +10,7 @@ export default function CategoryLabel({
   return (
     <>
       {categories?.length &&
-        categories.slice(0).map((category) => (
+        categories.slice(0).map(category => (
           <Chip className="ml-2" color="default" key={category.title}>
             {category.title}
           </Chip>

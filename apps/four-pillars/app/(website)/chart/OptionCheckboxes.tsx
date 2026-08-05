@@ -24,7 +24,7 @@ export default function OptionCheckboxes({
 
   return (
     <div className="mb-4">
-      <h3 className="mx-6 my-3 font-bold text-base">表示設定</h3>
+      <h3 className="mx-6 my-3 text-base font-bold">表示設定</h3>
       <div className="mx-6 my-2 grid grid-cols-2 gap-x-8 gap-y-4 text-base font-normal text-neutral-800 md:grid-cols-3">
         {/* <Controller
           control={control}
@@ -48,10 +48,12 @@ export default function OptionCheckboxes({
             <Checkbox
               onChange={e => {
                 onChange(e);
-                setValue("showChangingStars", getValues("showChangingStars"));
+                setValue(
+                  "showChangingStars",
+                  getValues("showChangingStars")
+                );
               }}
-              isSelected={value}
-            >
+              isSelected={value}>
               通変星
             </Checkbox>
           )}
@@ -63,10 +65,12 @@ export default function OptionCheckboxes({
             <Checkbox
               onChange={e => {
                 onChange(e);
-                setValue("showTwelveLucks", getValues("showTwelveLucks"));
+                setValue(
+                  "showTwelveLucks",
+                  getValues("showTwelveLucks")
+                );
               }}
-              isSelected={value}
-            >
+              isSelected={value}>
               十二運
             </Checkbox>
           )}
@@ -78,10 +82,12 @@ export default function OptionCheckboxes({
             <Checkbox
               onChange={e => {
                 onChange(e);
-                setValue("showHiddenStems", getValues("showHiddenStems"));
+                setValue(
+                  "showHiddenStems",
+                  getValues("showHiddenStems")
+                );
               }}
-              isSelected={value}
-            >
+              isSelected={value}>
               蔵干
             </Checkbox>
           )}
@@ -95,8 +101,7 @@ export default function OptionCheckboxes({
                 onChange(e);
                 setValue("showWithColor", getValues("showWithColor"));
               }}
-              isSelected={value}
-            >
+              isSelected={value}>
               カラー表示
             </Checkbox>
           )}

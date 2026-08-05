@@ -7,15 +7,15 @@ import {
   ModalFooter,
   Button,
   Input,
-  useDisclosure,
+  useDisclosure
 } from "@heroui/react";
 import { ChangeEvent, useState, useEffect, type JSX } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import { generateUrlFromResult } from "@/utils/url";
 import { usePathname } from "next/navigation";
 import localForage from "localforage";
 import { LocalStorageItem } from "types";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const MAX_LOCAL_STORAGE_ENTRY = 100;
 const KEY_PREFIX = "fp-";
@@ -55,13 +55,15 @@ export default function OptionStorage({
   }, []);
 
   /**
- * 命式入力データからオブジェクトを生成
- *
- * @param {string}
- * @returns
- */
+   * 命式入力データからオブジェクトを生成
+   *
+   * @param {string}
+   * @returns
+   */
   const createChartObj = async (uuid: string) => {
-    const url = sharedUrl ? sharedUrl : await generateUrlFromResult(result);
+    const url = sharedUrl
+      ? sharedUrl
+      : await generateUrlFromResult(result);
     const chartObj = {
       title,
       url,
@@ -97,10 +99,14 @@ export default function OptionStorage({
         );
         return;
       }
-      const filteredValues = await Promise.all(filteredKeys.map(async key => {
-        const item: LocalStorageItem = await localForage.getItem(key) as LocalStorageItem;
-        return item;
-      }));
+      const filteredValues = await Promise.all(
+        filteredKeys.map(async key => {
+          const item: LocalStorageItem = (await localForage.getItem(
+            key
+          )) as LocalStorageItem;
+          return item;
+        })
+      );
       const sameTitleValue = filteredValues.find(
         item => item.title === title
       );
@@ -179,7 +185,9 @@ export default function OptionStorage({
     <>
       <h3 className="mx-6 my-3 text-base font-bold">保存設定</h3>
       <div className="mx-6 my-2 grid grid-cols-2 gap-x-8 gap-y-4 text-base font-normal text-neutral-800 md:grid-cols-3">
-        <Button className="text-xs sm:text-sm" onPress={onOpen}>命式をブラウザに保存</Button>
+        <Button className="text-xs sm:text-sm" onPress={onOpen}>
+          命式をブラウザに保存
+        </Button>
         <Modal
           placement="center"
           isOpen={isOpen}
@@ -195,7 +203,14 @@ export default function OptionStorage({
                     {`現在表示中の命式をWebブラウザのデータベース（IndexedDB）に保存します。最大${MAX_LOCAL_STORAGE_ENTRY}件（ハードディスクの容量不足の場合は不可）まで保存することができます。`}
                   </p>
                   <p>
-                    {"保存した命式は、"}<Link prefetch={false} className="text-blue-600" href="/list">命式リスト</Link>{"ページから確認できます。"}
+                    {"保存した命式は、"}
+                    <Link
+                      prefetch={false}
+                      className="text-blue-600"
+                      href="/list">
+                      命式リスト
+                    </Link>
+                    {"ページから確認できます。"}
                   </p>
                   <Input
                     id="title"

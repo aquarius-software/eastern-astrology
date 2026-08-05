@@ -12,7 +12,7 @@ import { FourPillarsProps } from "@/app/types";
 
 export default function ResultView({ result }: FourPillarsProps) {
   return (
-    <div className="text-black-500 mx-auto grid max-w-5xl px-2 grid-cols-1 gap-6 text-sm lg:grid-cols-[1.618fr_1fr] w-full sm:w-10/12 lg:w-full">
+    <div className="text-black-500 mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 px-2 text-sm sm:w-10/12 lg:w-full lg:grid-cols-[1.618fr_1fr]">
       <div className="flex flex-col gap-6">
         <ChartView result={result}></ChartView>
         <DecadeLucks result={result}></DecadeLucks>
@@ -37,16 +37,24 @@ export default function ResultView({ result }: FourPillarsProps) {
         <Sharing result={result}></Sharing>
         <ResultAnalytics result={result}></ResultAnalytics>
         <div className="dark:hidden">
-          <FiveElements result={result} isDarkMode={false}></FiveElements>
+          <FiveElements
+            result={result}
+            isDarkMode={false}></FiveElements>
         </div>
         <div className="hidden dark:block">
-          <FiveElements result={result} isDarkMode={true}></FiveElements>
+          <FiveElements
+            result={result}
+            isDarkMode={true}></FiveElements>
         </div>
         <div className="dark:hidden">
-          <TemperatureHumidity result={result} isDarkMode={false}></TemperatureHumidity>
+          <TemperatureHumidity
+            result={result}
+            isDarkMode={false}></TemperatureHumidity>
         </div>
         <div className="hidden dark:block">
-          <TemperatureHumidity result={result} isDarkMode={true}></TemperatureHumidity>
+          <TemperatureHumidity
+            result={result}
+            isDarkMode={true}></TemperatureHumidity>
         </div>
         {!result.isHourUnknown && (
           <ResultTime result={result}></ResultTime>

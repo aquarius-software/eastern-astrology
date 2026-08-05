@@ -13,7 +13,17 @@ const INVALID_URL_MESSAGE =
 
 export async function generateMetadata(props): Promise<Metadata> {
   const searchParams = await props.searchParams;
-  const { t, b, l, o, n, f, z, r, d }: {
+  const {
+    t,
+    b,
+    l,
+    o,
+    n,
+    f,
+    z,
+    r,
+    d
+  }: {
     t: string;
     b: string;
     l: string;
@@ -39,21 +49,19 @@ export async function generateMetadata(props): Promise<Metadata> {
   };
 }
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{
-      t: string;
-      b: string;
-      l: string;
-      o: string;
-      n: string;
-      f: string;
-      z: string;
-      r: string;
-      d: string;
-    }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{
+    t: string;
+    b: string;
+    l: string;
+    o: string;
+    n: string;
+    f: string;
+    z: string;
+    r: string;
+    d: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   let resultData: FourPillarsData | null = null;
   let message = "";
@@ -237,7 +245,7 @@ export default async function Page(
           "Each of these parameters (timezoneId, rawOffset and dstOffset) are missing:",
           `_timeZoneId: ${_timeZoneId}`,
           `_rawOffset: ${_rawOffset}`,
-          `_dstOffset: ${_dstOffset}`,
+          `_dstOffset: ${_dstOffset}`
         );
         message = INVALID_URL_MESSAGE;
         return;
@@ -248,7 +256,9 @@ export default async function Page(
       const emptyFlag2 = flagStr[7];
 
       // タイムゾーン設定
-      const isSummerTime = isDuringSummerTimeJp(birthDateTime.toJSDate());
+      const isSummerTime = isDuringSummerTimeJp(
+        birthDateTime.toJSDate()
+      );
       let timezoneData: TimeZone = {
         dstOffset: isSummerTime
           ? JAPANESE_SUMMER_TIME.dstOffset
@@ -278,29 +288,28 @@ export default async function Page(
 
       // 四柱推命命式API呼び出し
       const url = `${process.env.NEXT_PUBLIC_ROUTE_HANDLER_URL}/api/chart`;
-      const response = await fetch(
-        url,
-        {
-          body: JSON.stringify({
-            isoDate: birthDateTime.toISO(),
-            longitude,
-            gender,
-            utcOffset: utcOffsetHour,
-            dstOffset: dstOffsetHour,
-            timezoneOffset,
-            useSpaceMethod: divisionMethod,
-            createImage,
-            isHourUnknown: isTimeUnknown,
-            changeDayStem,
-            yearlyLucks: false
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          next: { revalidate: Number(process.env.CHART_API_REVALIDATE_SECONDS) }
+      const response = await fetch(url, {
+        body: JSON.stringify({
+          isoDate: birthDateTime.toISO(),
+          longitude,
+          gender,
+          utcOffset: utcOffsetHour,
+          dstOffset: dstOffsetHour,
+          timezoneOffset,
+          useSpaceMethod: divisionMethod,
+          createImage,
+          isHourUnknown: isTimeUnknown,
+          changeDayStem,
+          yearlyLucks: false
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        next: {
+          revalidate: Number(process.env.CHART_API_REVALIDATE_SECONDS)
         }
-      );
+      });
       console.log(url, "Response status: ", response.status);
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);

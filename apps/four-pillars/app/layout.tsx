@@ -31,8 +31,7 @@ export default function RootLayout({
       lang="ja"
       suppressHydrationWarning
       className={cx(noto.variable, "scroll-smooth bg-emerald-50")}>
-      <head>
-      </head>
+      <head></head>
       <body className="font-table text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-400">
         <Providers>{children}</Providers>
         <Analytics />

@@ -7,9 +7,9 @@ import {
   getEquationOfTime,
   dmsToDecimalMinutes,
   getEclipticLongitude
-} from 'utils';
-import { PersonalInfo } from 'types';
-import type { LanguageCode, SolarTerm, Gender, DMS } from 'types';
+} from "utils";
+import { PersonalInfo } from "types";
+import type { LanguageCode, SolarTerm, Gender, DMS } from "types";
 
 export class FourPillarsPersonalInfo extends PersonalInfo {
   public localOffsetMinutes!: number;
@@ -33,12 +33,22 @@ export class FourPillarsPersonalInfo extends PersonalInfo {
     public changeDayStem: boolean,
     public yearlyLucks: boolean
   ) {
-    super(birthDate, longitude, latitude, timezoneOffset, utcOffset, dstOffset, gender, languageCode);
+    super(
+      birthDate,
+      longitude,
+      latitude,
+      timezoneOffset,
+      utcOffset,
+      dstOffset,
+      gender,
+      languageCode
+    );
   }
 
   public init(): void {
     // 地方時差（分）を取得
-    this.localOffsetMinutes = this.longitude * 4 - this.utcOffset * 60;
+    this.localOffsetMinutes =
+      this.longitude * 4 - this.utcOffset * 60;
 
     // 均時差を取得
     this.equationOfTime = getEquationOfTime(this.birthDate);
@@ -72,13 +82,22 @@ export class FourPillarsPersonalInfo extends PersonalInfo {
     const adjustedDate = new Date(this.birthDate.getTime());
 
     // 分の調整（サマータイム・均時差・地方時差）
-    const timeToAdd = dmsToDecimalMinutes(this.equationOfTime!) + this.localOffsetMinutes - this.dstOffset * 60;
+    const timeToAdd =
+      dmsToDecimalMinutes(this.equationOfTime!) +
+      this.localOffsetMinutes -
+      this.dstOffset * 60;
     const minutesToAdd = Math.floor(timeToAdd);
-    adjustedDate.setMinutes(this.birthDate.getMinutes() + minutesToAdd);
+    adjustedDate.setMinutes(
+      this.birthDate.getMinutes() + minutesToAdd
+    );
 
     // 秒の調整
-    const secondsToAdd = Math.floor((timeToAdd - Math.floor(timeToAdd)) * 60);
-    adjustedDate.setSeconds(this.birthDate.getSeconds() + secondsToAdd);
+    const secondsToAdd = Math.floor(
+      (timeToAdd - Math.floor(timeToAdd)) * 60
+    );
+    adjustedDate.setSeconds(
+      this.birthDate.getSeconds() + secondsToAdd
+    );
 
     // ミリ秒の調整（必要かどうかは微妙）
     const millisecondsToAdd = minutesToMilliSeconds(timeToAdd);
@@ -107,7 +126,7 @@ export class FourPillarsPersonalInfo extends PersonalInfo {
       adjustedDate: this.adjustedDate,
       eclipticLongitude: this.elon,
       solarTerm: this.solarTerm!.name,
-      inEarthPeriod: this.inEarthPeriod,
+      inEarthPeriod: this.inEarthPeriod
     };
   }
 }
