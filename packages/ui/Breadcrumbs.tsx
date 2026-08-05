@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@heroui/react";
 
 export type CrumbItem = {
   label: ReactNode;
   path: string;
-  classNames?: string
+  classNames?: string;
 };
 
 export type BreadcrumbsProps = {
@@ -16,16 +16,24 @@ export type BreadcrumbsProps = {
 export default function BreadCrumb({ items }: BreadcrumbsProps) {
   return (
     <div className="w-full px-8 py-1.5 shadow-xs mb-4">
-      <Breadcrumbs classNames={{
-        list: "flex-nowrap"
-      }}>
+      <Breadcrumbs
+        classNames={{
+          list: "flex-nowrap",
+        }}
+      >
         <BreadcrumbItem href="/">ホーム</BreadcrumbItem>
         {items &&
           items.map((crumb, i) => {
             return (
-              <BreadcrumbItem key={i + 1} href={crumb.path} classNames={{
-                item: crumb.classNames ? crumb.classNames : "whitespace-nowrap",
-              }}>
+              <BreadcrumbItem
+                key={i + 1}
+                href={crumb.path}
+                classNames={{
+                  item: crumb.classNames
+                    ? crumb.classNames
+                    : "whitespace-nowrap",
+                }}
+              >
                 {crumb.label}
               </BreadcrumbItem>
             );
