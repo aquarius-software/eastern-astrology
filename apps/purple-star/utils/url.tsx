@@ -1,14 +1,20 @@
-import { PurpleStarData, PurpleStarSubmitData, PurpleStarUrlData } from "@/app/types";
+import {
+  PurpleStarData,
+  PurpleStarSubmitData,
+  PurpleStarUrlData
+} from "@/app/types";
 import { generateDateFromSubmitData } from "@/utils/utils";
 import { DateTime } from "luxon";
 
 /**
  * 命盤データからURLを生成するプライベートメソッド
- * 
- * @param {PurpleStarUrlData} data 
+ *
+ * @param {PurpleStarUrlData} data
  * @returns {string}
  */
-const generateUrl = async (data: PurpleStarUrlData): Promise<string> => {
+const generateUrl = async (
+  data: PurpleStarUrlData
+): Promise<string> => {
   const {
     birthDateTime,
     latitude,
@@ -28,7 +34,9 @@ const generateUrl = async (data: PurpleStarUrlData): Promise<string> => {
   const hexFlagStr = parseInt(flagStr, 2).toString(16);
   let urlStr = `?t=${birthDateTime}&b=${latitude}&l=${longitude}&o=${timezoneOffset}&${nickname ? `&n=${nickname}` : ""}&s=${school}&f=${hexFlagStr}`;
   if (isJapanese === "0") {
-    urlStr = urlStr.concat(`${timeZoneId ? `&z=${timeZoneId}` : ""}${rawOffset ? `&r=${rawOffset}` : ""}${dstOffset ? `&d=${dstOffset}` : ""}`);
+    urlStr = urlStr.concat(
+      `${timeZoneId ? `&z=${timeZoneId}` : ""}${rawOffset ? `&r=${rawOffset}` : ""}${dstOffset ? `&d=${dstOffset}` : ""}`
+    );
   }
   urlStr = encodeURI(urlStr);
   let url = `${location.protocol}//${location.host}/b${urlStr}`;
@@ -39,11 +47,13 @@ const generateUrl = async (data: PurpleStarUrlData): Promise<string> => {
 /**
  * 命式パラメータからURLを生成
  * 処理はgenerateUrlメソッドに移譲
- * 
- * @param {FourPillarsData} result 
+ *
+ * @param {FourPillarsData} result
  * @returns {string}
  */
-export const generateUrlFromResult = async (result: PurpleStarData): Promise<string> => {
+export const generateUrlFromResult = async (
+  result: PurpleStarData
+): Promise<string> => {
   const {
     birthDateTime,
     latitude,
@@ -72,9 +82,9 @@ export const generateUrlFromResult = async (result: PurpleStarData): Promise<str
     school,
     isJapanese: isJapanese ? "1" : "0",
     timeZoneId,
-    rawOffset: (!isNaN(rawOffset)) ? rawOffset.toString() : "",
-    dstOffset: (!isNaN(dstOffset)) ? dstOffset.toString() : ""
-  }
+    rawOffset: !isNaN(rawOffset) ? rawOffset.toString() : "",
+    dstOffset: !isNaN(dstOffset) ? dstOffset.toString() : ""
+  };
 
   const url = await generateUrl(data);
 
@@ -84,11 +94,13 @@ export const generateUrlFromResult = async (result: PurpleStarData): Promise<str
 /**
  * 入力された命盤データからURLを生成
  * 処理はgenerateUrlメソッドに移譲
- * 
- * @param {PurpleStarSubmitData} submitData 
+ *
+ * @param {PurpleStarSubmitData} submitData
  * @returns {string}
  */
-export const generateUrlFromData = async (submitData: PurpleStarSubmitData): Promise<string> => {
+export const generateUrlFromData = async (
+  submitData: PurpleStarSubmitData
+): Promise<string> => {
   const isoDate = generateDateFromSubmitData(submitData);
   const timestamp = isoDate.getTime();
   const data = {
@@ -101,9 +113,13 @@ export const generateUrlFromData = async (submitData: PurpleStarSubmitData): Pro
     school: submitData.school,
     isJapanese: submitData.isJapanese ? "1" : "0",
     timeZoneId: submitData.timeZoneId,
-    rawOffset: (!isNaN(submitData.rawOffset)) ? submitData.rawOffset.toString() : "",
-    dstOffset: (!isNaN(submitData.dstOffset)) ? submitData.dstOffset.toString() : ""
-  }
+    rawOffset: !isNaN(submitData.rawOffset)
+      ? submitData.rawOffset.toString()
+      : "",
+    dstOffset: !isNaN(submitData.dstOffset)
+      ? submitData.dstOffset.toString()
+      : ""
+  };
 
   const url = await generateUrl(data);
 

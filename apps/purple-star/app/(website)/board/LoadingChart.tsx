@@ -5,8 +5,10 @@ export default function LoadingChart() {
     <div className="loading-container">
       <div className="loading-container">
         <Spinner color="primary" />
-        <p className="font-bold leading-10">
-          命盤を生成しています。<br />しばらくお待ちください。
+        <p className="leading-10 font-bold">
+          命盤を生成しています。
+          <br />
+          しばらくお待ちください。
         </p>
       </div>
     </div>

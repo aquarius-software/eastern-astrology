@@ -3,7 +3,7 @@ import "@/styles/prism.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
 import { Inter, Lora, Noto_Sans_JP } from "next/font/google";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,7 +31,7 @@ export default function RootLayout({
       lang="ja"
       suppressHydrationWarning
       className={cx(noto.variable, "bg-gray-50")}>
-      <body className="bg-gray-50 text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-400 font-table">
+      <body className="bg-gray-50 font-table text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-400">
         <Providers>{children}</Providers>
         <Analytics />
       </body>

@@ -85,20 +85,20 @@ export type PurpleStarSubmitData = {
 };
 
 /**
- * 
+ *
  * @export
  * @typedef {FourPillarsUrlData}
  */
 export type PurpleStarUrlData = {
-  birthDateTime: string,
-  latitude: string,
-  longitude: string,
-  timezoneOffset: string,
-  nickname: string
-  gender: string,
-  school: string,
-  isJapanese: string,
-  timeZoneId: string,
-  rawOffset: string,
-  dstOffset: string
-}
+  birthDateTime: string;
+  latitude: string;
+  longitude: string;
+  timezoneOffset: string;
+  nickname: string;
+  gender: string;
+  school: string;
+  isJapanese: string;
+  timeZoneId: string;
+  rawOffset: string;
+  dstOffset: string;
+};

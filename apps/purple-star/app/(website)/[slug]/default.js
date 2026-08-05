@@ -25,8 +25,8 @@ export default function Page(props) {
         ]}></BreadCrumb>
 
       <Container className="!pt-0">
-        <div className="mx-auto mb-4 mt-8 max-w-(--breakpoint-md)">
-          <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+        <div className="mx-auto mt-8 mb-4 max-w-(--breakpoint-md)">
+          <h1 className="text-brand-primary mt-2 mb-3 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
             {page.title}
           </h1>
           {/* <div className="mt-3 flex justify-center space-x-3 text-gray-500 ">
@@ -49,15 +49,15 @@ export default function Page(props) {
       </Container>
 
       <Container>
-        <article className="mx-auto mt-0 max-w-(--breakpoint-md) rounded-xl bg-white pb-5 pt-10">
-          <div className="prose mx-auto my-3 px-3 dark:prose-invert prose-a:text-blue-600">
+        <article className="mx-auto mt-0 max-w-(--breakpoint-md) rounded-xl bg-white pt-10 pb-5">
+          <div className="mx-auto my-3 prose px-3 dark:prose-invert prose-a:text-blue-600">
             {page.body && <PortableText value={page.body} />}
           </div>
-          <div className="mb-7 mt-7 flex justify-center">
+          <div className="mt-7 mb-7 flex justify-center">
             <Link
               href="/"
               prefetch={false}
-              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
+              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500">
               ← ホームに戻る
             </Link>
           </div>

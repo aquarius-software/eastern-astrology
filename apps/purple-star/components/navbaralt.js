@@ -54,7 +54,7 @@ export default function NavbarAlt(props) {
   const { setIsFormView } = useBoardContext();
 
   return (
-    <nav className="fixed top-0 z-50 mb-4 w-full bg-white px-8 py-4 shadow dark:bg-gray-800 md:mb-8">
+    <nav className="fixed top-0 z-50 mb-4 w-full bg-white px-8 py-4 shadow md:mb-8 dark:bg-gray-800">
       <Disclosure>
         {({ open }) => (
           <>
@@ -72,7 +72,9 @@ export default function NavbarAlt(props) {
                       sizes="(max-width: 640px) 100vw, 200px"
                     />
                   ) : (
-                    <span className="block text-center">紫微斗数ネクスト</span>
+                    <span className="block text-center">
+                      紫微斗数ネクスト
+                    </span>
                   )}
                 </Link>
                 <Link
@@ -87,7 +89,9 @@ export default function NavbarAlt(props) {
                       sizes="(max-width: 640px) 100vw, 200px"
                     />
                   ) : (
-                    <span className="block text-center">紫微斗数ネクスト</span>
+                    <span className="block text-center">
+                      紫微斗数ネクスト
+                    </span>
                   )}
                 </Link>
                 <div className="ml-8 hidden w-full flex-col items-center lg:flex lg:w-auto lg:flex-row">
@@ -107,7 +111,7 @@ export default function NavbarAlt(props) {
                             setIsFormView(true);
                           }}
                           key={index + item.label}
-                          className="rounded-full px-5 py-2 font-bold text-gray-600 outline-hidden ring-blue-100 hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
+                          className="rounded-full px-5 py-2 font-bold text-gray-600 ring-blue-100 outline-hidden hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
                           target={item.external ? "_blank" : ""}
                           rel={item.external ? "noopener" : ""}>
                           {item.label}
@@ -123,7 +127,7 @@ export default function NavbarAlt(props) {
                 </div>
                 <Disclosure.Button
                   aria-label="Toggle Menu"
-                  className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-blue-500 focus:outline-hidden dark:text-gray-300 lg:hidden ">
+                  className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-blue-500 focus:outline-hidden lg:hidden dark:text-gray-300">
                   <svg
                     className="h-6 w-6 fill-current"
                     xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +160,7 @@ export default function NavbarAlt(props) {
               </div> */}
             </div>
             <Disclosure.Panel>
-              <div className="order-2 -ml-5 mt-5 flex w-full flex-col items-start justify-start lg:hidden">
+              <div className="order-2 mt-5 -ml-5 flex w-full flex-col items-start justify-start lg:hidden">
                 {menu.map((item, index) => (
                   <React.Fragment key={index + item.label}>
                     {item.children && item.children.length > 0 ? (
@@ -170,7 +174,7 @@ export default function NavbarAlt(props) {
                         href={item.href}
                         prefetch={false}
                         key={index + item.label}
-                        className="rounded-full px-5 py-2 text-sm font-bold text-gray-600 outline-hidden ring-blue-100 hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
+                        className="rounded-full px-5 py-2 text-sm font-bold text-gray-600 ring-blue-100 outline-hidden hover:text-blue-500 focus-visible:text-blue-500 focus-visible:ring-2 dark:text-white"
                         target={item.external ? "_blank" : ""}
                         rel={item.external ? "noopener" : ""}>
                         {item.label}
@@ -202,10 +206,10 @@ const DropdownMenu = ({ menu, items, mobile }) => {
         <>
           <Menu.Button
             className={cx(
-              "flex items-center gap-x-1 rounded-full px-5 py-2  font-bold outline-hidden ring-blue-100 transition-all focus-visible:text-blue-500 focus-visible:ring-2",
+              "flex items-center gap-x-1 rounded-full px-5 py-2 font-bold ring-blue-100 outline-hidden transition-all focus-visible:text-blue-500 focus-visible:ring-2",
               open
                 ? "text-blue-500 hover:text-blue-500"
-                : " text-gray-600 dark:text-white ",
+                : "text-gray-600 dark:text-white",
               // 先頭の flex と競合するため inline-block は付けない。
               // v3 は .inline-block → .flex の順に出力していたため flex が
               // 勝っていたが、v4 は順序が逆転し inline-block が勝つ。
@@ -226,8 +230,8 @@ const DropdownMenu = ({ menu, items, mobile }) => {
             leaveTo="lg:transform lg:opacity-0 lg:scale-95">
             <Menu.Items
               className={cx(
-                "z-20 origin-top-left rounded-md  focus:outline-hidden  lg:absolute lg:left-0  lg:w-56",
-                !mobile && "bg-white shadow-lg  dark:bg-gray-800"
+                "z-20 origin-top-left rounded-md focus:outline-hidden lg:absolute lg:left-0 lg:w-56",
+                !mobile && "bg-white shadow-lg dark:bg-gray-800"
               )}>
               <div className={cx(!mobile && "py-3")}>
                 {items.map((item, index) => (

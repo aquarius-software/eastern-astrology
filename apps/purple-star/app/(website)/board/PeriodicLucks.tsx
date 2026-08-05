@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { PurpleStarData } from "@/app/types";
 import { LunarMonth, SEXAGENARY_CYCLE } from "types";
 import { useBoardContext } from "@/context/boardContext";
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 
 export default function PeriodicLucks({
   result
@@ -89,5 +89,5 @@ export default function PeriodicLucks({
         </tbody>
       </table>
     </div>
-  )
+  );
 }

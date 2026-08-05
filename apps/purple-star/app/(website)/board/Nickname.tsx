@@ -19,7 +19,7 @@ export default function Nickname(): JSX.Element {
     if (!nameValue) {
       return true;
     }
-    const regex = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~¥]/g
+    const regex = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~¥]/g;
     if (nameValue.length > 10) {
       return "名前は10文字以内で入力してください";
     } else if (regex.test(nameValue)) {
@@ -27,7 +27,7 @@ export default function Nickname(): JSX.Element {
     } else {
       return true;
     }
-  }
+  };
 
   return (
     <>
@@ -38,10 +38,11 @@ export default function Nickname(): JSX.Element {
             入力は任意です。10文字以内で入力可能です。
           </p>
           <input
-            className={`md:w-1/2 input-text placeholder-gray-500 ${errors.nickname
-              ? "mb-3 border-red-500 focus:border-red-500"
-              : "border-gray-200"
-              }`}
+            className={`input-text placeholder-gray-500 md:w-1/2 ${
+              errors.nickname
+                ? "mb-3 border-red-500 focus:border-red-500"
+                : "border-gray-200"
+            }`}
             id="nickname"
             type="text"
             maxLength={10}
@@ -54,7 +55,8 @@ export default function Nickname(): JSX.Element {
           />
           {errors.nickname && (
             <p className="board-form-error">
-              <ExclamationCircleIcon className="error-message-icon" />{errors.nickname.message?.toString()}
+              <ExclamationCircleIcon className="error-message-icon" />
+              {errors.nickname.message?.toString()}
             </p>
           )}
         </div>

@@ -1,8 +1,8 @@
-import { minutesToMilliSeconds } from 'utils';
-import { PersonalInfo } from 'types';
-import type { ChineseDate, LanguageCode, Gender } from 'types';
-const CalendarChinese = require('date-chinese').CalendarChinese;
-import { calculateAsianAge } from 'utils';
+import { minutesToMilliSeconds } from "utils";
+import { PersonalInfo } from "types";
+import type { ChineseDate, LanguageCode, Gender } from "types";
+const CalendarChinese = require("date-chinese").CalendarChinese;
+import { calculateAsianAge } from "utils";
 
 export class PurpleStarPersonalInfo extends PersonalInfo {
   public localOffsetMinutes!: number;
@@ -21,13 +21,23 @@ export class PurpleStarPersonalInfo extends PersonalInfo {
     public useSpaceMethod: boolean,
     public school: string
   ) {
-    super(birthDate, longitude, latitude, timezoneOffset, utcOffset, dstOffset, gender, languageCode);
+    super(
+      birthDate,
+      longitude,
+      latitude,
+      timezoneOffset,
+      utcOffset,
+      dstOffset,
+      gender,
+      languageCode
+    );
   }
 
   public async init(): Promise<void> {
     // 地方時差（分）を取得
     // this.localOffsetMinutes = (this.longitude - 135) * 4;
-    this.localOffsetMinutes = this.longitude * 4 - this.utcOffset * 60;
+    this.localOffsetMinutes =
+      this.longitude * 4 - this.utcOffset * 60;
 
     // 調整後日時を取得
     this.adjustedDate = this.getAdjustedDate();
@@ -35,7 +45,9 @@ export class PurpleStarPersonalInfo extends PersonalInfo {
     // 旧暦を取得
     const adjustedChineseDate = new Date(this.adjustedDate.getTime());
     // 子時を翌日扱いとするために2時間プラス（date-chineseは北京時間を使用しているので注意）
-    adjustedChineseDate.setTime(adjustedChineseDate.getTime() + (2 * 60 * 60 * 1000));
+    adjustedChineseDate.setTime(
+      adjustedChineseDate.getTime() + 2 * 60 * 60 * 1000
+    );
     this.chineseDate = this.getChineseDate(adjustedChineseDate);
 
     // 数え年計算
@@ -54,11 +66,17 @@ export class PurpleStarPersonalInfo extends PersonalInfo {
     // 分の調整（サマータイム・地方時差）
     const timeToAdd = this.localOffsetMinutes - this.dstOffset * 60;
     const minutesToAdd = Math.floor(timeToAdd);
-    adjustedDate.setMinutes(this.birthDate.getMinutes() + minutesToAdd);
+    adjustedDate.setMinutes(
+      this.birthDate.getMinutes() + minutesToAdd
+    );
 
     // 秒の調整
-    const secondsToAdd = Math.floor((timeToAdd - Math.floor(timeToAdd)) * 60);
-    adjustedDate.setSeconds(this.birthDate.getSeconds() + secondsToAdd);
+    const secondsToAdd = Math.floor(
+      (timeToAdd - Math.floor(timeToAdd)) * 60
+    );
+    adjustedDate.setSeconds(
+      this.birthDate.getSeconds() + secondsToAdd
+    );
 
     // ミリ秒の調整（必要かどうかは微妙）
     const millisecondsToAdd = minutesToMilliSeconds(timeToAdd);
@@ -106,7 +124,7 @@ export class PurpleStarPersonalInfo extends PersonalInfo {
       adjustedDate: this.adjustedDate,
       chineseDate: this.chineseDate,
       asianAge: this.asianAge,
-      school: this.school,
+      school: this.school
     };
   }
 }

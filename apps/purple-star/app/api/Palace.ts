@@ -1,4 +1,11 @@
-import type { PalaceName, Star, YearlyFortune, Branch, Stem, BranchIndex } from 'types';
+import type {
+  PalaceName,
+  Star,
+  YearlyFortune,
+  Branch,
+  Stem,
+  BranchIndex
+} from "types";
 
 export class Palace {
   constructor(
@@ -9,7 +16,7 @@ export class Palace {
     public isMainPalace: boolean,
     public isBodyPalace: boolean,
     public boardPosition: BranchIndex
-  ) { }
+  ) {}
 
   public startingAge!: number;
   public endingAge!: number;

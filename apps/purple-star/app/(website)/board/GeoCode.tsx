@@ -15,10 +15,11 @@ export default function GeoCode() {
           緯度（自動入力）
         </label>
         <input
-          className={`input-text ${!isHourUnknown && errors.latitude
-            ? "mb-3 border-red-500"
-            : "border-gray-200"
-            }`}
+          className={`input-text ${
+            !isHourUnknown && errors.latitude
+              ? "mb-3 border-red-500"
+              : "border-gray-200"
+          }`}
           id="latitude"
           type="text"
           autoComplete="false"
@@ -38,10 +39,11 @@ export default function GeoCode() {
           経度（自動入力）
         </label>
         <input
-          className={`input-text ${!isHourUnknown && errors.longitude
-            ? "mb-3 border-red-500"
-            : "border-gray-200"
-            }`}
+          className={`input-text ${
+            !isHourUnknown && errors.longitude
+              ? "mb-3 border-red-500"
+              : "border-gray-200"
+          }`}
           id="longitude"
           type="text"
           autoComplete="false"

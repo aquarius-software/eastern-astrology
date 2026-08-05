@@ -7,7 +7,9 @@ import { PurpleStarSubmitData } from "@/app/types";
  * @param {PurpleStarSubmitData} data
  * @returns {Date}
  */
-export const generateDateFromSubmitData = (data: PurpleStarSubmitData): Date => {
+export const generateDateFromSubmitData = (
+  data: PurpleStarSubmitData
+): Date => {
   const year = Number(data.year);
   const month = Number(data.month);
   const day = Number(data.day);

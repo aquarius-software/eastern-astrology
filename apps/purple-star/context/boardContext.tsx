@@ -24,21 +24,21 @@ type BoardContextType = {
 
 const BoardContext = createContext<BoardContextType>({
   isFormView: false,
-  setIsFormView: () => { },
+  setIsFormView: () => {},
   isJapanese: false,
-  setIsJapanese: () => { },
+  setIsJapanese: () => {},
   currentMonth: null,
-  setCurrentMonth: () => { },
+  setCurrentMonth: () => {},
   currentPalace: -1,
-  setCurrentPalace: () => { },
+  setCurrentPalace: () => {},
   showChildStar: false,
-  setShowChildStar: () => { },
+  setShowChildStar: () => {},
   showSelfChildStar: false,
-  setShowSelfChildStar: () => { },
+  setShowSelfChildStar: () => {},
   showDiagonalChildStar: false,
-  setShowDiagonalChildStar: () => { },
+  setShowDiagonalChildStar: () => {},
   showMainChildStar: false,
-  setShowMainChildStar: () => { }
+  setShowMainChildStar: () => {}
 });
 
 export const BoardContextProvider = ({
@@ -53,9 +53,12 @@ export const BoardContextProvider = ({
   );
   const [currentPalace, setCurrentPalace] = useState<number>(-1);
   const [showChildStar, setShowChildStar] = useState<boolean>(true);
-  const [showSelfChildStar, setShowSelfChildStar] = useState<boolean>(false);
-  const [showDiagonalChildStar, setShowDiagonalChildStar] = useState<boolean>(false);
-  const [showMainChildStar, setShowMainChildStar] = useState<boolean>(false);
+  const [showSelfChildStar, setShowSelfChildStar] =
+    useState<boolean>(false);
+  const [showDiagonalChildStar, setShowDiagonalChildStar] =
+    useState<boolean>(false);
+  const [showMainChildStar, setShowMainChildStar] =
+    useState<boolean>(false);
 
   return (
     <BoardContext.Provider
@@ -75,7 +78,7 @@ export const BoardContextProvider = ({
         showDiagonalChildStar,
         setShowDiagonalChildStar,
         showMainChildStar,
-        setShowMainChildStar,
+        setShowMainChildStar
       }}>
       {children}
     </BoardContext.Provider>

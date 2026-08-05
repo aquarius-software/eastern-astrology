@@ -36,16 +36,16 @@ export default function Post(props) {
           }
         ]}></BreadCrumb>
       <Container className="!pt-0">
-        <div className="mx-auto max-w-(--breakpoint-md) ">
+        <div className="mx-auto max-w-(--breakpoint-md)">
           <div className="flex justify-center">
             <CategoryLabel categories={post.categories} />
           </div>
 
-          <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+          <h1 className="text-brand-primary mt-2 mb-3 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
             {post.title}
           </h1>
 
-          <div className="mt-3 flex justify-center space-x-3 text-gray-500 ">
+          <div className="mt-3 flex justify-center space-x-3 text-gray-500">
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10 flex-shrink-0">
                 {AuthorimageProps && (
@@ -104,15 +104,15 @@ export default function Post(props) {
       </div>
 
       <Container>
-        <article className="mx-auto max-w-(--breakpoint-md) ">
-          <div className="prose mx-auto my-3 dark:prose-invert prose-a:text-blue-600">
+        <article className="mx-auto max-w-(--breakpoint-md)">
+          <div className="mx-auto my-3 prose dark:prose-invert prose-a:text-blue-600">
             {post.body && <PortableText value={post.body} />}
           </div>
-          <div className="mb-7 mt-7 flex justify-center">
+          <div className="mt-7 mb-7 flex justify-center">
             <Link
               href="/"
               prefetch={false}
-              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
+              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500">
               ← ホームに戻る
             </Link>
           </div>
@@ -125,11 +125,11 @@ export default function Post(props) {
 
 const MainImage = ({ image }) => {
   return (
-    <div className="mb-12 mt-12 ">
+    <div className="mt-12 mb-12">
       <Image {...urlForImage(image)} alt={image.alt || "Thumbnail"} />
-      <figcaption className="text-center ">
+      <figcaption className="text-center">
         {image.caption && (
-          <span className="text-sm italic text-gray-600 dark:text-gray-400">
+          <span className="text-sm text-gray-600 italic dark:text-gray-400">
             {image.caption}
           </span>
         )}

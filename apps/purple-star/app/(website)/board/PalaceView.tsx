@@ -94,7 +94,7 @@ export default function PalaceView({
           // 必要なくなったのでコメントアウト
           // setCurrentPalace(mainPalacePosition);
         }}>
-        <div className="absolute left-[3%] top-[3%] place-self-center text-center text-sm font-bold text-gray-600 dark:text-white sm:text-sm md:text-lg">
+        <div className="absolute top-[3%] left-[3%] place-self-center text-center text-sm font-bold text-gray-600 sm:text-sm md:text-lg dark:text-white">
           <span className={isActiveMode ? "text-purple-500" : ""}>
             {isActiveMode && palace.activeName
               ? "大限" + palace.activeName
@@ -106,11 +106,11 @@ export default function PalaceView({
           {palace.stem}
           {palace.branch}
         </div>
-        <div className="absolute bottom-1 right-1 text-left text-xs text-indigo-700 sm:text-sm">
+        <div className="absolute right-1 bottom-1 text-left text-xs text-indigo-700 sm:text-sm">
           <span
             className={
               asianAge >= palace.startingAge &&
-                asianAge <= palace.endingAge
+              asianAge <= palace.endingAge
                 ? "rounded-md border-2 border-indigo-700 px-1"
                 : ""
             }>
@@ -135,7 +135,7 @@ export default function PalaceView({
             ))}
           {"..."}
         </div> */}
-        <div className="absolute left-1 top-[24%] text-left text-sm">
+        <div className="absolute top-[24%] left-1 text-left text-sm">
           <span className="text-xs font-bold sm:text-base">
             {palace.majorStars.map((star, i) => {
               return (
@@ -185,9 +185,9 @@ export default function PalaceView({
                         className={`font-bold ${star.childStars![activeStemIndex]!.shortName ? "rounded-full border-2 border-purple-500 px-1 text-purple-500" : ""}`}>
                         {star.childStars![activeStemIndex]!.shortName
                           ? "大限" +
-                          star.childStars![
-                            activeStemIndex
-                          ].shortName.charAt(1)
+                            star.childStars![
+                              activeStemIndex
+                            ].shortName.charAt(1)
                           : ""}
                       </span>
                     )}
@@ -242,9 +242,9 @@ export default function PalaceView({
                         className={`font-bold ${star.childStars![activeStemIndex]!.shortName ? "rounded-full border-2 border-purple-500 px-1 text-purple-500" : ""}`}>
                         {star.childStars![activeStemIndex]!.shortName
                           ? "大限" +
-                          star.childStars![
-                            activeStemIndex
-                          ].shortName.charAt(1)
+                            star.childStars![
+                              activeStemIndex
+                            ].shortName.charAt(1)
                           : ""}
                       </span>
                     )}

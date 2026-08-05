@@ -20,18 +20,21 @@ export default function SchoolSelect(): JSX.Element {
           流派
         </label>
         <p className="mb-4 text-sm text-gray-500 dark:text-gray-300">
-          現在、<span className="font-bold">星曜派</span>（三合派）と<span className="font-bold">飛星派</span>の二つの流派に対応しています。
+          現在、<span className="font-bold">星曜派</span>（三合派）と
+          <span className="font-bold">飛星派</span>
+          の二つの流派に対応しています。
         </p>
-        <div className="relative  md:w-1/2">
+        <div className="relative md:w-1/2">
           <select
             id="school"
             {...register("school", {
-              required: "流派を選択してください",
+              required: "流派を選択してください"
             })}
-            className={`input-text ${errors.school
-              ? "mb-3 border-red-500 focus:border-red-500"
-              : "border-gray-200"
-              }`}>
+            className={`input-text ${
+              errors.school
+                ? "mb-3 border-red-500 focus:border-red-500"
+                : "border-gray-200"
+            }`}>
             {SCHOOLS.map(school => (
               <option key={school.value} value={school.value}>
                 {school.name}
@@ -49,6 +52,6 @@ export default function SchoolSelect(): JSX.Element {
           </p>
         )}
       </div>
-    </div >
+    </div>
   );
 }

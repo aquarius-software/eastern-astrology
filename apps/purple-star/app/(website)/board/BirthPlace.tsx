@@ -32,11 +32,14 @@ export default function BirthPlace({
             <span className="font-bold">地域名を選択</span>
             する方法と、
             <span className="font-bold">地域名を直接入力</span>
-            する方法の二つがあります。<strong>詳細な出生地</strong>を入力したい場合、もしくは<strong>出生地が海外の場合</strong>は、地域名を直接入力してください。
+            する方法の二つがあります。<strong>詳細な出生地</strong>
+            を入力したい場合、もしくは
+            <strong>出生地が海外の場合</strong>
+            は、地域名を直接入力してください。
           </p>
         </div>
       </div>
-      <div className="w-full mb-8">
+      <div className="mb-8 w-full">
         <Card className="max-w-full" shadow="sm" radius="sm">
           <CardBody className="overflow-hidden">
             <Tabs aria-label="Tabs" fullWidth size="md">
@@ -45,7 +48,8 @@ export default function BirthPlace({
               </Tab>
               <Tab key="auto-complete" title="地域名を入力">
                 {isLoaded && (
-                  <LocationAutocomplete digits={digits}></LocationAutocomplete>
+                  <LocationAutocomplete
+                    digits={digits}></LocationAutocomplete>
                 )}
               </Tab>
             </Tabs>
