@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect, type JSX } from "react";
 import { PurpleStarData } from "@/app/types";
@@ -32,8 +32,9 @@ export default function MonthlyLucks({
 
   const localDateStr = (dateStr: string) => {
     const date = new Date(dateStr);
-    return `${date.getFullYear()}年${date.getMonth() + 1
-      }月${date.getDate()}日`;
+    return `${date.getFullYear()}年${
+      date.getMonth() + 1
+    }月${date.getDate()}日`;
   };
 
   const findPalace = (month: LunarMonth): Palace | undefined => {
@@ -95,36 +96,40 @@ export default function MonthlyLucks({
                   {SEXAGENARY_CYCLE[year - 1].branch}年・{bcYear}〜
                   {bcYear + 1}）
                 </span>
-                <div className="flex w-full justify-start md:justify-end gap-3">
+                <div className="flex w-full justify-start gap-3 md:justify-end">
                   {/* Previous Button */}
                   {lowestBcYear <
-                    fromChineseYearToBcYear(cycle, year) ? (
-                    <Button onClick={e => {
-                      e.preventDefault();
-                      let prevYear = year - 1;
-                      if (prevYear < 1) {
-                        prevYear = 60;
-                        setCycle(cycle - 1);
-                      }
-                      setYear(prevYear);
-                      setBcYear(bcYear - 1);
-                    }}>前の年
+                  fromChineseYearToBcYear(cycle, year) ? (
+                    <Button
+                      onClick={e => {
+                        e.preventDefault();
+                        let prevYear = year - 1;
+                        if (prevYear < 1) {
+                          prevYear = 60;
+                          setCycle(cycle - 1);
+                        }
+                        setYear(prevYear);
+                        setBcYear(bcYear - 1);
+                      }}>
+                      前の年
                     </Button>
                   ) : (
                     ""
                   )}
                   {highestBcYear >
-                    fromChineseYearToBcYear(cycle, year) ? (
-                    <Button onClick={e => {
-                      e.preventDefault();
-                      let nextYear = year + 1;
-                      if (nextYear > 60) {
-                        nextYear = 1;
-                        setCycle(cycle + 1);
-                      }
-                      setYear(nextYear);
-                      setBcYear(bcYear + 1);
-                    }}>次の年
+                  fromChineseYearToBcYear(cycle, year) ? (
+                    <Button
+                      onClick={e => {
+                        e.preventDefault();
+                        let nextYear = year + 1;
+                        if (nextYear > 60) {
+                          nextYear = 1;
+                          setCycle(cycle + 1);
+                        }
+                        setYear(nextYear);
+                        setBcYear(bcYear + 1);
+                      }}>
+                      次の年
                     </Button>
                   ) : (
                     ""
@@ -149,8 +154,9 @@ export default function MonthlyLucks({
           {months.map((month: LunarMonth, i: number) => (
             <tr
               key={i}
-              className={`divide-x divide-y dark:divide-gray-700 dark:text-gray-300 ${month.isCurrentMonth ? "bg-gray-200" : "bg-white"
-                } `}>
+              className={`divide-x divide-y dark:divide-gray-700 dark:text-gray-300 ${
+                month.isCurrentMonth ? "bg-gray-200" : "bg-white"
+              } `}>
               <td className="table-cell-content text-left">
                 {month.monthIndex}月
                 {month.isLeap ? `・閏${month.monthIndex}月` : ""}

@@ -13,19 +13,22 @@ import LoadingChart from "./LoadingChart";
 import ErrorView from "ui/ErrorView";
 import { SpinnerIcon } from "ui";
 import { useRouter } from "next/navigation";
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardContext } from "@/context/boardContext";
 import { Button } from "@heroui/react";
 import { generateUrlFromData } from "@/utils/url";
 import { generateDateFromSubmitData } from "@/utils/utils";
 import BreadCrumb from "ui/Breadcrumbs";
 
-const LOCATION_DIGITS: number = parseInt(process.env.NEXT_PUBLIC_LOCATION_DIGITS || "3");
+const LOCATION_DIGITS: number = parseInt(
+  process.env.NEXT_PUBLIC_LOCATION_DIGITS || "3"
+);
 
 export default function Board(): JSX.Element {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [result, setResult] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState("");
-  const { isFormView, setIsFormView, isJapanese, setIsJapanese } = useBoardContext();
+  const { isFormView, setIsFormView, isJapanese, setIsJapanese } =
+    useBoardContext();
 
   const router = useRouter();
 
@@ -44,7 +47,7 @@ export default function Board(): JSX.Element {
       minute: "0",
       cityCode: 13,
       latitude: 35.69,
-      longitude: 139.70,
+      longitude: 139.7
     }
   });
 
@@ -64,7 +67,13 @@ export default function Board(): JSX.Element {
       setIsFormView(true);
     }
     setIsJapanese(true);
-  }, [isFormView, setIsFormView, isSuccess, isSubmitSuccessful, reset])
+  }, [
+    isFormView,
+    setIsFormView,
+    isSuccess,
+    isSubmitSuccessful,
+    reset
+  ]);
 
   // URLが準備できたらリダイレクト
   useEffect(() => {
@@ -81,7 +90,9 @@ export default function Board(): JSX.Element {
    * @param {PurpleStarSubmitData} data
    * @returns {Promise<void>}
    */
-  const onSubmitToNewPage = async (data: PurpleStarSubmitData): Promise<void> => {
+  const onSubmitToNewPage = async (
+    data: PurpleStarSubmitData
+  ): Promise<void> => {
     if (data.botcheck) {
       // Form submission is spam
       return;
@@ -98,11 +109,17 @@ export default function Board(): JSX.Element {
       // 海外の命盤の場合はTime Zone APIを呼び出す
       if (!isJapanese) {
         const isoDate = generateDateFromSubmitData(data);
-        const latitude = Number(data.latitude).toFixed(LOCATION_DIGITS);
-        const longitude = Number(data.longitude).toFixed(LOCATION_DIGITS);
+        const latitude = Number(data.latitude).toFixed(
+          LOCATION_DIGITS
+        );
+        const longitude = Number(data.longitude).toFixed(
+          LOCATION_DIGITS
+        );
         const timestamp = isoDate.getTime() / 1000;
         if (!latitude || !longitude || !timestamp) {
-          throw new Error("Necessary parameters for Time Zone API are missing.");
+          throw new Error(
+            "Necessary parameters for Time Zone API are missing."
+          );
         }
         // const googleMapsUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${latitude}%2C${longitude}&timestamp=${timestamp.toString()}&language=ja&key=${process.env.NEXT_PUBLIC_GOOGLE_TIMEZONE_API_KEY}`;
         // const response = await fetch(googleMapsUrl);
@@ -112,7 +129,7 @@ export default function Board(): JSX.Element {
             body: JSON.stringify({
               timestamp,
               latitude,
-              longitude,
+              longitude
             }),
             headers: {
               "Content-Type": "application/json"
@@ -154,20 +171,18 @@ export default function Board(): JSX.Element {
             path: "/board"
           }
         ]}></BreadCrumb>
-      {isSuccess && (
-        <LoadingChart></LoadingChart>
-      )}
+      {isSuccess && <LoadingChart></LoadingChart>}
       {isSubmitSuccessful && isSuccess && result && (
         // grid-template-columns: repeat(autofit, minmax(25rem, 1fr));
-        (<ResultView result={result}></ResultView>)
+        <ResultView result={result}></ResultView>
       )}
       {isSubmitSuccessful && !isSuccess && (
         <ErrorView message="エラーが発生しました。しばらくしてから操作し直してください。"></ErrorView>
       )}
       {!isSubmitSuccessful && !isSuccess && (
-        <div className="flex flex-col items-center mx-2">
-          <div className="flex w-full max-w-2xl flex-col rounded-lg bg-white shadow dark:bg-gray-800 sm:w-11/12 md:w-9/12 lg:w-7/12 xl:w-6/12">
-            <h1 className="text-brand-primary mb-3 mt-12 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+        <div className="mx-2 flex flex-col items-center">
+          <div className="flex w-full max-w-2xl flex-col rounded-lg bg-white shadow sm:w-11/12 md:w-9/12 lg:w-7/12 xl:w-6/12 dark:bg-gray-800">
+            <h1 className="text-brand-primary mt-12 mb-3 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
               命盤作成
             </h1>
             <div className="text-center">
@@ -184,8 +199,7 @@ export default function Board(): JSX.Element {
                     type="hidden"
                     id=""
                     style={{ display: "none" }}
-                    {...register("botcheck")}>
-                  </input>
+                    {...register("botcheck")}></input>
                   <div className="mb-10">
                     <DateTime></DateTime>
                   </div>
@@ -201,7 +215,7 @@ export default function Board(): JSX.Element {
                   <div className="mb-10">
                     <AdvancedSettings></AdvancedSettings>
                   </div>
-                  <div className="w-10/12 mx-auto mb-20 flex flex-wrap">
+                  <div className="mx-auto mb-20 flex w-10/12 flex-wrap">
                     <div className="w-full px-3">
                       <Button
                         type="submit"
@@ -221,9 +235,8 @@ export default function Board(): JSX.Element {
               </FormProvider>
             </div>
           </div>
-        </div >
-      )
-      }
+        </div>
+      )}
     </>
   );
 }

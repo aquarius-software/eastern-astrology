@@ -23,15 +23,12 @@ export default function ResultView({ result }: PurpleStarProps) {
       <div className="flex flex-col gap-6">
         <ResultBoard result={result}></ResultBoard>
         <PalaceDetail palaces={palaces}></PalaceDetail>
-        <MonthlyLucks
-          result={result}></MonthlyLucks>
+        <MonthlyLucks result={result}></MonthlyLucks>
       </div>
       <div className="flex flex-col gap-6">
-        <ResultInfo
-          result={result}></ResultInfo>
+        <ResultInfo result={result}></ResultInfo>
         {isFutureDate() ? (
-          <PeriodicLucks
-            result={result}></PeriodicLucks>
+          <PeriodicLucks result={result}></PeriodicLucks>
         ) : (
           ""
         )}

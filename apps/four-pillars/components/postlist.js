@@ -28,7 +28,7 @@ export default function PostList({
         )}>
         <div
           className={cx(
-            " overflow-hidden rounded-md bg-gray-100 transition-all hover:scale-105   dark:bg-gray-800"
+            "overflow-hidden rounded-md bg-gray-100 transition-all hover:scale-105 dark:bg-gray-800"
           )}>
           <Link
             prefetch={false}
@@ -57,7 +57,7 @@ export default function PostList({
                 sizes="(max-width: 768px) 30vw, 33vw"
               />
             ) : (
-              <span className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 text-gray-200">
+              <span className="absolute top-1/2 left-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 text-gray-200">
                 <PhotoIcon />
               </span>
             )}
@@ -78,23 +78,16 @@ export default function PostList({
                     ? "text-3xl"
                     : "text-lg",
                 fontWeight === "normal"
-                  ? "line-clamp-2 font-medium  tracking-normal text-black"
-                  : "font-semibold leading-snug tracking-tight",
-                "mt-2    dark:text-white"
+                  ? "line-clamp-2 font-medium tracking-normal text-black"
+                  : "leading-snug font-semibold tracking-tight",
+                "mt-2 dark:text-white"
               )}>
               <Link
                 prefetch={false}
                 href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${
                   post.slug.current
                 }`}>
-                <span
-                  className="bg-gradient-to-r from-green-200 to-green-100 bg-[length:0px_10px] bg-left-bottom
-      bg-no-repeat
-      transition-[background-size]
-      duration-500
-      hover:bg-[length:100%_3px]
-      group-hover:bg-[length:100%_10px]
-      dark:from-purple-800 dark:to-purple-900">
+                <span className="bg-gradient-to-r from-green-200 to-green-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_10px] hover:bg-[length:100%_3px] dark:from-purple-800 dark:to-purple-900">
                   {post.title}
                 </span>
               </Link>

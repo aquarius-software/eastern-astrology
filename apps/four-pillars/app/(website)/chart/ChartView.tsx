@@ -111,17 +111,17 @@ export default function ChartView({
           className={`w-full border-collapse border border-slate-400 text-sm shadow md:text-base ${ship.variable}`}>
           <thead>
             <tr>
-              <th className="w-[16%] border border-slate-300 bg-gray-100 dark:bg-gray-600 md:w-[12%]"></th>
-              <th className="w-[21%] border border-slate-300 bg-gray-100 dark:bg-gray-600 md:w-[22%]">
+              <th className="w-[16%] border border-slate-300 bg-gray-100 md:w-[12%] dark:bg-gray-600"></th>
+              <th className="w-[21%] border border-slate-300 bg-gray-100 md:w-[22%] dark:bg-gray-600">
                 時柱
               </th>
-              <th className="w-[21%] border border-slate-300 bg-gray-100 dark:bg-gray-600 md:w-[22%]">
+              <th className="w-[21%] border border-slate-300 bg-gray-100 md:w-[22%] dark:bg-gray-600">
                 日柱
               </th>
-              <th className="w-[21%] border border-slate-300 bg-gray-100 dark:bg-gray-600 md:w-[22%]">
+              <th className="w-[21%] border border-slate-300 bg-gray-100 md:w-[22%] dark:bg-gray-600">
                 月柱
               </th>
-              <th className="w-[21%] border border-slate-300 bg-gray-100 dark:bg-gray-600 md:w-[22%]">
+              <th className="w-[21%] border border-slate-300 bg-gray-100 md:w-[22%] dark:bg-gray-600">
                 年柱
               </th>
             </tr>
@@ -133,15 +133,17 @@ export default function ChartView({
               </td>
               {!isHourUnknown ? (
                 <td
-                  className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor && hourStem!.elementId !== undefined
-                    ? colors[hourStem!.elementId]
-                    : plainColor
-                    }${hourStem!.roots!.some(
+                  className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                    showWithColor && hourStem!.elementId !== undefined
+                      ? colors[hourStem!.elementId]
+                      : plainColor
+                  }${
+                    hourStem!.roots!.some(
                       root => root === currentBranch
                     )
-                      ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                      ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                       : ""
-                    }`}
+                  }`}
                   onMouseEnter={() =>
                     setCurrentRoots(hourStem?.roots)
                   }
@@ -180,13 +182,15 @@ export default function ChartView({
                 </td>
               )}
               <td
-                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor && dayStem!.elementId !== undefined
-                  ? colors[dayStem!.elementId]
-                  : plainColor
-                  }${dayStem!.roots!.some(root => root === currentBranch)
-                    ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                  showWithColor && dayStem!.elementId !== undefined
+                    ? colors[dayStem!.elementId]
+                    : plainColor
+                }${
+                  dayStem!.roots!.some(root => root === currentBranch)
+                    ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                     : ""
-                  }`}
+                }`}
                 onMouseEnter={() => setCurrentRoots(dayStem?.roots)}
                 onMouseLeave={() => setCurrentRoots([])}
                 data-tooltip-id={"dayStemTooltip"}
@@ -205,15 +209,17 @@ export default function ChartView({
                 />
               </td>
               <td
-                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor && monthStem!.elementId !== undefined
-                  ? colors[monthStem!.elementId]
-                  : plainColor
-                  }${monthStem!.roots!.some(
+                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                  showWithColor && monthStem!.elementId !== undefined
+                    ? colors[monthStem!.elementId]
+                    : plainColor
+                }${
+                  monthStem!.roots!.some(
                     root => root === currentBranch
                   )
-                    ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                    ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                     : ""
-                  }`}
+                }`}
                 onMouseEnter={() => setCurrentRoots(monthStem?.roots)}
                 onMouseLeave={() => setCurrentRoots([])}
                 data-tooltip-id={"monthStemTooltip"}
@@ -234,15 +240,17 @@ export default function ChartView({
                 />
               </td>
               <td
-                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor && yearStem!.elementId !== undefined
-                  ? colors[yearStem!.elementId]
-                  : plainColor
-                  }${yearStem!.roots!.some(
+                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                  showWithColor && yearStem!.elementId !== undefined
+                    ? colors[yearStem!.elementId]
+                    : plainColor
+                }${
+                  yearStem!.roots!.some(
                     root => root === currentBranch
                   )
-                    ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                    ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                     : ""
-                  }`}
+                }`}
                 onMouseEnter={() => setCurrentRoots(yearStem?.roots)}
                 onMouseLeave={() => setCurrentRoots([])}
                 data-tooltip-id={"yearStemTooltip"}
@@ -336,16 +344,18 @@ export default function ChartView({
               </td>
               {!isHourUnknown ? (
                 <td
-                  className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor &&
+                  className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                    showWithColor &&
                     hourBranch!.elementId !== undefined
-                    ? colors[hourBranch!.elementId]
-                    : plainColor
-                    }${currentRoots?.some(
+                      ? colors[hourBranch!.elementId]
+                      : plainColor
+                  }${
+                    currentRoots?.some(
                       root => root === hourBranch?.value
                     )
-                      ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                      ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                       : ""
-                    }`}
+                  }`}
                   onMouseEnter={() =>
                     setCurrentBranch(hourBranch?.value)
                   }
@@ -381,15 +391,17 @@ export default function ChartView({
                 </td>
               )}
               <td
-                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor && dayBranch!.elementId !== undefined
-                  ? colors[dayBranch!.elementId]
-                  : plainColor
-                  }${currentRoots?.some(
+                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                  showWithColor && dayBranch!.elementId !== undefined
+                    ? colors[dayBranch!.elementId]
+                    : plainColor
+                }${
+                  currentRoots?.some(
                     root => root === dayBranch?.value
                   )
-                    ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                    ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                     : ""
-                  }`}
+                }`}
                 onMouseEnter={() =>
                   setCurrentBranch(dayBranch?.value)
                 }
@@ -412,16 +424,18 @@ export default function ChartView({
                 />
               </td>
               <td
-                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#9ca3af] ${showWithColor &&
+                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#9ca3af] ${
+                  showWithColor &&
                   monthBranch!.elementId !== undefined
-                  ? colors[monthBranch!.elementId]
-                  : plainColor
-                  }${currentRoots?.some(
+                    ? colors[monthBranch!.elementId]
+                    : plainColor
+                }${
+                  currentRoots?.some(
                     root => root === monthBranch?.value
                   )
-                    ? " shadow-[inset_0_0_0_4px_#9ca3af]"
+                    ? "shadow-[inset_0_0_0_4px_#9ca3af]"
                     : ""
-                  }`}
+                }`}
                 onMouseEnter={() =>
                   setCurrentBranch(monthBranch?.value)
                 }
@@ -445,15 +459,17 @@ export default function ChartView({
                 />
               </td>
               <td
-                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${showWithColor && yearBranch!.elementId !== undefined
-                  ? colors[yearBranch!.elementId]
-                  : plainColor
-                  }${currentRoots?.some(
+                className={`border border-slate-300 hover:shadow-[inset_0_0_0_4px_#d1d5db] ${
+                  showWithColor && yearBranch!.elementId !== undefined
+                    ? colors[yearBranch!.elementId]
+                    : plainColor
+                }${
+                  currentRoots?.some(
                     root => root === yearBranch?.value
                   )
-                    ? " shadow-[inset_0_0_0_4px_#d1d5db]"
+                    ? "shadow-[inset_0_0_0_4px_#d1d5db]"
                     : ""
-                  }`}
+                }`}
                 onMouseEnter={() =>
                   setCurrentBranch(yearBranch?.value)
                 }
@@ -556,10 +572,11 @@ export default function ChartView({
                     hourBranch!.hiddenStems!.map(
                       (stem, i: number) => (
                         <span
-                          className={`inline-block ${stem.inProgress
-                            ? "font-bold"
-                            : "font-normal"
-                            }`}
+                          className={`inline-block ${
+                            stem.inProgress
+                              ? "font-bold"
+                              : "font-normal"
+                          }`}
                           key={i}>
                           {stem.changingStar}&nbsp;
                         </span>
@@ -570,10 +587,11 @@ export default function ChartView({
                   {dayBranch &&
                     dayBranch!.hiddenStems!.map((stem, i: number) => (
                       <span
-                        className={`inline-block ${stem.inProgress
-                          ? "font-bold"
-                          : "font-normal"
-                          }`}
+                        className={`inline-block ${
+                          stem.inProgress
+                            ? "font-bold"
+                            : "font-normal"
+                        }`}
                         key={i}>
                         {stem.changingStar}&nbsp;
                       </span>
@@ -584,10 +602,11 @@ export default function ChartView({
                     monthBranch!.hiddenStems!.map(
                       (stem, i: number) => (
                         <span
-                          className={`inline-block ${stem.inProgress
-                            ? "font-bold"
-                            : "font-normal"
-                            }`}
+                          className={`inline-block ${
+                            stem.inProgress
+                              ? "font-bold"
+                              : "font-normal"
+                          }`}
                           key={i}>
                           {stem.changingStar}&nbsp;
                         </span>
@@ -599,10 +618,11 @@ export default function ChartView({
                     yearBranch!.hiddenStems!.map(
                       (stem, i: number) => (
                         <span
-                          className={`inline-block ${stem.inProgress
-                            ? "font-bold"
-                            : "font-normal"
-                            }`}
+                          className={`inline-block ${
+                            stem.inProgress
+                              ? "font-bold"
+                              : "font-normal"
+                          }`}
                           key={i}>
                           {stem.changingStar}&nbsp;
                         </span>

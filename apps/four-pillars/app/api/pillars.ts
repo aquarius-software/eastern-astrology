@@ -7,8 +7,8 @@ import {
   SEASONAL_COMBINATIONS_HALF,
   PUNISHMENTS,
   SEXAGENARY_CYCLE
-} from 'types';
-import { makePairs } from 'utils';
+} from "types";
+import { makePairs } from "utils";
 import type {
   SeasonalBranchCombination,
   HarmonyBranchCombination,
@@ -28,8 +28,8 @@ import type {
   Branch,
   SexagenaryCycle,
   BranchPunishmentName
-} from 'types';
-import { HeavenlyStem, EarthlyBranch } from 'types';
+} from "types";
+import { HeavenlyStem, EarthlyBranch } from "types";
 
 /**
  * 年干支を取得
@@ -139,7 +139,9 @@ export const getHourPillar = (
   let group = heavenlyStem.group! - 1;
   if (hour === 23) {
     // 夜子時の場合
-    group = changeDayStem ? heavenlyStem.group! - 1 : heavenlyStem.group! % 5;
+    group = changeDayStem
+      ? heavenlyStem.group! - 1
+      : heavenlyStem.group! % 5;
   }
 
   // 時干支を決定
@@ -161,11 +163,13 @@ export const getThreeHarmonyBranches = (
 ): HarmonyBranchCombination | undefined => {
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
-    ''
+    ""
   );
 
   return HARMONY_COMBINATIONS.find(combination => {
-    return combination.branches.every(branch => branchStr.includes(branch));
+    return combination.branches.every(branch =>
+      branchStr.includes(branch)
+    );
   });
 };
 
@@ -180,12 +184,16 @@ export const getTwoHarmonyBranches = (
 ): HarmonyBranchCombination[] => {
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
-    ''
+    ""
   );
 
-  const twoHarmonyBranches = HARMONY_COMBINATIONS_HALF.filter(combination => {
-    return combination.branches.every(branch => branchStr.includes(branch));
-  });
+  const twoHarmonyBranches = HARMONY_COMBINATIONS_HALF.filter(
+    combination => {
+      return combination.branches.every(branch =>
+        branchStr.includes(branch)
+      );
+    }
+  );
   return twoHarmonyBranches;
 };
 
@@ -207,7 +215,7 @@ export const getTwoHarmonyBranchesWithDecadeLuck = (
   // 命式の地支を連結した文字列を生成
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
-    ''
+    ""
   );
 
   return HARMONY_COMBINATIONS_HALF.filter(combination => {
@@ -239,11 +247,13 @@ export const getThreeSeasonalBranches = (
 ): SeasonalBranchCombination | undefined => {
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
-    ''
+    ""
   );
 
   return SEASONAL_COMBINATIONS.find(combination => {
-    return combination.branches.every(branch => branchStr.includes(branch));
+    return combination.branches.every(branch =>
+      branchStr.includes(branch)
+    );
   });
 };
 
@@ -258,11 +268,13 @@ export const getTwoSeasonalBranches = (
 ): SeasonalBranchCombination[] => {
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
-    ''
+    ""
   );
 
   return SEASONAL_COMBINATIONS_HALF.filter(combination => {
-    return combination.branches.every(branch => branchStr.includes(branch));
+    return combination.branches.every(branch =>
+      branchStr.includes(branch)
+    );
   });
 };
 
@@ -284,7 +296,7 @@ export const getTwoSeasonalBranchesWithDecadeLuck = (
   // 命式の地支を連結した文字列を生成
   const branchStr = branches.reduce(
     (prev: string, curr) => prev + curr.value,
-    ''
+    ""
   );
 
   return SEASONAL_COMBINATIONS_HALF.filter(combination => {
@@ -313,7 +325,9 @@ export const getTwoSeasonalBranchesWithDecadeLuck = (
  * @param {EarthlyBranch[]} branches
  * @returns {BranchPair[]}
  */
-export const getBranchPairs = (branches: EarthlyBranch[]): BranchPair[] => {
+export const getBranchPairs = (
+  branches: EarthlyBranch[]
+): BranchPair[] => {
   branches = branches.map(branch => {
     return {
       index: branch.index,
@@ -336,7 +350,7 @@ export const getBranchPairs = (branches: EarthlyBranch[]): BranchPair[] => {
     const sortedBranchPair = EarthlyBranch.sort(pair);
     const pairStr = sortedBranchPair
       .map(p => p.value)
-      .join('') as BranchPairName;
+      .join("") as BranchPairName;
     return {
       name: pairStr,
       pair
@@ -352,7 +366,9 @@ export const getBranchPairs = (branches: EarthlyBranch[]): BranchPair[] => {
  * @param {EarthlyBranch[]} branches
  * @returns {BranchClash[]}
  */
-export const getBranchClashes = (branches: EarthlyBranch[]): BranchClash[] => {
+export const getBranchClashes = (
+  branches: EarthlyBranch[]
+): BranchClash[] => {
   branches = branches.map(branch => {
     return {
       index: branch.index,
@@ -365,7 +381,8 @@ export const getBranchClashes = (branches: EarthlyBranch[]): BranchClash[] => {
   const pairs = branchPairs.filter(pair => {
     return EARTHLY_BRANCHES.some(
       branchObj =>
-        branchObj.value === pair[0].value && branchObj.clash === pair[1].value
+        branchObj.value === pair[0].value &&
+        branchObj.clash === pair[1].value
     );
   });
 
@@ -374,7 +391,7 @@ export const getBranchClashes = (branches: EarthlyBranch[]): BranchClash[] => {
     const sortedBranchPair = EarthlyBranch.sort(pair);
     const pairStr = sortedBranchPair
       .map(p => p.value)
-      .join('') as BranchClashName;
+      .join("") as BranchClashName;
     return {
       name: pairStr,
       pair
@@ -390,7 +407,9 @@ export const getBranchClashes = (branches: EarthlyBranch[]): BranchClash[] => {
  * @param {EarthlyBranch[]} branches
  * @returns {BranchBreak[]}
  */
-export const getBranchBreaks = (branches: EarthlyBranch[]): BranchBreak[] => {
+export const getBranchBreaks = (
+  branches: EarthlyBranch[]
+): BranchBreak[] => {
   branches = branches.map(branch => {
     return {
       index: branch.index,
@@ -403,7 +422,8 @@ export const getBranchBreaks = (branches: EarthlyBranch[]): BranchBreak[] => {
   const pairs = branchPairs.filter(pair => {
     return EARTHLY_BRANCHES.some(
       branchObj =>
-        branchObj.value === pair[0].value && branchObj.break === pair[1].value
+        branchObj.value === pair[0].value &&
+        branchObj.break === pair[1].value
     );
   });
 
@@ -412,7 +432,7 @@ export const getBranchBreaks = (branches: EarthlyBranch[]): BranchBreak[] => {
     const sortedBranchPair = EarthlyBranch.sort(pair);
     const pairStr = sortedBranchPair
       .map(p => p.value)
-      .join('') as BranchBreakName;
+      .join("") as BranchBreakName;
     return {
       name: pairStr,
       pair
@@ -428,7 +448,9 @@ export const getBranchBreaks = (branches: EarthlyBranch[]): BranchBreak[] => {
  * @param {EarthlyBranch[]} branches
  * @returns {BranchHarm[]}
  */
-export const getBranchHarms = (branches: EarthlyBranch[]): BranchHarm[] => {
+export const getBranchHarms = (
+  branches: EarthlyBranch[]
+): BranchHarm[] => {
   branches = branches.map(branch => {
     return {
       index: branch.index,
@@ -441,7 +463,8 @@ export const getBranchHarms = (branches: EarthlyBranch[]): BranchHarm[] => {
   const pairs = branchPairs.filter(pair => {
     return EARTHLY_BRANCHES.some(
       branchObj =>
-        branchObj.value === pair[0].value && branchObj.harm === pair[1].value
+        branchObj.value === pair[0].value &&
+        branchObj.harm === pair[1].value
     );
   });
 
@@ -450,7 +473,7 @@ export const getBranchHarms = (branches: EarthlyBranch[]): BranchHarm[] => {
     const sortedBranchPair = EarthlyBranch.sort(pair);
     const pairStr = sortedBranchPair
       .map(p => p.value)
-      .join('') as BranchHarmName;
+      .join("") as BranchHarmName;
     return {
       name: pairStr,
       pair
@@ -482,12 +505,14 @@ export const getBranchPunishments = (
   branchPairs.forEach(pair => {
     const punishment = PUNISHMENTS.find(
       p =>
-        (p.branches[0] === pair[0].value && p.branches[1] === pair[1].value) ||
-        (p.branches[0] === pair[1].value && p.branches[1] === pair[0].value)
+        (p.branches[0] === pair[0].value &&
+          p.branches[1] === pair[1].value) ||
+        (p.branches[0] === pair[1].value &&
+          p.branches[1] === pair[0].value)
     );
     if (punishment) {
       const punishmentName = punishment.branches.join(
-        ''
+        ""
       ) as BranchPunishmentName;
       punishments.push({
         name: punishmentName,
@@ -521,14 +546,17 @@ export const getStemPairs = (stems: HeavenlyStem[]): StemPair[] => {
   const pairs = stemPairs.filter(pair => {
     return HEAVENLY_STEMS.some(
       stemObj =>
-        stemObj.value === pair[0].value && stemObj.combination === pair[1].value
+        stemObj.value === pair[0].value &&
+        stemObj.combination === pair[1].value
     );
   });
 
   return pairs.map(pair => {
     // 干のペアを陽干・陰干の順でソート
     const sortedStemPair = HeavenlyStem.sort(pair);
-    const pairStr = sortedStemPair.map(p => p.value).join('') as StemPairName;
+    const pairStr = sortedStemPair
+      .map(p => p.value)
+      .join("") as StemPairName;
     return {
       name: pairStr,
       pair
@@ -543,8 +571,11 @@ export const getStemPairs = (stems: HeavenlyStem[]): StemPair[] => {
  * @param {Stem} partnerStem 日干と比較対象となる干
  * @returns {string}
  */
-export const getChangingStar = (dayStem: Stem, partnerStem: Stem): string => {
-  if (!dayStem || !partnerStem) return '';
+export const getChangingStar = (
+  dayStem: Stem,
+  partnerStem: Stem
+): string => {
+  if (!dayStem || !partnerStem) return "";
   const stemObj = HEAVENLY_STEMS.find(stem => stem.value === dayStem);
   const changingStar = stemObj!.changingStars!.find(
     cs => cs.partner === partnerStem
@@ -562,9 +593,9 @@ export const getChangingStar = (dayStem: Stem, partnerStem: Stem): string => {
 export const getTwelveLuck = (
   dayStem: Stem,
   partnerBranch: Branch
-): TwelveLuckName | '' => {
+): TwelveLuckName | "" => {
   if (!dayStem || !partnerBranch) {
-    return '';
+    return "";
   }
   const stemObj = HEAVENLY_STEMS.find(stem => stem.value === dayStem);
   const twelveLuck = stemObj!.twelveLucks!.find(

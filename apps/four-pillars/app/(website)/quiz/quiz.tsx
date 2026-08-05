@@ -28,7 +28,9 @@ function Quiz() {
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<
     number | null
   >(null);
-  const [timer, setTimer] = useState<number>(QUESTION_SECONDS * NUMBER_OF_QUESTIONS);
+  const [timer, setTimer] = useState<number>(
+    QUESTION_SECONDS * NUMBER_OF_QUESTIONS
+  );
   const [result, setResult] = useState({
     score: 0,
     correctAnswers: 0,
@@ -51,10 +53,10 @@ function Quiz() {
     setResult(prev =>
       selectedAnswer
         ? {
-          ...prev,
-          score: prev.score + CORRECT_ANSWER_SCORE,
-          correctAnswers: prev.correctAnswers + 1
-        }
+            ...prev,
+            score: prev.score + CORRECT_ANSWER_SCORE,
+            correctAnswers: prev.correctAnswers + 1
+          }
         : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
     );
     if (activeQuestion !== questions.length - 1) {
@@ -72,7 +74,9 @@ function Quiz() {
     setShowStartScreen(false);
     setShowResult(false);
     setActiveQuestion(0);
-    setQuestions(shuffle(QuizData.questions).slice(0, NUMBER_OF_QUESTIONS));
+    setQuestions(
+      shuffle(QuizData.questions).slice(0, NUMBER_OF_QUESTIONS)
+    );
     setTimer(QUESTION_SECONDS * NUMBER_OF_QUESTIONS);
   };
 
@@ -83,7 +87,9 @@ function Quiz() {
     setShowStartScreen(true);
     setShowResult(false);
     setActiveQuestion(0);
-    setQuestions(shuffle(QuizData.questions).slice(0, NUMBER_OF_QUESTIONS));
+    setQuestions(
+      shuffle(QuizData.questions).slice(0, NUMBER_OF_QUESTIONS)
+    );
     setResult({
       score: 0,
       correctAnswers: 0,
@@ -139,11 +145,11 @@ function Quiz() {
   }, [timer, setTimer]);
 
   return (
-    <div className="mb-4 mt-8 w-11/12 max-w-3xl md:w-7/12 lg:w-4/12">
-      <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+    <div className="mt-8 mb-4 w-11/12 max-w-3xl md:w-7/12 lg:w-4/12">
+      <h1 className="text-brand-primary mt-2 mb-3 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
         四柱推命クイズ
       </h1>
-      <h2 className="mb-2 text-center text-sm dark:text-white sm:text-base">
+      <h2 className="mb-2 text-center text-sm sm:text-base dark:text-white">
         四柱推命に関するクイズを出題します。
       </h2>
 
@@ -155,14 +161,15 @@ function Quiz() {
           <div className="px-8 py-6">
             {showStartScreen && (
               <div className="flex flex-col justify-center">
-                <p className="mb-2 text-lg dark:text-white sm:text-lg">
+                <p className="mb-2 text-lg sm:text-lg dark:text-white">
                   <span className="font-bold">四柱推命</span>
                   に関するクイズを、ランダムに出題します。4択の中から解答を選択し、ボタンを押して次の問題に進みます。合計
                   <span className="font-bold">
                     {questions.length}問
                   </span>
-                  、制限時間は<span className="font-bold">10分</span>、
-                  合格ラインは<span className="font-bold">80点</span>です。
+                  、制限時間は<span className="font-bold">10分</span>
+                  、 合格ラインは
+                  <span className="font-bold">80点</span>です。
                 </p>
                 <p className="mb-2 text-lg dark:text-white">
                   四柱推命を学習中の方も、四柱推命プロ鑑定士の方も、腕試しとしてぜひ挑戦してみてください！
@@ -232,9 +239,9 @@ function Quiz() {
                   {result.score >= PASSING_GRADE
                     ? "おめでとうございます！合格ラインに達しました。四柱推命に関する素晴らしい知識をお持ちですね。"
                     : `お疲れ様でした。合格ラインまであと${PASSING_GRADE - result.score}点です。`}
-                  {(PASSING_GRADE - result.score <= 10 && PASSING_GRADE - result.score > 0) &&
-                    "もう一息ですね。頑張ってください！"
-                  }
+                  {PASSING_GRADE - result.score <= 10 &&
+                    PASSING_GRADE - result.score > 0 &&
+                    "もう一息ですね。頑張ってください！"}
                 </p>
                 <Button
                   className="mt-8 text-base"

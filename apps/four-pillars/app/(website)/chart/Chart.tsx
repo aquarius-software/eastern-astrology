@@ -138,7 +138,7 @@ export default function Chart(): JSX.Element {
             body: JSON.stringify({
               timestamp,
               latitude,
-              longitude,
+              longitude
             }),
             headers: {
               "Content-Type": "application/json"
@@ -150,7 +150,9 @@ export default function Chart(): JSX.Element {
 
         let timezoneData = await response.json();
         if (!response.ok || timezoneData.status !== "OK") {
-          console.error(`GeoNames Time Zone API call failed. ${timezoneData.errorMessage}`);
+          console.error(
+            `GeoNames Time Zone API call failed. ${timezoneData.errorMessage}`
+          );
           // GeoNames APIが失敗した場合はバックアップとしてGoogle Maps Time Zone APIを呼び出す
           response = await fetch(
             `${process.env.NEXT_PUBLIC_ROUTE_HANDLER_URL}/api/timezone/google`,
@@ -158,7 +160,7 @@ export default function Chart(): JSX.Element {
               body: JSON.stringify({
                 timestamp,
                 latitude,
-                longitude,
+                longitude
               }),
               headers: {
                 "Content-Type": "application/json"
@@ -200,20 +202,20 @@ export default function Chart(): JSX.Element {
       {isSuccess && <LoadingChart></LoadingChart>}
       {isSubmitSuccessful && isSuccess && result && (
         // grid-template-columns: repeat(autofit, minmax(25rem, 1fr));
-        (<ResultView result={result}></ResultView>)
+        <ResultView result={result}></ResultView>
       )}
       {isSubmitSuccessful && !isSuccess && (
         <ErrorView message="エラーが発生しました。しばらくしてから操作し直してください。"></ErrorView>
       )}
       {!isSubmitSuccessful && !isSuccess && (
         <div className="mx-2 flex flex-col items-center py-2 lg:py-3">
-          <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+          <h1 className="text-brand-primary mt-2 mb-3 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
             命式作成
           </h1>
-          <h2 className="mb-8 text-center text-sm dark:text-white sm:text-base">
+          <h2 className="mb-8 text-center text-sm sm:text-base dark:text-white">
             四柱推命の命式を<strong>無料</strong>で作成します。
           </h2>
-          <div className="flex w-full max-w-2xl flex-col rounded-lg bg-white shadow dark:bg-gray-800 sm:w-11/12 md:w-9/12 lg:w-7/12 xl:w-6/12">
+          <div className="flex w-full max-w-2xl flex-col rounded-lg bg-white shadow sm:w-11/12 md:w-9/12 lg:w-7/12 xl:w-6/12 dark:bg-gray-800">
             <div className="mx-auto mt-12 w-11/12 md:w-10/12">
               <FormProvider {...useFormMethods}>
                 <form

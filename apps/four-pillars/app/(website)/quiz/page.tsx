@@ -3,7 +3,8 @@ import BreadCrumb from "ui/Breadcrumbs";
 
 export const metadata = {
   title: "四柱推命クイズ",
-  description: "四柱推命に関するクイズをランダムに出題するページです。",
+  description:
+    "四柱推命に関するクイズをランダムに出題するページです。",
   alternates: {
     canonical: "/quiz"
   },

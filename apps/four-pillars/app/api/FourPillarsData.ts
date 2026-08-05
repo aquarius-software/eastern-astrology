@@ -93,7 +93,7 @@ export class FourPillarsData {
   public temperature: number = 0;
   public humidity: number = 0;
 
-  constructor(public personalInfo: FourPillarsPersonalInfo) { }
+  constructor(public personalInfo: FourPillarsPersonalInfo) {}
 
   /**
    * 四柱を初期化して中間情報を取得

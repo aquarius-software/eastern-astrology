@@ -47,13 +47,13 @@ export default function CitySelection({
   return (
     <div className="chart-form-row">
       <div className="chart-form-box md:w-3/3">
-        <label
-          className="input-label-text"
-          htmlFor="grid-first-name">
+        <label className="input-label-text" htmlFor="grid-first-name">
           地域名を選択
         </label>
         <p className="mb-3 text-base text-gray-500 dark:text-gray-300">
-          プルダウンメニューから、<strong>出生地に一番近い地域名</strong>を選択します。緯度・経度が自動で入力されます。
+          プルダウンメニューから、
+          <strong>出生地に一番近い地域名</strong>
+          を選択します。緯度・経度が自動で入力されます。
         </p>
         <div className="relative md:w-1/2">
           <select
@@ -76,6 +76,6 @@ export default function CitySelection({
           </p>
         )}
       </div>
-    </div >
+    </div>
   );
 }

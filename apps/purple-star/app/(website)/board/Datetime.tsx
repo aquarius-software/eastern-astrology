@@ -94,16 +94,18 @@ export default function DateTime(): JSX.Element {
     }
     const monthValue = getValues("month");
     const dayValue = getValues("day");
-    const regex = /^([1-9]|[1-9][0-9]{1,2}|[12][0-9]{3}|3000)$/
+    const regex = /^([1-9]|[1-9][0-9]{1,2}|[12][0-9]{3}|3000)$/;
     if (!regex.test(yearValue)) {
       return "西暦年は1〜3000の半角数字を入力してください";
-    } else if (!isValidYearMonthDay(parseInt(yearValue), monthValue, dayValue)) {
+    } else if (
+      !isValidYearMonthDay(parseInt(yearValue), monthValue, dayValue)
+    ) {
       return "存在しない年月日が入力されています";
     } else {
-      clearErrors(["year", "month", "day"])
+      clearErrors(["year", "month", "day"]);
       return true;
     }
-  }
+  };
 
   /**
    * 入力された月が正しいかどうか判定
@@ -119,16 +121,18 @@ export default function DateTime(): JSX.Element {
       return true;
     }
     const dayValue = getValues("day");
-    const regex = /^(0[1-9]|1[0-2]|[1-9])$/
+    const regex = /^(0[1-9]|1[0-2]|[1-9])$/;
     if (!regex.test(monthValue.toString())) {
       return "正しい月を入力してください";
-    } else if (!isValidYearMonthDay(yearValue, monthValue, dayValue)) {
+    } else if (
+      !isValidYearMonthDay(yearValue, monthValue, dayValue)
+    ) {
       return "存在しない年月日が入力されています";
     } else {
       clearErrors(["year", "month", "day"]);
       return true;
     }
-  }
+  };
 
   /**
    * 入力された日が正しいかどうか判定
@@ -144,24 +148,28 @@ export default function DateTime(): JSX.Element {
       return true;
     }
     const monthValue = getValues("month");
-    const regex = /^([1-9]|[12][0-9]|3[01])$/
+    const regex = /^([1-9]|[12][0-9]|3[01])$/;
     if (!regex.test(dayValue.toString())) {
       return "正しい日を入力してください";
-    } else if (!isValidYearMonthDay(yearValue, monthValue, dayValue)) {
+    } else if (
+      !isValidYearMonthDay(yearValue, monthValue, dayValue)
+    ) {
       return "存在しない年月日が入力されています";
     } else {
       clearErrors(["year", "month", "day"]);
       return true;
     }
-  }
+  };
 
   /**
    * 「現在の年月日と時刻を入力」ボタンのonClickイベントハンドラ
    *
    * @param {React.MouseEvent<HTMLElement>} e
    */
-  const handleAutoInputButton = (e: React.MouseEvent<HTMLElement>): void => {
-    e.preventDefault()
+  const handleAutoInputButton = (
+    e: React.MouseEvent<HTMLElement>
+  ): void => {
+    e.preventDefault();
     // 現在時刻を入力
     rhfSetValue("year", Luxon.now().year.toString(), {
       shouldValidate: false
@@ -172,7 +180,7 @@ export default function DateTime(): JSX.Element {
     rhfSetValue("minute", Luxon.now().minute.toString());
     rhfSetValue("gender", "1");
     rhfSetValue("isHourUnknown", false);
-    clearErrors(["year", "month", "day", "hour", "minute"])
+    clearErrors(["year", "month", "day", "hour", "minute"]);
   };
 
   return (
@@ -181,20 +189,21 @@ export default function DateTime(): JSX.Element {
         <div className="board-form-box md:w-3/3">
           <h3 className="input-label-header">生年月日・時刻</h3>
           <p className="mb-2 text-sm text-gray-500 dark:text-gray-300">
-            西暦年（グレゴリオ暦）は<span className="font-bold">1〜3000</span>まで入力可能です。
+            西暦年（グレゴリオ暦）は
+            <span className="font-bold">1〜3000</span>
+            まで入力可能です。
           </p>
         </div>
         <div className="board-form-box md:w-1/3">
-          <label
-            className="input-label-text"
-            htmlFor="year">
+          <label className="input-label-text" htmlFor="year">
             西暦年<span className="required-field">必須</span>
           </label>
           <input
-            className={`input-text ${errors.year
-              ? "mb-3 border-red-500 focus:border-red-500"
-              : "border-gray-200"
-              }`}
+            className={`input-text ${
+              errors.year
+                ? "mb-3 border-red-500 focus:border-red-500"
+                : "border-gray-200"
+            }`}
             id="year"
             type="number"
             maxLength={4}
@@ -203,34 +212,33 @@ export default function DateTime(): JSX.Element {
             {...register("year", {
               required: "西暦年を入力してください",
               valueAsNumber: false,
-              validate: isValidYear,
+              validate: isValidYear
             })}
           />
           {errors.year && (
             <p className="board-form-error">
-              <ExclamationCircleIcon className="error-message-icon" />{errors.year.message?.toString()}
+              <ExclamationCircleIcon className="error-message-icon" />
+              {errors.year.message?.toString()}
             </p>
           )}
         </div>
         <div className="board-form-box md:w-1/3">
-          <label
-            className="input-label-text"
-            htmlFor="grid-state">
+          <label className="input-label-text" htmlFor="grid-state">
             月<span className="required-field">必須</span>
           </label>
           <div className="relative">
             <select
-              className={`input-text ${errors.month
-                ? "mb-3 border-red-500 focus:border-red-500"
-                : "border-gray-200"
-                }`}
+              className={`input-text ${
+                errors.month
+                  ? "mb-3 border-red-500 focus:border-red-500"
+                  : "border-gray-200"
+              }`}
               id="month"
               {...register("month", {
                 required: "月を入力してください",
                 valueAsNumber: true,
-                validate: isValidMonth,
-              })}
-            >
+                validate: isValidMonth
+              })}>
               {monthOptions}
             </select>
             <div className="chevron-icon-container">
@@ -239,29 +247,28 @@ export default function DateTime(): JSX.Element {
           </div>
           {errors.month && (
             <p className="board-form-error">
-              <ExclamationCircleIcon className="error-message-icon" />{errors.month.message!.toString()}
+              <ExclamationCircleIcon className="error-message-icon" />
+              {errors.month.message!.toString()}
             </p>
           )}
         </div>
         <div className="board-form-box md:w-1/3">
-          <label
-            className="input-label-text"
-            htmlFor="grid-zip">
+          <label className="input-label-text" htmlFor="grid-zip">
             日<span className="required-field">必須</span>
           </label>
           <div className="relative">
             <select
-              className={`input-text ${errors.day
-                ? "mb-3 border-red-500 focus:border-red-500"
-                : "border-gray-200"
-                }`}
+              className={`input-text ${
+                errors.day
+                  ? "mb-3 border-red-500 focus:border-red-500"
+                  : "border-gray-200"
+              }`}
               id="day"
               {...register("day", {
                 required: "日を入力してください",
                 valueAsNumber: true,
                 validate: isValidDay
-              })}
-            >
+              })}>
               {dayOptions}
             </select>
             <div className="chevron-icon-container">
@@ -270,7 +277,8 @@ export default function DateTime(): JSX.Element {
           </div>
           {errors.day && (
             <p className="board-form-error">
-              <ExclamationCircleIcon className="error-message-icon" />{errors.day.message!.toString()}
+              <ExclamationCircleIcon className="error-message-icon" />
+              {errors.day.message!.toString()}
             </p>
           )}
         </div>
@@ -325,11 +333,9 @@ export default function DateTime(): JSX.Element {
           )}
         </div>
         <div className="w-full px-3 md:w-1/3">
-          {process.env.NODE_ENV === "development" ?
+          {process.env.NODE_ENV === "development" ? (
             <>
-              <label className="input-label-text">
-                自動入力
-              </label>
+              <label className="input-label-text">自動入力</label>
               <div className="relative">
                 <div className="board-form-row">
                   <div className="board-form-box">
@@ -344,7 +350,7 @@ export default function DateTime(): JSX.Element {
                 </div>
               </div>
             </>
-            : null}
+          ) : null}
         </div>
       </div>
     </>

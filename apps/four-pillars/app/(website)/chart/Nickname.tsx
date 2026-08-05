@@ -19,7 +19,7 @@ export default function Nickname(): JSX.Element {
     if (!nameValue) {
       return true;
     }
-    const regex = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~¥]/g
+    const regex = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~¥]/g;
     if (nameValue.length > 10) {
       return "名前は10文字以内で入力してください";
     } else if (regex.test(nameValue)) {
@@ -27,7 +27,7 @@ export default function Nickname(): JSX.Element {
     } else {
       return true;
     }
-  }
+  };
 
   return (
     <>
@@ -35,13 +35,15 @@ export default function Nickname(): JSX.Element {
         <div className="chart-form-box md:w-3/3">
           <h3 className="input-label-header">名前（ニックネーム）</h3>
           <p className="mb-4 text-base text-gray-500 dark:text-gray-300">
-            <strong>入力は任意</strong>です。10文字以内で入力可能です。
+            <strong>入力は任意</strong>
+            です。10文字以内で入力可能です。
           </p>
           <input
-            className={`md:w-1/2 input-text placeholder-gray-500 ${errors.nickname
-              ? "mb-3 border-red-500 focus:border-red-500"
-              : "border-gray-200"
-              }`}
+            className={`input-text placeholder-gray-500 md:w-1/2 ${
+              errors.nickname
+                ? "mb-3 border-red-500 focus:border-red-500"
+                : "border-gray-200"
+            }`}
             id="nickname"
             type="text"
             maxLength={10}
@@ -54,7 +56,8 @@ export default function Nickname(): JSX.Element {
           />
           {errors.nickname && (
             <p className="chart-form-error">
-              <ExclamationCircleIcon className="error-message-icon" />{errors.nickname.message?.toString()}
+              <ExclamationCircleIcon className="error-message-icon" />
+              {errors.nickname.message?.toString()}
             </p>
           )}
         </div>

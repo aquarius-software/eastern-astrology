@@ -41,7 +41,9 @@ const columns = [
  * @returns
  */
 export default function LocalStorageTable() {
-  const [slicedEntries, setSlicedEntries] = useState<LocalStorageItem[]>([]);
+  const [slicedEntries, setSlicedEntries] = useState<
+    LocalStorageItem[]
+  >([]);
   const [numberOfEntries, setNumberOfEntries] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [numberOfPages, setNumberOfPages] = useState<number>(1);
@@ -52,7 +54,9 @@ export default function LocalStorageTable() {
       try {
         const allEntries = await getEntries(KEY_PREFIX);
         setNumberOfEntries(allEntries.length);
-        setNumberOfPages(Math.ceil(allEntries.length / ROWS_PER_PAGE));
+        setNumberOfPages(
+          Math.ceil(allEntries.length / ROWS_PER_PAGE)
+        );
         const start = (currentPage - 1) * ROWS_PER_PAGE;
         const end = start + ROWS_PER_PAGE;
         if (allEntries && allEntries.length > 0) {
@@ -63,12 +67,16 @@ export default function LocalStorageTable() {
         }
         if (allEntries.length === 0) {
           setCurrentPage(1);
-        } else if (Math.ceil(allEntries.length / ROWS_PER_PAGE) < currentPage) {
+        } else if (
+          Math.ceil(allEntries.length / ROWS_PER_PAGE) < currentPage
+        ) {
           setCurrentPage(currentPage - 1);
         }
       } catch (e) {
         console.error(e);
-        setError("エラーが発生したため、命盤データの読み込みができませんでした。");
+        setError(
+          "エラーが発生したため、命盤データの読み込みができませんでした。"
+        );
       }
     })();
   }, [currentPage, numberOfEntries]);
@@ -76,7 +84,7 @@ export default function LocalStorageTable() {
   if (error) {
     return (
       <p className="mb-8 text-base font-bold text-red-500 dark:text-white">
-        <ExclamationCircleIcon className="mb-1 mr-1 inline-block h-6 w-6"></ExclamationCircleIcon>
+        <ExclamationCircleIcon className="mr-1 mb-1 inline-block h-6 w-6"></ExclamationCircleIcon>
         {error}
       </p>
     );
@@ -92,7 +100,11 @@ export default function LocalStorageTable() {
   const renderCell = (item: LocalStorageItem, columnKey: Key) => {
     switch (columnKey) {
       case "title":
-        return <Link size="sm" color="secondary" href={item.url}>{item.title}</Link>
+        return (
+          <Link size="sm" color="secondary" href={item.url}>
+            {item.title}
+          </Link>
+        );
       case "createdAt":
         const createdAt = new Date(item.createdAt);
         const options: Intl.DateTimeFormatOptions = {
@@ -104,7 +116,9 @@ export default function LocalStorageTable() {
       case "delete":
         return (
           <>
-            <CustomModal item={item} setNumberOfEntries={setNumberOfEntries}></CustomModal>
+            <CustomModal
+              item={item}
+              setNumberOfEntries={setNumberOfEntries}></CustomModal>
           </>
         );
       default:
@@ -169,7 +183,7 @@ const CustomModal = ({
   setNumberOfEntries
 }: {
   item: LocalStorageItem;
-  setNumberOfEntries
+  setNumberOfEntries;
 }): JSX.Element => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [error, setError] = useState("");
@@ -235,7 +249,11 @@ const CustomModal = ({
                 <Button
                   color="primary"
                   onPress={() => {
-                    deleteOnClickHandler(onClose, item.key, setNumberOfEntries);
+                    deleteOnClickHandler(
+                      onClose,
+                      item.key,
+                      setNumberOfEntries
+                    );
                   }}>
                   削除
                 </Button>
@@ -260,14 +278,16 @@ const getEntries = async (prefix: string) => {
       storeName: STORE_NAME
     });
     const keys = await localForage.keys();
-    const filteredKeys = keys.filter(key =>
-      key.includes(prefix)
+    const filteredKeys = keys.filter(key => key.includes(prefix));
+    const filteredValues = await Promise.all(
+      filteredKeys.map(async key => {
+        const item = (await localForage.getItem(
+          key
+        )) as LocalStorageItem;
+        item.key = key;
+        return item;
+      })
     );
-    const filteredValues = await Promise.all(filteredKeys.map(async key => {
-      const item = await localForage.getItem(key) as LocalStorageItem;
-      item.key = key;
-      return item;
-    }));
     filteredValues.sort((a, b) => {
       const aKey = a.createdAt;
       const bKey = b.createdAt;

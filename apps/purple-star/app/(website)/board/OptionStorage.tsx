@@ -204,7 +204,10 @@ export default function OptionStorage({
                   </p>
                   <p>
                     {"保存した命盤は、"}
-                    <Link className="text-blue-600" href="/list" prefetch={false}>
+                    <Link
+                      className="text-blue-600"
+                      href="/list"
+                      prefetch={false}>
                       命盤リスト
                     </Link>
                     {"ページから確認できます。"}

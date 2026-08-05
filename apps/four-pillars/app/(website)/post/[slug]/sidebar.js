@@ -149,16 +149,16 @@ export default function Post(props) {
             classNames: "whitespace-normal"
           }
         ]}></BreadCrumb>
-      <div className="mx-auto mt-4 flex max-w-screen-xl flex-col gap-5 px-5 lg:flex-row">
-        <article className="flex-1 rounded-2xl bg-white px-3 pb-10 pt-4 md:mx-10 md:px-10">
-          <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-h2:scroll-mt-24 prose-h2:border-b-2 prose-h2:border-l-2 prose-h2:border-gray-300 prose-h2:pb-3 prose-h2:pl-4 prose-h2:text-2xl prose-h3:scroll-mt-24 prose-h3:text-xl prose-a:text-blue-500 prose-blockquote:rounded prose-blockquote:bg-gray-100 prose-blockquote:p-4 prose-blockquote:text-base prose-blockquote:not-italic prose-li:leading-7 prose-img:my-4 prose-img:rounded-md prose-h2:md:text-2xl prose-h3:md:text-xl ">
+      <div className="mx-auto mt-4 flex max-w-(--breakpoint-xl) flex-col gap-5 px-5 lg:flex-row">
+        <article className="flex-1 rounded-2xl bg-white px-3 pt-4 pb-10 md:mx-10 md:px-10">
+          <div className="mx-auto my-3 prose prose-lg dark:prose-invert prose-h2:scroll-mt-24 prose-h2:border-b-2 prose-h2:border-l-2 prose-h2:border-gray-300 prose-h2:pb-3 prose-h2:pl-4 prose-h2:text-2xl prose-h2:md:text-2xl prose-h3:scroll-mt-24 prose-h3:text-xl prose-h3:md:text-xl prose-a:text-blue-500 prose-blockquote:rounded prose-blockquote:bg-gray-100 prose-blockquote:p-4 prose-blockquote:text-base prose-blockquote:not-italic prose-li:leading-7 prose-img:my-4 prose-img:rounded-md">
             <div className="flex justify-start">
               <PostCategoryLabel categories={post.categories} />
             </div>
-            <h1 className="mb-3 mt-2 text-3xl leading-normal tracking-normal md:text-4xl md:leading-normal">
+            <h1 className="mt-2 mb-3 text-3xl leading-normal tracking-normal md:text-4xl md:leading-normal">
               {post.title}
             </h1>
-            <div className="mt-4 flex justify-end space-x-2 text-gray-500 ">
+            <div className="mt-4 flex justify-end space-x-2 text-gray-500">
               <div className="flex flex-row items-center rounded-2xl text-sm md:text-base">
                 <div className="flex">
                   {/* <div className="relative h-5 w-5 flex-shrink-0">
@@ -178,7 +178,7 @@ export default function Post(props) {
                 </div>
               </div>
             </div>
-            <div className="relative z-0 mx-auto aspect-[4/3] max-w-screen-lg overflow-hidden lg:rounded-lg">
+            <div className="relative z-0 mx-auto aspect-[4/3] max-w-(--breakpoint-lg) overflow-hidden lg:rounded-lg">
               {imageProps && (
                 <Image
                   src={imageProps.src}

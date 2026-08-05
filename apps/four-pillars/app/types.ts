@@ -137,23 +137,23 @@ export type OptionData = {
 };
 
 /**
- * 
+ *
  * @export
  * @typedef {FourPillarsUrlData}
  */
 export type FourPillarsUrlData = {
-  birthDateTime: string,
-  latitude: string,
-  longitude: string,
-  timezoneOffset: string,
-  nickname: string
-  isHourUnknown: string,
-  gender: string,
-  createImage: string,
-  useSpaceMethod: string,
-  changeDayStem: string,
-  isJapanese: string,
-  timeZoneId: string,
-  rawOffset: string,
-  dstOffset: string
-}
+  birthDateTime: string;
+  latitude: string;
+  longitude: string;
+  timezoneOffset: string;
+  nickname: string;
+  isHourUnknown: string;
+  gender: string;
+  createImage: string;
+  useSpaceMethod: string;
+  changeDayStem: string;
+  isJapanese: string;
+  timeZoneId: string;
+  rawOffset: string;
+  dstOffset: string;
+};

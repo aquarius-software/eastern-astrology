@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import { FourPillarsPersonalInfo } from '../FourPillarsPersonalInfo';
-import { FourPillarsData } from '../FourPillarsData';
-import { getYearlyLucks } from '../luck';
-import { validateFourPillarsRequest } from 'utils';
+import { NextResponse } from "next/server";
+import { FourPillarsPersonalInfo } from "../FourPillarsPersonalInfo";
+import { FourPillarsData } from "../FourPillarsData";
+import { getYearlyLucks } from "../luck";
+import { validateFourPillarsRequest } from "utils";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { headers } from "next/headers";
@@ -11,28 +11,31 @@ const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(10, "10 s"),
   analytics: true,
-  prefix: "@upstash/ratelimit",
+  prefix: "@upstash/ratelimit"
 });
 
 export async function POST(request: Request) {
-  const origin = request.headers.get('origin');
+  const origin = request.headers.get("origin");
 
   // ボディが空・不正 JSON の場合に未処理例外（スタックトレース）を出さない。
   // クライアントが送信中にページを閉じた中断リクエストでも発生し得る
   let req: any;
   try {
     req = await request.json();
-    if (!req || typeof req !== 'object') {
-      throw new Error('JSON body is not an object');
+    if (!req || typeof req !== "object") {
+      throw new Error("JSON body is not an object");
     }
   } catch {
-    console.error("400 Bad Request:", "Invalid or empty JSON body in chart API");
+    console.error(
+      "400 Bad Request:",
+      "Invalid or empty JSON body in chart API"
+    );
     return new NextResponse(null, {
       status: 400,
-      statusText: 'Bad Request',
+      statusText: "Bad Request",
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Content-Type': 'text/plain'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Content-Type": "text/plain"
       }
     });
   }
@@ -42,10 +45,10 @@ export async function POST(request: Request) {
     console.error("400 Bad Request:", message);
     return new NextResponse(null, {
       status: 400,
-      statusText: 'Bad Request',
+      statusText: "Bad Request",
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Content-Type': 'text/plain'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Content-Type": "text/plain"
       }
     });
   }
@@ -74,10 +77,10 @@ export async function POST(request: Request) {
       console.error("Ratelimit Exceeded", ip);
       return new NextResponse(null, {
         status: 429,
-        statusText: 'Too Many Requests',
+        statusText: "Too Many Requests",
         headers: {
-          'Access-Control-Allow-Origin': origin || '*',
-          'Content-Type': 'text/plain'
+          "Access-Control-Allow-Origin": origin || "*",
+          "Content-Type": "text/plain"
         }
       });
     }
@@ -138,10 +141,10 @@ export async function POST(request: Request) {
     },
     {
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Content-Type': 'application/json'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json"
       }
     }
   );
@@ -149,7 +152,7 @@ export async function POST(request: Request) {
 }
 
 export async function OPTIONS(request: Request) {
-  const origin = request.headers.get('origin');
+  const origin = request.headers.get("origin");
 
   const response = NextResponse.json(
     {
@@ -157,9 +160,9 @@ export async function OPTIONS(request: Request) {
     },
     {
       headers: {
-        'Access-Control-Allow-Origin': origin || '*',
-        'Access-Control-Allow-Methods': 'OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Methods": "OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
       }
     }
   );

@@ -1,7 +1,11 @@
-import { PurpleStarPersonalInfo } from './PurpleStarPersonalInfo';
-import { Palace } from './Palace';
-import { getItemsFromArrayCycle, isLongChineseMonth } from 'utils';
-import { SEXAGENARY_CYCLE, PALACE_STEMS, PALACE_BRANCHES } from 'types';
+import { PurpleStarPersonalInfo } from "./PurpleStarPersonalInfo";
+import { Palace } from "./Palace";
+import { getItemsFromArrayCycle, isLongChineseMonth } from "utils";
+import {
+  SEXAGENARY_CYCLE,
+  PALACE_STEMS,
+  PALACE_BRANCHES
+} from "types";
 import {
   PALACE_NAMES,
   STEM_TABLE,
@@ -37,7 +41,7 @@ import {
   FOUR_STAR_STRENGTHS,
   FOUR_STAR_LUMINOSITY,
   MAJOR_STAR_LUMINOSITY
-} from './constants';
+} from "./constants";
 import type {
   PalaceBranch,
   Division,
@@ -45,12 +49,12 @@ import type {
   Star,
   PalaceName,
   Branch
-} from 'types';
-const CalendarChinese = require('date-chinese').CalendarChinese;
+} from "types";
+const CalendarChinese = require("date-chinese").CalendarChinese;
 const cal = new CalendarChinese();
 
 export class PurpleStarData {
-  constructor(private personalInfo: PurpleStarPersonalInfo) { }
+  constructor(private personalInfo: PurpleStarPersonalInfo) {}
 
   private year!: SexagenaryCycle;
   private month!: number;
@@ -61,12 +65,12 @@ export class PurpleStarData {
   private division!: Division;
   private isYang!: boolean;
   private selfPalacePosition!: number;
-  private bodyPalace!: PalaceName | '';
+  private bodyPalace!: PalaceName | "";
   private januaryBranchIndex!: number;
-  private currentDecadePalaceName!: PalaceName | '';
-  private currentYearlyPalaceName!: PalaceName | '';
-  private currentDecadePalaceBranch!: Branch | '';
-  private currentYearlyPalaceBranch!: Branch | '';
+  private currentDecadePalaceName!: PalaceName | "";
+  private currentYearlyPalaceName!: PalaceName | "";
+  private currentDecadePalaceBranch!: Branch | "";
+  private currentYearlyPalaceBranch!: Branch | "";
   private currentJanuaryBranchIndex!: Number;
 
   /**
@@ -87,7 +91,8 @@ export class PurpleStarData {
       (adjustedDate.getUTCHours() * 60 +
         adjustedDate.getUTCMinutes() +
         Math.round(utcOffset * 60) +
-        1440) % 1440;
+        1440) %
+      1440;
     const hours = Math.floor(localMinutesOfDay / 60);
 
     // 閏月15日で小の月（29日）かつ午前11時以降は翌月生まれ
@@ -103,7 +108,8 @@ export class PurpleStarData {
       cDate.month = cDate.month + 1;
       if (cDate.month > 12) {
         cDate.month = 1;
-        chineseDateYear = chineseDateYear + 1 > 60 ? 1 : chineseDateYear + 1;
+        chineseDateYear =
+          chineseDateYear + 1 > 60 ? 1 : chineseDateYear + 1;
       }
     }
 
@@ -117,7 +123,8 @@ export class PurpleStarData {
     cDate.hourBranch = this.hour.value;
 
     // 命宮決定
-    let selfBranchIndex = (this.hour.selfBranchIndex + (this.month - 1)) % 12;
+    let selfBranchIndex =
+      (this.hour.selfBranchIndex + (this.month - 1)) % 12;
     const branchArray = getItemsFromArrayCycle(
       PALACE_BRANCHES,
       selfBranchIndex,
@@ -127,22 +134,29 @@ export class PurpleStarData {
     this.selfPalaceBranch = branchArray[0];
 
     // 身宮決定
-    let bodyBranchIndex = (this.hour.bodyBranchIndex + (this.month - 1)) % 12;
+    let bodyBranchIndex =
+      (this.hour.bodyBranchIndex + (this.month - 1)) % 12;
     const bodyBranch = PALACE_BRANCHES[bodyBranchIndex];
 
     // 五号局決定
-    this.division = this.getDivisionName(this.year, this.selfPalaceBranch);
+    this.division = this.getDivisionName(
+      this.year,
+      this.selfPalaceBranch
+    );
 
     // 紫微星位置取得
     const purpleStarIndex =
       PURPLE_STAR_POSITIONS[this.day - 1][this.division.index];
 
     // 年干取得
-    const yearStem = PALACE_STEMS.find(stem => stem.value === this.year.stem);
+    const yearStem = PALACE_STEMS.find(
+      stem => stem.value === this.year.stem
+    );
 
     // 命宮干支取得
     const mainBranch = PALACE_BRANCHES[selfBranchIndex];
-    const mainStemIndex = STEM_TABLE[yearStem!.index % 5][mainBranch.index];
+    const mainStemIndex =
+      STEM_TABLE[yearStem!.index % 5][mainBranch.index];
     const mainStem = PALACE_STEMS[mainStemIndex];
 
     // 年支取得
@@ -186,9 +200,11 @@ export class PurpleStarData {
     MAJOR_STARS.forEach((star, index) => {
       const newStar = structuredClone(star);
       newStar.childStars = new Array(10).fill({});
-      const branchIndex = MAJOR_STAR_POSITIONS[index][purpleStarIndex];
+      const branchIndex =
+        MAJOR_STAR_POSITIONS[index][purpleStarIndex];
       newStar.strength = MAJOR_STAR_STRENGTHS[index][branchIndex];
-      const luminosityIndex = MAJOR_STAR_LUMINOSITY[index][branchIndex];
+      const luminosityIndex =
+        MAJOR_STAR_LUMINOSITY[index][branchIndex];
       newStar.luminosity = LUMINOSITY[luminosityIndex].name;
       majorStarData[branchIndex].push(newStar);
     });
@@ -197,9 +213,11 @@ export class PurpleStarData {
     HOURLY_STARS.forEach((star, index) => {
       const newStar = structuredClone(star);
       newStar.childStars = new Array(10).fill({});
-      const branchIndex = HOURLY_STAR_POSITIONS[index][this.hour.index];
+      const branchIndex =
+        HOURLY_STAR_POSITIONS[index][this.hour.index];
       newStar.strength = HOURLY_STAR_STRENGTHS[index][branchIndex];
-      const luminosityIndex = HOURLY_STAR_LUMINOSITY[index][branchIndex];
+      const luminosityIndex =
+        HOURLY_STAR_LUMINOSITY[index][branchIndex];
       newStar.luminosity = LUMINOSITY[luminosityIndex].name;
       minorStarData[branchIndex].push(newStar);
     });
@@ -208,9 +226,13 @@ export class PurpleStarData {
     HOURLY_YEARLY_STARS.forEach((star, index) => {
       const newStar = structuredClone(star);
       const branchIndex =
-        HOURLY_YEARLY_STAR_POSITIONS[yearBranch!.group][index][this.hour.index];
-      newStar.strength = HOURLY_YEARLY_STAR_STRENGTHS[index][branchIndex];
-      const luminosityIndex = HOURLY_YEARLY_STAR_LUMINOSITY[index][branchIndex];
+        HOURLY_YEARLY_STAR_POSITIONS[yearBranch!.group][index][
+          this.hour.index
+        ];
+      newStar.strength =
+        HOURLY_YEARLY_STAR_STRENGTHS[index][branchIndex];
+      const luminosityIndex =
+        HOURLY_YEARLY_STAR_LUMINOSITY[index][branchIndex];
       newStar.luminosity = LUMINOSITY[luminosityIndex].name;
       minorStarData[branchIndex].push(newStar);
     });
@@ -219,9 +241,11 @@ export class PurpleStarData {
     MONTHLY_STARS.forEach((star, index) => {
       const newStar = structuredClone(star);
       newStar.childStars = new Array(10).fill({});
-      const branchIndex = MONTHLY_STAR_POSITIONS[index][this.month - 1];
+      const branchIndex =
+        MONTHLY_STAR_POSITIONS[index][this.month - 1];
       newStar.strength = MONTHLY_STAR_STRENGTHS[index][branchIndex];
-      const luminosityIndex = MONTHLY_STAR_LUMINOSITY[index][branchIndex];
+      const luminosityIndex =
+        MONTHLY_STAR_LUMINOSITY[index][branchIndex];
       newStar.luminosity = LUMINOSITY[luminosityIndex].name;
       minorStarData[branchIndex].push(newStar);
     });
@@ -229,9 +253,12 @@ export class PurpleStarData {
     // 年干系諸星配置
     YEARLY_STEM_STARS.forEach((star, index) => {
       const newStar = structuredClone(star);
-      const branchIndex = YEARLY_STEM_STAR_POSITIONS[index][yearStem!.index];
-      newStar.strength = YEARLY_STEM_STAR_STRENGTHS[index][branchIndex];
-      const luminosityIndex = YEARLY_STEM_STAR_LUMINOSITY[index][branchIndex];
+      const branchIndex =
+        YEARLY_STEM_STAR_POSITIONS[index][yearStem!.index];
+      newStar.strength =
+        YEARLY_STEM_STAR_STRENGTHS[index][branchIndex];
+      const luminosityIndex =
+        YEARLY_STEM_STAR_LUMINOSITY[index][branchIndex];
       newStar.luminosity = LUMINOSITY[luminosityIndex].name;
       minorStarData[branchIndex].push(newStar);
     });
@@ -241,19 +268,23 @@ export class PurpleStarData {
       const newStar = structuredClone(star);
       const branchIndex =
         YEARLY_BRANCH_STAR_POSITIONS[index][yearBranch!.index];
-      newStar.strength = YEARLY_BRANCH_STAR_STRENGTHS[index][branchIndex];
-      const luminosityIndex = YEARLY_BRANCH_STAR_LUMINOSITY[index][branchIndex];
+      newStar.strength =
+        YEARLY_BRANCH_STAR_STRENGTHS[index][branchIndex];
+      const luminosityIndex =
+        YEARLY_BRANCH_STAR_LUMINOSITY[index][branchIndex];
       newStar.luminosity = LUMINOSITY[luminosityIndex].name;
       minorStarData[branchIndex].push(newStar);
     });
 
     // 子年斗君決定
     const januaryBranch = (this.hour.index + (13 - this.month)) % 12;
-    this.januaryBranchIndex = januaryBranch === 12 ? 0 : januaryBranch;
+    this.januaryBranchIndex =
+      januaryBranch === 12 ? 0 : januaryBranch;
 
     // 現在年の1月の干支を取得
     cal.fromDate(new Date());
-    const yearBranchIndex = (cal.year % 12 === 0 ? 12 : cal.year % 12) - 1;
+    const yearBranchIndex =
+      (cal.year % 12 === 0 ? 12 : cal.year % 12) - 1;
     this.currentJanuaryBranchIndex =
       (this.januaryBranchIndex + yearBranchIndex) % 12;
 
@@ -293,58 +324,80 @@ export class PurpleStarData {
       const allStars = [...palace.majorStars, ...palace.minorStars];
       YEARLY_STEM_FOUR_STARS.forEach((fourStar, index) => {
         // 生年四化星配置
-        let parentStarName = FOUR_STAR_POSITIONS[index][yearStem!.index];
-        let parentStar = allStars.find(star => star.name === parentStarName);
+        let parentStarName =
+          FOUR_STAR_POSITIONS[index][yearStem!.index];
+        let parentStar = allStars.find(
+          star => star.name === parentStarName
+        );
         if (parentStar) {
-          fourStar.strength = FOUR_STAR_STRENGTHS[index][branch.index];
-          const luminosityIndex = FOUR_STAR_LUMINOSITY[index][branch.index];
+          fourStar.strength =
+            FOUR_STAR_STRENGTHS[index][branch.index];
+          const luminosityIndex =
+            FOUR_STAR_LUMINOSITY[index][branch.index];
           fourStar.luminosity = LUMINOSITY[luminosityIndex].name;
           parentStar.childStar = fourStar;
         }
 
         // 自化四化星配置
         parentStarName = FOUR_STAR_POSITIONS[index][stem.index];
-        const selfParentStar = allStars.find(star => star.name === parentStarName);
+        const selfParentStar = allStars.find(
+          star => star.name === parentStarName
+        );
         if (selfParentStar) {
-          fourStar.strength = FOUR_STAR_STRENGTHS[index][branch.index];
-          const luminosityIndex = FOUR_STAR_LUMINOSITY[index][branch.index];
+          fourStar.strength =
+            FOUR_STAR_STRENGTHS[index][branch.index];
+          const luminosityIndex =
+            FOUR_STAR_LUMINOSITY[index][branch.index];
           fourStar.luminosity = LUMINOSITY[luminosityIndex].name;
           selfParentStar.selfChildStar = fourStar;
         }
 
         // 流出四化星配置
         const triangleBranchIndex = (branch.index + 6) % 12;
-        const stemIndex = STEM_TABLE[yearStem!.index % 5][triangleBranchIndex];
+        const stemIndex =
+          STEM_TABLE[yearStem!.index % 5][triangleBranchIndex];
         parentStarName = FOUR_STAR_POSITIONS[index][stemIndex];
-        const diagonalParentStar = allStars.find(star => star.name === parentStarName);
+        const diagonalParentStar = allStars.find(
+          star => star.name === parentStarName
+        );
         if (diagonalParentStar) {
-          fourStar.strength = FOUR_STAR_STRENGTHS[index][branch.index];
-          const luminosityIndex = FOUR_STAR_LUMINOSITY[index][branch.index];
+          fourStar.strength =
+            FOUR_STAR_STRENGTHS[index][branch.index];
+          const luminosityIndex =
+            FOUR_STAR_LUMINOSITY[index][branch.index];
           fourStar.luminosity = LUMINOSITY[luminosityIndex].name;
           diagonalParentStar.triangleChildStar = fourStar;
         }
 
         // 命宮四化星配置
         parentStarName = FOUR_STAR_POSITIONS[index][mainStem.index];
-        const mainParentStar = allStars.find(star => star.name === parentStarName);
+        const mainParentStar = allStars.find(
+          star => star.name === parentStarName
+        );
         if (mainParentStar) {
-          fourStar.strength = FOUR_STAR_STRENGTHS[index][branch.index];
-          const luminosityIndex = FOUR_STAR_LUMINOSITY[index][branch.index];
+          fourStar.strength =
+            FOUR_STAR_STRENGTHS[index][branch.index];
+          const luminosityIndex =
+            FOUR_STAR_LUMINOSITY[index][branch.index];
           fourStar.luminosity = LUMINOSITY[luminosityIndex].name;
           mainParentStar.mainChildStar = fourStar;
         }
 
         // 全四化星配置
-        Array.from({ length: 10 }, (v, i) => i).forEach((i) => {
+        Array.from({ length: 10 }, (v, i) => i).forEach(i => {
           parentStarName = FOUR_STAR_POSITIONS[index][i];
-          const parentStar = allStars.find(star => star.name === parentStarName);
+          const parentStar = allStars.find(
+            star => star.name === parentStarName
+          );
           if (parentStar) {
-            fourStar.strength = FOUR_STAR_STRENGTHS[index][branch.index];
-            const luminosityIndex = FOUR_STAR_LUMINOSITY[index][branch.index];
+            fourStar.strength =
+              FOUR_STAR_STRENGTHS[index][branch.index];
+            const luminosityIndex =
+              FOUR_STAR_LUMINOSITY[index][branch.index];
             fourStar.luminosity = LUMINOSITY[luminosityIndex].name;
             parentStar.childStars![i] = fourStar;
           }
-        })
+        });
       });
 
       // 星の力量計算
@@ -368,7 +421,10 @@ export class PurpleStarData {
 
       // 現在の大限であるかどうか判定
       const asianAge = this.personalInfo.asianAge;
-      if (palace.startingAge <= asianAge && palace.endingAge >= asianAge) {
+      if (
+        palace.startingAge <= asianAge &&
+        palace.endingAge >= asianAge
+      ) {
         palace.isCurrentPalace = true;
         this.currentDecadePalaceName = palace.name;
         this.currentDecadePalaceBranch = palace.branch;
@@ -394,7 +450,8 @@ export class PurpleStarData {
         this.personalInfo.isMale()
       );
       const branchIndex =
-        branches.findIndex(branch => branch.value === palace.branch) + 1;
+        branches.findIndex(branch => branch.value === palace.branch) +
+        1;
       palace.yearlyLucks = [...Array(11)].map((_, i) => {
         const age = branchIndex + i * 12;
         if (age === asianAge) {
@@ -410,7 +467,9 @@ export class PurpleStarData {
     });
 
     // 十二宮を大限順でソート
-    this.palaces.sort((a, b) => (a.startingAge > b.startingAge ? 1 : -1));
+    this.palaces.sort((a, b) =>
+      a.startingAge > b.startingAge ? 1 : -1
+    );
 
     // 運命指数計算
     this.calcDestinyIndex();
@@ -509,12 +568,15 @@ export class PurpleStarData {
     this.palaces.forEach(palace => {
       palace.yearlyLucks = palace.yearlyLucks.map(yearlyLuck => {
         const decadePalace = this.palaces.find(
-          p => p.startingAge <= yearlyLuck.age && p.endingAge >= yearlyLuck.age
+          p =>
+            p.startingAge <= yearlyLuck.age &&
+            p.endingAge >= yearlyLuck.age
         );
         if (decadePalace !== undefined) {
           return {
             ...yearlyLuck,
-            luckIndex: decadePalace.destinyIndex * 2 + palace.destinyIndex
+            luckIndex:
+              decadePalace.destinyIndex * 2 + palace.destinyIndex
           };
         }
         return yearlyLuck;

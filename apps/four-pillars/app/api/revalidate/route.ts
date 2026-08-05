@@ -35,10 +35,11 @@ type StaleRoutesBody = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { body, isValidSignature } = await parseBody<StaleRoutesBody>(
-      req,
-      process.env.SANITY_REVALIDATE_SECRET
-    );
+    const { body, isValidSignature } =
+      await parseBody<StaleRoutesBody>(
+        req,
+        process.env.SANITY_REVALIDATE_SECRET
+      );
 
     if (!isValidSignature) {
       const message = "Invalid signature";
@@ -58,7 +59,10 @@ export async function POST(req: NextRequest) {
     }
 
     console.log(`Updated routes: ${staleRoutes.join(", ")}`);
-    return NextResponse.json({ revalidated: true, routes: staleRoutes });
+    return NextResponse.json({
+      revalidated: true,
+      routes: staleRoutes
+    });
   } catch (err) {
     console.error(err);
     return new NextResponse(
@@ -80,7 +84,9 @@ async function queryStaleRoutes(
 
   // 削除された可能性を先に処理する
   if (body._type === "post") {
-    const exists = await client.fetch(groq`*[_id == $id][0]`, { id: body._id });
+    const exists = await client.fetch(groq`*[_id == $id][0]`, {
+      id: body._id
+    });
     if (!exists) {
       const staleRoutes: StaleRoute[] = ["/"];
       if (body.slug?.current) {
@@ -103,7 +109,9 @@ async function queryStaleRoutes(
 }
 
 /** サイト全体に影響する設定（settings）が変わった場合に全ページを再検証する */
-async function queryAllRoutes(client: SanityClient): Promise<StaleRoute[]> {
+async function queryAllRoutes(
+  client: SanityClient
+): Promise<StaleRoute[]> {
   const slugs = await client.fetch<string[]>(
     groq`*[_type == "post"].slug.current`
   );

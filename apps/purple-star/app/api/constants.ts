@@ -9,7 +9,7 @@ import type {
   StemIndex,
   BranchIndex,
   School
-} from 'types';
+} from "types";
 
 /**
  * 宮名称
@@ -17,18 +17,18 @@ import type {
  * @type {PalaceName[]}
  */
 export const PALACE_NAMES: PalaceName[] = [
-  '命宮',
-  '父母宮',
-  '福徳宮',
-  '田宅宮',
-  '官禄宮',
-  '奴僕宮',
-  '遷移宮',
-  '疾厄宮',
-  '財帛宮',
-  '子女宮',
-  '夫妻宮',
-  '兄弟宮'
+  "命宮",
+  "父母宮",
+  "福徳宮",
+  "田宅宮",
+  "官禄宮",
+  "奴僕宮",
+  "遷移宮",
+  "疾厄宮",
+  "財帛宮",
+  "子女宮",
+  "夫妻宮",
+  "兄弟宮"
 ];
 
 /**
@@ -37,11 +37,11 @@ export const PALACE_NAMES: PalaceName[] = [
  * @type {Division[]}
  */
 export const DIVISIONS: Division[] = [
-  { index: 0, value: '水二局' },
-  { index: 1, value: '木三局' },
-  { index: 2, value: '金四局' },
-  { index: 3, value: '土五局' },
-  { index: 4, value: '火六局' }
+  { index: 0, value: "水二局" },
+  { index: 1, value: "木三局" },
+  { index: 2, value: "金四局" },
+  { index: 3, value: "土五局" },
+  { index: 4, value: "火六局" }
 ];
 
 /**
@@ -63,20 +63,20 @@ export const DIVISION_TABLE: number[][] = [
  * @type {Star[]}
  */
 export const MAJOR_STARS: Star[] = [
-  { name: '紫微星', shortName: '紫微' },
-  { name: '天機星', shortName: '天機' },
-  { name: '太陽星', shortName: '太陽' },
-  { name: '武曲星', shortName: '武曲' },
-  { name: '天同星', shortName: '天同' },
-  { name: '廉貞星', shortName: '廉貞' },
-  { name: '天府星', shortName: '天府' },
-  { name: '太陰星', shortName: '太陰' },
-  { name: '貪狼星', shortName: '貪狼' },
-  { name: '巨門星', shortName: '巨門' },
-  { name: '天相星', shortName: '天相' },
-  { name: '天梁星', shortName: '天梁' },
-  { name: '七殺星', shortName: '七殺' },
-  { name: '破軍星', shortName: '破軍' }
+  { name: "紫微星", shortName: "紫微" },
+  { name: "天機星", shortName: "天機" },
+  { name: "太陽星", shortName: "太陽" },
+  { name: "武曲星", shortName: "武曲" },
+  { name: "天同星", shortName: "天同" },
+  { name: "廉貞星", shortName: "廉貞" },
+  { name: "天府星", shortName: "天府" },
+  { name: "太陰星", shortName: "太陰" },
+  { name: "貪狼星", shortName: "貪狼" },
+  { name: "巨門星", shortName: "巨門" },
+  { name: "天相星", shortName: "天相" },
+  { name: "天梁星", shortName: "天梁" },
+  { name: "七殺星", shortName: "七殺" },
+  { name: "破軍星", shortName: "破軍" }
 ];
 
 /**
@@ -85,10 +85,10 @@ export const MAJOR_STARS: Star[] = [
  * @type {Star[]}
  */
 export const HOURLY_STARS: Star[] = [
-  { name: '文昌星', shortName: '文昌' },
-  { name: '文曲星', shortName: '文曲' },
-  { name: '天空星', shortName: '天空' },
-  { name: '地劫星', shortName: '地劫' }
+  { name: "文昌星", shortName: "文昌" },
+  { name: "文曲星", shortName: "文曲" },
+  { name: "天空星", shortName: "天空" },
+  { name: "地劫星", shortName: "地劫" }
 ];
 
 /**
@@ -97,8 +97,8 @@ export const HOURLY_STARS: Star[] = [
  * @type {Star[]}
  */
 export const HOURLY_YEARLY_STARS: Star[] = [
-  { name: '火星', shortName: '火星' },
-  { name: '鈴星', shortName: '鈴星' }
+  { name: "火星", shortName: "火星" },
+  { name: "鈴星", shortName: "鈴星" }
 ];
 
 /**
@@ -107,11 +107,11 @@ export const HOURLY_YEARLY_STARS: Star[] = [
  * @type {Star[]}
  */
 export const MONTHLY_STARS: Star[] = [
-  { name: '左輔星', shortName: '左輔' },
-  { name: '右弼星', shortName: '右弼' },
-  { name: '天姚星', shortName: '天姚' },
-  { name: '天刑星', shortName: '天刑' },
-  { name: '陰煞星', shortName: '陰煞' }
+  { name: "左輔星", shortName: "左輔" },
+  { name: "右弼星", shortName: "右弼" },
+  { name: "天姚星", shortName: "天姚" },
+  { name: "天刑星", shortName: "天刑" },
+  { name: "陰煞星", shortName: "陰煞" }
 ];
 
 /**
@@ -120,11 +120,11 @@ export const MONTHLY_STARS: Star[] = [
  * @type {Star[]}
  */
 export const YEARLY_STEM_STARS: Star[] = [
-  { name: '禄存星', shortName: '禄存' },
-  { name: '擎羊星', shortName: '擎羊' },
-  { name: '陀羅星', shortName: '陀羅' },
-  { name: '天魁星', shortName: '天魁' },
-  { name: '天鉞星', shortName: '天鉞' },
+  { name: "禄存星", shortName: "禄存" },
+  { name: "擎羊星", shortName: "擎羊" },
+  { name: "陀羅星", shortName: "陀羅" },
+  { name: "天魁星", shortName: "天魁" },
+  { name: "天鉞星", shortName: "天鉞" }
 ];
 
 /**
@@ -133,10 +133,10 @@ export const YEARLY_STEM_STARS: Star[] = [
  * @type {Star[]}
  */
 export const YEARLY_STEM_FOUR_STARS: Star[] = [
-  { name: '化禄星', shortName: '化禄' },
-  { name: '化権星', shortName: '化権' },
-  { name: '化科星', shortName: '化科' },
-  { name: '化忌星', shortName: '化忌' }
+  { name: "化禄星", shortName: "化禄" },
+  { name: "化権星", shortName: "化権" },
+  { name: "化科星", shortName: "化科" },
+  { name: "化忌星", shortName: "化忌" }
 ];
 
 /**
@@ -145,11 +145,11 @@ export const YEARLY_STEM_FOUR_STARS: Star[] = [
  * @type {Star[]}
  */
 export const YEARLY_BRANCH_STARS: Star[] = [
-  { name: '天喜星', shortName: '天喜' },
-  { name: '紅鸞星', shortName: '紅鸞' },
-  { name: '天馬星', shortName: '天馬' },
-  { name: '龍池星', shortName: '龍池' },
-  { name: '鳳閣星', shortName: '鳳閣' }
+  { name: "天喜星", shortName: "天喜" },
+  { name: "紅鸞星", shortName: "紅鸞" },
+  { name: "天馬星", shortName: "天馬" },
+  { name: "龍池星", shortName: "龍池" },
+  { name: "鳳閣星", shortName: "鳳閣" }
 ];
 
 /**
@@ -159,35 +159,35 @@ export const YEARLY_BRANCH_STARS: Star[] = [
  */
 export const LUMINOSITY: Luminosity[] = [
   {
-    name: '廟',
+    name: "廟",
     intensity: 6
   },
   {
-    name: '旺',
+    name: "旺",
     intensity: 4
   },
   {
-    name: '得地',
+    name: "得地",
     intensity: 2
   },
   {
-    name: '利益',
+    name: "利益",
     intensity: 0
   },
   {
-    name: '平和',
+    name: "平和",
     intensity: 0
   },
   {
-    name: '不得地',
+    name: "不得地",
     intensity: 0
   },
   {
-    name: '陥',
+    name: "陥",
     intensity: -2
   },
   {
-    name: '',
+    name: "",
     intensity: 0
   }
 ];
@@ -493,7 +493,7 @@ export const YEARLY_BRANCH_STAR_POSITIONS: BranchIndex[][] = [
   [3, 2, 1, 0, 11, 10, 9, 8, 7, 6, 5, 4], // 紅鸞星 | 卯寅丑子亥戌酉申未午巳辰
   [2, 11, 8, 5, 2, 11, 8, 5, 2, 11, 8, 5], // 天馬星 | 寅亥申巳寅亥申巳寅亥申巳
   [4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3], // 龍池星 | 辰巳午未申酉戌亥子丑寅卯
-  [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 11], // 鳳閣星 | 戌酉申未午巳辰卯寅丑子亥
+  [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 11] // 鳳閣星 | 戌酉申未午巳辰卯寅丑子亥
 ];
 
 /**
@@ -530,54 +530,60 @@ export const YEARLY_BRANCH_STAR_LUMINOSITY: LuminosityIndex[][] = [
  *
  * @type {((MajorStarName | MinorStarName)[][])}
  */
-export const FOUR_STAR_POSITIONS: (MajorStarName | MinorStarName)[][] = [
-  [ // 化禄星
-    '廉貞星', // 甲
-    '天機星', // 乙
-    '天同星', // 丙
-    '太陰星', // 丁
-    '貪狼星', // 戊
-    '武曲星', // 己
-    '太陽星', // 庚
-    '巨門星', // 辛
-    '天梁星', // 壬
-    '破軍星'  // 癸
+export const FOUR_STAR_POSITIONS: (
+  MajorStarName | MinorStarName
+)[][] = [
+  [
+    // 化禄星
+    "廉貞星", // 甲
+    "天機星", // 乙
+    "天同星", // 丙
+    "太陰星", // 丁
+    "貪狼星", // 戊
+    "武曲星", // 己
+    "太陽星", // 庚
+    "巨門星", // 辛
+    "天梁星", // 壬
+    "破軍星" // 癸
   ],
-  [ // 化権星
-    '破軍星', // 甲
-    '天梁星', // 乙
-    '天機星', // 丙
-    '天同星', // 丁
-    '太陰星', // 戊
-    '貪狼星', // 己
-    '武曲星', // 庚
-    '太陽星', // 辛
-    '紫微星', // 壬
-    '巨門星'  // 癸
+  [
+    // 化権星
+    "破軍星", // 甲
+    "天梁星", // 乙
+    "天機星", // 丙
+    "天同星", // 丁
+    "太陰星", // 戊
+    "貪狼星", // 己
+    "武曲星", // 庚
+    "太陽星", // 辛
+    "紫微星", // 壬
+    "巨門星" // 癸
   ],
-  [ // 化科星
-    '武曲星', // 甲
-    '紫微星', // 乙
-    '文昌星', // 丙
-    '天機星', // 丁
-    '右弼星', // 戊
-    '天梁星', // 己
-    '太陰星', // 庚
-    '文曲星', // 辛
-    '左輔星', // 壬
-    '太陰星'  // 癸
+  [
+    // 化科星
+    "武曲星", // 甲
+    "紫微星", // 乙
+    "文昌星", // 丙
+    "天機星", // 丁
+    "右弼星", // 戊
+    "天梁星", // 己
+    "太陰星", // 庚
+    "文曲星", // 辛
+    "左輔星", // 壬
+    "太陰星" // 癸
   ],
-  [ // 化忌星
-    '太陽星', // 甲
-    '太陰星', // 乙
-    '廉貞星', // 丙
-    '巨門星', // 丁
-    '天機星', // 戊
-    '文曲星', // 己
-    '天同星', // 庚
-    '文昌星', // 辛
-    '武曲星', // 壬
-    '貪狼星'  // 癸
+  [
+    // 化忌星
+    "太陽星", // 甲
+    "太陰星", // 乙
+    "廉貞星", // 丙
+    "巨門星", // 丁
+    "天機星", // 戊
+    "文曲星", // 己
+    "天同星", // 庚
+    "文昌星", // 辛
+    "武曲星", // 壬
+    "貪狼星" // 癸
   ]
 ];
 
@@ -613,6 +619,6 @@ export const FOUR_STAR_LUMINOSITY: LuminosityIndex[][] = [
  * @type {Star[]}
  */
 export const SCHOOLS: School[] = [
-  { name: '星曜派', value: 's' },
-  { name: '飛星派', value: 'h' }
+  { name: "星曜派", value: "s" },
+  { name: "飛星派", value: "h" }
 ];

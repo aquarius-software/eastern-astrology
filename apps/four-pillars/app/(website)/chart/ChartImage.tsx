@@ -1,7 +1,10 @@
 import { FourPillarsData } from "@/app/types";
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { ExclamationCircleIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
+import {
+  ExclamationCircleIcon,
+  InformationCircleIcon
+} from "@heroicons/react/24/outline";
 
 import type { JSX } from "react";
 
@@ -32,12 +35,16 @@ export default function ChartImage({
             <Image
               className="object-cover"
               src={imageUrl}
-              alt={`生成AIによる${nickname ? `${nickname}さんの命式` : "命式"
-                }イメージ画像`}
+              alt={`生成AIによる${
+                nickname ? `${nickname}さんの命式` : "命式"
+              }イメージ画像`}
               width={width}
               height={height}
               style={imageStyle}></Image>
-            <p className="block text-sm mt-4"><InformationCircleIcon className="section-icon mb-0.5" />命式イメージ作成機能はベータ版です。あくまでも命式のイメージを掴むための参考としてご覧ください。</p>
+            <p className="mt-4 block text-sm">
+              <InformationCircleIcon className="section-icon mb-0.5" />
+              命式イメージ作成機能はベータ版です。あくまでも命式のイメージを掴むための参考としてご覧ください。
+            </p>
           </>
         ) : (
           <p className="text-base font-bold text-red-500">

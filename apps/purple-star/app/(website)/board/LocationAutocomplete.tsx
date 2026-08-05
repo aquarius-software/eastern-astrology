@@ -31,7 +31,9 @@ export default function LocationAutocomplete({
   const [message, setMessage] = useState<string>("");
   const [usedCount, setUsedCount] = useState<number>(0);
   const { setIsJapanese } = useBoardContext();
-  const MAX_USED_COUNT = Number(process.env.NEXT_PUBLIC_MAX_USED_COUNT);
+  const MAX_USED_COUNT = Number(
+    process.env.NEXT_PUBLIC_MAX_USED_COUNT
+  );
 
   /**
    * 地域名が選択された時に呼ばれるハンドラ
@@ -96,13 +98,14 @@ export default function LocationAutocomplete({
             watch("isHourUnknown") ||
             usedCount > MAX_USED_COUNT
           }>
-          <div className="cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
+          <div className="cursor-default overflow-hidden bg-white text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
             <Combobox.Input
               id="location"
-              className={`input-text placeholder-gray-500 ${errors.location
-                ? "mb-3 border-red-500"
-                : "border-gray-200"
-                }`}
+              className={`input-text placeholder-gray-500 ${
+                errors.location
+                  ? "mb-3 border-red-500"
+                  : "border-gray-200"
+              }`}
               maxLength={100}
               placeholder={
                 usedCount < MAX_USED_COUNT
@@ -123,15 +126,17 @@ export default function LocationAutocomplete({
                 {errors.location.message?.toString()}
               </p>
             )}
-            <Combobox.Options className="mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+            <Combobox.Options className="mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base shadow-lg focus:outline-hidden sm:text-sm">
               {status === "OK" &&
                 data.map(({ place_id, description }, i) => (
                   <Combobox.Option
                     className={({ active }) =>
-                      `border-x border-t ${i === 0 && "rounded-t"} ${i === data.length - 1 && "rounded-b border-b"
-                      } relative cursor-default select-none py-2 pl-4 pr-4 ${active
-                        ? "bg-teal-600 text-white"
-                        : "text-gray-900"
+                      `border-x border-t ${i === 0 && "rounded-t"} ${
+                        i === data.length - 1 && "rounded-b border-b"
+                      } relative cursor-default py-2 pr-4 pl-4 select-none ${
+                        active
+                          ? "bg-teal-600 text-white"
+                          : "text-gray-900"
                       }`
                     }
                     key={place_id}

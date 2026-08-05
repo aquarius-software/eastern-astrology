@@ -15,20 +15,19 @@ export default function ResultTime({
     timeZoneId,
     utcOffset,
     dstOffset,
-    localOffsetMinutes,
+    localOffsetMinutes
   } = result;
 
   const localAdjustedDate = DateTime.fromISO(adjustedDate);
-  const adjustedDateTimeStr = localAdjustedDate.toFormat("y年M月d日 H:mm");
+  const adjustedDateTimeStr =
+    localAdjustedDate.toFormat("y年M月d日 H:mm");
 
   return (
     <div className="section-container">
       <table className="section-table">
         <tbody className="section-table-body">
           <tr className="table-row">
-            <th
-              colSpan={2}
-              className="section-header">
+            <th colSpan={2} className="section-header">
               <div className="flex items-center">
                 <ClockIcon className="section-icon" />
                 時間・位置
@@ -47,12 +46,8 @@ export default function ResultTime({
             </td>
           </tr> */}
           <tr className="table-row">
-            <td className="table-left-header">
-              タイムゾーン
-            </td>
-            <td className="table-cell-content">
-              {timeZoneName}
-            </td>
+            <td className="table-left-header">タイムゾーン</td>
+            <td className="table-cell-content">{timeZoneName}</td>
           </tr>
           {/* <tr className="table-row">
             <td className="table-left-header">
@@ -64,26 +59,22 @@ export default function ResultTime({
             </td>
           </tr> */}
           <tr className="table-row">
-            <td className="table-left-header">
-              サマータイム
-            </td>
+            <td className="table-left-header">サマータイム</td>
             <td className="table-cell-content">
-              {dstOffset > 0 ? `-${(dstOffset / 60).toFixed(1)}分` : "なし"}
+              {dstOffset > 0
+                ? `-${(dstOffset / 60).toFixed(1)}分`
+                : "なし"}
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              地方時差
-            </td>
+            <td className="table-left-header">地方時差</td>
             <td className="table-cell-content">
               {localOffsetMinutes > 0 && "+"}
               {localOffsetMinutes.toFixed(1)}分
             </td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              調整後日時（西暦）
-            </td>
+            <td className="table-left-header">調整後日時（西暦）</td>
             <td className="table-cell-content">
               {`${adjustedDateTimeStr}`}
             </td>

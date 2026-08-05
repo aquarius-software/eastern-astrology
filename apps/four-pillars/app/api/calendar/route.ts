@@ -10,7 +10,7 @@ import {
   getMonthPillar,
   getDayPillar
 } from "../pillars";
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { headers } from "next/headers";
@@ -20,7 +20,7 @@ const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(10, "10 s"),
   analytics: true,
   // /api/chart とはカウンターを分けるため専用のプレフィックスを使う
-  prefix: "@upstash/ratelimit:calendar",
+  prefix: "@upstash/ratelimit:calendar"
 });
 
 type Event = {
@@ -41,7 +41,10 @@ export async function POST(request: Request) {
       throw new Error("JSON body is not an object");
     }
   } catch {
-    console.error("400 Bad Request:", "Invalid or empty JSON body in calendar API");
+    console.error(
+      "400 Bad Request:",
+      "Invalid or empty JSON body in calendar API"
+    );
     return new NextResponse(null, {
       status: 400,
       statusText: "Bad Request",
@@ -96,7 +99,7 @@ export async function POST(request: Request) {
     });
 
     // 二つの日付の差分を取得
-    const diff = endDateTime.diff(startDateTime, 'days');
+    const diff = endDateTime.diff(startDateTime, "days");
     const diffDays = Math.round(diff.days);
     let previousSolarTermName = "";
     let previousStartDateTime = startDateTime;
@@ -159,23 +162,29 @@ export async function POST(request: Request) {
       // 日柱・月柱・年柱
       events.push({
         title: `${dayCycle.stem}${dayCycle.branch}（日）`,
-        start: nextDateTimeStart.plus({ milliseconds: 3 }).toISO() || "",
+        start:
+          nextDateTimeStart.plus({ milliseconds: 3 }).toISO() || "",
         end: nextDateTimeEnd.toISO() || ""
       });
       events.push({
         title: `${monthCycle.stem}${monthCycle.branch}（月）`,
-        start: nextDateTimeStart.plus({ milliseconds: 2 }).toISO() || "",
+        start:
+          nextDateTimeStart.plus({ milliseconds: 2 }).toISO() || "",
         end: nextDateTimeEnd.toISO() || ""
       });
       events.push({
         title: `${yearCycle.stem}${yearCycle.branch}（年）`,
-        start: nextDateTimeStart.plus({ milliseconds: 1 }).toISO() || "",
+        start:
+          nextDateTimeStart.plus({ milliseconds: 1 }).toISO() || "",
         end: nextDateTimeEnd.toISO() || ""
       });
 
       // 二十四節気
-      const title = `${solarTerm.name}${inEarthPeriod ? '（土用）' : ''}`;
-      if (previousSolarTermName !== "" && previousSolarTermName !== title) {
+      const title = `${solarTerm.name}${inEarthPeriod ? "（土用）" : ""}`;
+      if (
+        previousSolarTermName !== "" &&
+        previousSolarTermName !== title
+      ) {
         events.push({
           title: previousSolarTermName,
           start: previousStartDateTime.toISO() || "",

@@ -14,7 +14,13 @@ import type { ChartOptions } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function FiveElements({ result, isDarkMode = false }: { result: FourPillarsData, isDarkMode: boolean }) {
+export default function FiveElements({
+  result,
+  isDarkMode = false
+}: {
+  result: FourPillarsData;
+  isDarkMode: boolean;
+}) {
   const { elementComposition } = result;
   const data = {
     labels: ["木", "火", "土", "金", "水"],
@@ -39,7 +45,7 @@ export default function FiveElements({ result, isDarkMode = false }: { result: F
         borderWidth: 0,
         tooltip: {
           callbacks: {
-            label: function (context: TooltipItem<'pie'>) {
+            label: function (context: TooltipItem<"pie">) {
               const value = Number(context.formattedValue);
               const sum = elementComposition.reduce((a, b) => {
                 return a + b;
@@ -52,7 +58,7 @@ export default function FiveElements({ result, isDarkMode = false }: { result: F
     ]
   };
 
-  const options: ChartOptions<'pie'> = {
+  const options: ChartOptions<"pie"> = {
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
@@ -61,11 +67,11 @@ export default function FiveElements({ result, isDarkMode = false }: { result: F
         labels: {
           padding: 12,
           font: {
-            size: 14,
+            size: 14
           },
           color: isDarkMode ? "rgb(209 213 219)" : "rgb(75 85 99)" // text-gray-300 text-gray-600
         },
-        onClick: () => { }
+        onClick: () => {}
       },
       tooltip: {
         titleFont: { size: 16 },
@@ -81,7 +87,7 @@ export default function FiveElements({ result, isDarkMode = false }: { result: F
         <ChartPieIcon className="section-icon" />
         五行構成
       </div>
-      <div className="flex w-full content-center justify-center overflow-hidden p-4 bg-white dark:bg-gray-800 rounded-b-lg">
+      <div className="flex w-full content-center justify-center overflow-hidden rounded-b-lg bg-white p-4 dark:bg-gray-800">
         <Pie data={data} options={options} />
       </div>
     </div>

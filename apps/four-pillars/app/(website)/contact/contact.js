@@ -57,11 +57,11 @@ export default function Contact({ settings, ip }) {
           }
         ]}></BreadCrumb>
       <Container>
-        <h1 className="text-brand-primary mb-3 mt-2 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+        <h1 className="text-brand-primary mt-2 mb-3 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug dark:text-white">
           お問い合わせフォーム
         </h1>
         <div className="grid gap-x-16 md:grid-cols-2">
-          <div className="mb-2 mt-8">
+          <div className="mt-8 mb-2">
             <p className="mt-0 md:mt-5">
               機能追加のご要望やバグのご報告等、四柱推命ネクストへのお問い合わせはこちらのフォームからお気軽にお寄せください。
             </p>
@@ -86,7 +86,7 @@ export default function Contact({ settings, ip }) {
                   type="text"
                   placeholder="お名前"
                   autoComplete="false"
-                  className={`w-full rounded-md border-2 px-4 py-3 outline-none placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white   dark:placeholder:text-gray-200  ${
+                  className={`w-full rounded-md border-2 bg-white px-4 py-3 outline-hidden placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-200 ${
                     errors.name
                       ? "border-red-600 ring-red-100 focus:border-red-600 dark:ring-0"
                       : "border-gray-300 ring-gray-100 focus:border-gray-600 dark:border-gray-600 dark:ring-0 dark:focus:border-white"
@@ -116,7 +116,7 @@ export default function Contact({ settings, ip }) {
                   placeholder="メールアドレス"
                   name="email"
                   autoComplete="false"
-                  className={`w-full rounded-md border-2 px-4 py-3 outline-none placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white   dark:placeholder:text-gray-200  ${
+                  className={`w-full rounded-md border-2 bg-white px-4 py-3 outline-hidden placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-200 ${
                     errors.email
                       ? "border-red-600 ring-red-100 focus:border-red-600 dark:ring-0"
                       : "border-gray-300 ring-gray-100 focus:border-gray-600 dark:border-gray-600 dark:ring-0 dark:focus:border-white"
@@ -146,7 +146,7 @@ export default function Contact({ settings, ip }) {
                 <textarea
                   name="message"
                   placeholder="お問い合わせ内容"
-                  className={`h-60 w-full rounded-md border-2 px-4 py-3 outline-none placeholder:text-gray-800   focus:ring-4 dark:bg-gray-900  dark:text-white dark:placeholder:text-gray-200  ${
+                  className={`h-60 w-full rounded-md border-2 bg-white px-4 py-3 outline-hidden placeholder:text-gray-800 focus:ring-4 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-200 ${
                     errors.message
                       ? "border-red-600 ring-red-100 focus:border-red-600 dark:ring-0"
                       : "border-gray-300 ring-gray-100 focus:border-gray-600 dark:border-gray-600 dark:ring-0 dark:focus:border-white"
@@ -161,7 +161,7 @@ export default function Contact({ settings, ip }) {
                   })}
                 />
                 {errors.message && (
-                  <div className="mb-6 mt-1 font-bold text-red-600">
+                  <div className="mt-1 mb-6 font-bold text-red-600">
                     {" "}
                     <small>{errors.message.message}</small>
                   </div>
@@ -178,7 +178,7 @@ export default function Contact({ settings, ip }) {
               <div className="flex items-center justify-center">
                 <button
                   type="submit"
-                  className="w-8/12 rounded-md bg-gray-900 px-7 py-4 font-semibold text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-200 focus:ring-offset-2 dark:bg-white dark:text-black ">
+                  className="w-8/12 rounded-md bg-gray-900 px-7 py-4 font-semibold text-white transition-colors hover:bg-gray-800 focus:ring-3 focus:ring-gray-200 focus:ring-offset-2 focus:outline-hidden dark:bg-white dark:text-black">
                   {isSubmitting ? (
                     <svg
                       className="mx-auto h-5 w-5 animate-spin text-white dark:text-black"

@@ -13,7 +13,18 @@ const INVALID_URL_MESSAGE =
 
 export async function generateMetadata(props): Promise<Metadata> {
   const searchParams = await props.searchParams;
-  const { t, b, l, o, n, s, f, z, r, d }: {
+  const {
+    t,
+    b,
+    l,
+    o,
+    n,
+    s,
+    f,
+    z,
+    r,
+    d
+  }: {
     t: string;
     b: string;
     l: string;
@@ -27,7 +38,7 @@ export async function generateMetadata(props): Promise<Metadata> {
   } = searchParams;
   let canonical = n
     ? `/c?t=${t}&b=${b}&l=${l}&o=${o}&n=${n}&s=${s}&f=${f}`
-    : `/c?t=${t}&b=${b}&l=${l}&o=${o}&s=${s}&f=${f}`
+    : `/c?t=${t}&b=${b}&l=${l}&o=${o}&s=${s}&f=${f}`;
   const extraParams = z && r && d ? `&z=${z}&r=${r}&d=${d}` : "";
   canonical = canonical.concat(extraParams);
 
@@ -40,22 +51,20 @@ export async function generateMetadata(props): Promise<Metadata> {
   };
 }
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{
-      t: string;
-      b: string;
-      l: string;
-      o: string;
-      n: string;
-      s: string;
-      f: string;
-      z: string;
-      r: string;
-      d: string;
-    }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{
+    t: string;
+    b: string;
+    l: string;
+    o: string;
+    n: string;
+    s: string;
+    f: string;
+    z: string;
+    r: string;
+    d: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   let resultData: PurpleStarData | null = null;
   let message = "";
@@ -218,7 +227,7 @@ export default async function Page(
           "Each of these parameters (timezoneId, rawOffset and dstOffset) are missing:",
           `_timeZoneId: ${_timeZoneId}`,
           `_rawOffset: ${_rawOffset}`,
-          `_dstOffset: ${_dstOffset}`,
+          `_dstOffset: ${_dstOffset}`
         );
         message = INVALID_URL_MESSAGE;
         return;
@@ -229,7 +238,9 @@ export default async function Page(
       const emptyFlag7 = flagStr[7];
 
       // タイムゾーン設定
-      const isSummerTime = isDuringSummerTimeJp(birthDateTime.toJSDate());
+      const isSummerTime = isDuringSummerTimeJp(
+        birthDateTime.toJSDate()
+      );
       let timezoneData: TimeZone = {
         dstOffset: isSummerTime
           ? JAPANESE_SUMMER_TIME.dstOffset
@@ -274,7 +285,11 @@ export default async function Page(
             "Content-Type": "application/json"
           },
           method: "POST",
-          next: { revalidate: Number(process.env.BOARD_API_REVALIDATE_SECONDS) }
+          next: {
+            revalidate: Number(
+              process.env.BOARD_API_REVALIDATE_SECONDS
+            )
+          }
         }
       );
       if (!response.ok) {

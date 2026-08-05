@@ -13,12 +13,15 @@ export default function Gender(): JSX.Element {
   return (
     <div className="chart-form-row">
       <div className="chart-form-box">
-        <h3 className="input-label-header">性別<span className="required-field">必須</span></h3>
+        <h3 className="input-label-header">
+          性別<span className="required-field">必須</span>
+        </h3>
         <ul
-          className={`form-ul sm:flex ${errors.gender
-            ? "mb-3 border-red-500"
-            : "border-gray-200 focus:border-gray-200"
-            }`}>
+          className={`form-ul sm:flex ${
+            errors.gender
+              ? "mb-3 border-red-500"
+              : "border-gray-200 focus:border-gray-200"
+          }`}>
           <li className="form-li">
             <div className="flex items-center pl-3">
               <input
@@ -53,8 +56,9 @@ export default function Gender(): JSX.Element {
           </li>
         </ul>
         {errors.gender?.type === "required" && (
-          <p className="mt-3 chart-form-error">
-            <ExclamationCircleIcon className="error-message-icon" />性別を選択してください
+          <p className="chart-form-error mt-3">
+            <ExclamationCircleIcon className="error-message-icon" />
+            性別を選択してください
           </p>
         )}
       </div>

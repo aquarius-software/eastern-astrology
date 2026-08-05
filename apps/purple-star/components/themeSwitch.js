@@ -18,7 +18,7 @@ const ThemeSwitch = () => {
 
   return (
     <div className="inline-flex items-center">
-      <SunIcon className="w-4 h-4 mr-2" />
+      <SunIcon className="mr-2 h-4 w-4" />
       <select
         name="themeSwitch"
         value={theme}

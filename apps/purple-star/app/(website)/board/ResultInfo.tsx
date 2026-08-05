@@ -20,15 +20,17 @@ export default function ResultInfo({
     chineseDate,
     asianAge,
     bodyPalace,
-    januaryBranchIndex,
+    januaryBranchIndex
   } = result;
 
   const birthDate = DateTime.fromISO(birthDateTime.toString());
   const birthTimeStr = birthDate.toFormat("y年M月d日 H:mm");
 
-  const chineseDateStr = `${chineseDate.yearStem}${chineseDate.yearBranch
-    }年 ${chineseDate.month}月${chineseDate.day}日 ${chineseDate.hourBranch
-    }時${chineseDate.isLeapMonth ? "（閏月）" : ""}`;
+  const chineseDateStr = `${chineseDate.yearStem}${
+    chineseDate.yearBranch
+  }年 ${chineseDate.month}月${chineseDate.day}日 ${
+    chineseDate.hourBranch
+  }時${chineseDate.isLeapMonth ? "（閏月）" : ""}`;
 
   let januaryBranch = "";
   if (januaryBranchIndex >= 0 && januaryBranchIndex <= 11) {
@@ -42,7 +44,7 @@ export default function ResultInfo({
   const isFutureDate = () => {
     const diff = DateTime.now().diff(birthDate).milliseconds;
     return diff > 0 ? true : false;
-  }
+  };
 
   return (
     <div className="section-container">
@@ -65,9 +67,7 @@ export default function ResultInfo({
             <td className="table-cell-content">{chineseDateStr}</td>
           </tr>
           <tr className="table-row">
-            <td className="table-left-header">
-              生誕地
-            </td>
+            <td className="table-left-header">生誕地</td>
             <td className="table-cell-content">
               {latitudeValue >= 0 ? "北緯 " : "南緯 "}
               {Math.abs(latitudeValue)}度/

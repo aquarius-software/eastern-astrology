@@ -11,19 +11,21 @@ export default function DayStemMethod(): JSX.Element {
   return (
     <div className="chart-form-row">
       <div className="chart-form-box">
-        <label
-          className="input-label-text"
-          htmlFor="change-day-stem">
+        <label className="input-label-text" htmlFor="change-day-stem">
           日柱切り替え時刻
         </label>
         <p className="mb-3 text-base text-gray-500 dark:text-gray-300">
-          日柱の干支を切り替えるタイミングを、<strong>0時</strong>にするか、<strong>23時</strong>にするかどうかを指定します。<strong>日付が変わる前後の時刻</strong>にお生まれの方は、この設定で命式が変わることがあります。
+          日柱の干支を切り替えるタイミングを、<strong>0時</strong>
+          にするか、<strong>23時</strong>にするかどうかを指定します。
+          <strong>日付が変わる前後の時刻</strong>
+          にお生まれの方は、この設定で命式が変わることがあります。
         </p>
         <ul
-          className={`form-ul sm:flex ${errors.dayStemMethod
-            ? "mb-3 border-red-500"
-            : "border-gray-200 focus:border-gray-200"
-            }`}>
+          className={`form-ul sm:flex ${
+            errors.dayStemMethod
+              ? "mb-3 border-red-500"
+              : "border-gray-200 focus:border-gray-200"
+          }`}>
           <li className="form-li">
             <div className="flex items-center pl-3">
               <input
@@ -58,7 +60,7 @@ export default function DayStemMethod(): JSX.Element {
           </li>
         </ul>
         {errors.dayStemMethod?.type === "required" && (
-          <p className="mt-3 chart-form-error">
+          <p className="chart-form-error mt-3">
             日柱切り替え設定を選択してください
           </p>
         )}

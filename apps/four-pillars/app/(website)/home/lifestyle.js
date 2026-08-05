@@ -9,7 +9,7 @@ export default function HomeLifeStyle({ posts }) {
 
   return (
     <>
-      <div className={`fixed left-0 top-0 z-[-1] h-screen w-full`}>
+      <div className={`fixed top-0 left-0 z-[-1] h-screen w-full`}>
         <Image
           src={BackgroundImage}
           alt=""

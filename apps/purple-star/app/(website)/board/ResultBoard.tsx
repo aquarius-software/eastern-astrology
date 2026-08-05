@@ -13,12 +13,7 @@ import {
   PALACE_BRANCHES,
   Palace
 } from "types";
-import {
-  Checkbox,
-  Switch,
-  Select,
-  SelectItem
-} from "@heroui/react";
+import { Checkbox, Switch, Select, SelectItem } from "@heroui/react";
 import OptionStorage from "./OptionStorage";
 import { getItemsFromArrayCycle } from "utils";
 import { useBoardContext } from "@/context/boardContext";
@@ -36,8 +31,15 @@ export default function ResultBoard({
   const mainPalace = palaces.find(
     (palace: Palace) => palace.isMainPalace
   );
-  const mainBranchIndex = BRANCHES_MINI.findIndex(branch => branch === mainPalace!.branch);
-  const branches = getItemsFromArrayCycle(BRANCHES_MINI, mainBranchIndex, 12, true);
+  const mainBranchIndex = BRANCHES_MINI.findIndex(
+    branch => branch === mainPalace!.branch
+  );
+  const branches = getItemsFromArrayCycle(
+    BRANCHES_MINI,
+    mainBranchIndex,
+    12,
+    true
+  );
   const luckOptions = branches.map((branch, i) => {
     const palace = palaces.find(
       (palace: Palace) => palace.branch === branch
@@ -48,8 +50,8 @@ export default function ResultBoard({
       stemIndex: palace?.stemIndex,
       startingAge: palace?.startingAge,
       endingAge: palace?.endingAge
-    }
-  })
+    };
+  });
   const {
     setCurrentPalace,
     showChildStar,
@@ -115,7 +117,7 @@ export default function ResultBoard({
           {activeMode ? "（活盤モード）" : ""}
         </div>
         <div
-          className={`grid grid-cols-[1fr_1fr_1fr_1fr] place-content-center gap-x-2 gap-y-2 bg-white px-1 py-1 text-base text-neutral-600 dark:bg-gray-800 sm:gap-x-2 sm:gap-y-2 sm:px-1 sm:py-1 md:grid-cols-[1fr_1fr_1fr_1fr] ${ship.variable}`}>
+          className={`grid grid-cols-[1fr_1fr_1fr_1fr] place-content-center gap-x-2 gap-y-2 bg-white px-1 py-1 text-base text-neutral-600 sm:gap-x-2 sm:gap-y-2 sm:px-1 sm:py-1 md:grid-cols-[1fr_1fr_1fr_1fr] dark:bg-gray-800 ${ship.variable}`}>
           {sortedPalaces.map((palace, i) => (
             <PalaceView
               key={i}
@@ -124,8 +126,7 @@ export default function ResultBoard({
               asianAge={asianAge}
               showWithColor={showWithColor}
               isActiveMode={activeMode}
-              activeStemIndex={activeStemIndex}
-            ></PalaceView>
+              activeStemIndex={activeStemIndex}></PalaceView>
           ))}
           <CentralView></CentralView>
         </div>
@@ -180,7 +181,9 @@ export default function ResultBoard({
                         setCurrentPalace(
                           activePalace?.boardPosition as number
                         );
-                        setActiveStemIndex(activePalace?.stemIndex as number);
+                        setActiveStemIndex(
+                          activePalace?.stemIndex as number
+                        );
                       }}>
                       {luckOptions.map(palace => (
                         <SelectItem key={palace.value}>
@@ -195,7 +198,7 @@ export default function ResultBoard({
           </div>
           <div>
             <h3 className="mb-2 font-bold">四化星設定</h3>
-            <div className="grid grid-cols-1 gap-y-4 content-start font-normal text-neutral-800 md:grid-cols-3">
+            <div className="grid grid-cols-1 content-start gap-y-4 font-normal text-neutral-800 md:grid-cols-3">
               <Controller
                 control={control}
                 name="showChildStar"
@@ -232,7 +235,9 @@ export default function ResultBoard({
                     isSelected={value}
                     onChange={e => {
                       onChange(e);
-                      setShowDiagonalChildStar(!showDiagonalChildStar);
+                      setShowDiagonalChildStar(
+                        !showDiagonalChildStar
+                      );
                     }}>
                     流出四化
                   </Switch>

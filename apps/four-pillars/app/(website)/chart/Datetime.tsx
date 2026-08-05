@@ -102,7 +102,8 @@ export default function DateTime(): JSX.Element {
     }
     const monthValue = getValues("month");
     const dayValue = getValues("day");
-    const regex = /^([1-9]|[1-9][0-9]{1,2}|1[0-9]{3}|20[0-9]{2}|2100)$/;
+    const regex =
+      /^([1-9]|[1-9][0-9]{1,2}|1[0-9]{3}|20[0-9]{2}|2100)$/;
     if (!regex.test(yearValue)) {
       return "西暦年は1〜2100の半角数字を入力してください";
     } else if (
@@ -209,10 +210,11 @@ export default function DateTime(): JSX.Element {
             西暦年<span className="required-field">必須</span>
           </label>
           <input
-            className={`input-text ${errors.year
-              ? "mb-3 border-red-500 focus:border-red-500"
-              : "border-gray-200"
-              }`}
+            className={`input-text ${
+              errors.year
+                ? "mb-3 border-red-500 focus:border-red-500"
+                : "border-gray-200"
+            }`}
             id="year"
             type="number"
             maxLength={4}
@@ -237,10 +239,11 @@ export default function DateTime(): JSX.Element {
           </label>
           <div className="relative">
             <select
-              className={`input-text ${errors.month
-                ? "mb-3 border-red-500 focus:border-red-500"
-                : "border-gray-200"
-                }`}
+              className={`input-text ${
+                errors.month
+                  ? "mb-3 border-red-500 focus:border-red-500"
+                  : "border-gray-200"
+              }`}
               id="month"
               {...register("month", {
                 required: "月を入力してください",
@@ -266,10 +269,11 @@ export default function DateTime(): JSX.Element {
           </label>
           <div className="relative">
             <select
-              className={`input-text ${errors.day
-                ? "mb-3 border-red-500 focus:border-red-500"
-                : "border-gray-200"
-                }`}
+              className={`input-text ${
+                errors.day
+                  ? "mb-3 border-red-500 focus:border-red-500"
+                  : "border-gray-200"
+              }`}
               id="day"
               {...register("day", {
                 required: "日を入力してください",
@@ -355,8 +359,8 @@ export default function DateTime(): JSX.Element {
                   <DateTimePicker
                     ampm={false}
                     ampmInClock={false}
-                    minDate={parseISO('0001-01-01')}
-                    maxDate={parseISO('2100-12-31')}
+                    minDate={parseISO("0001-01-01")}
+                    maxDate={parseISO("2100-12-31")}
                     orientation="landscape"
                     slotProps={{
                       toolbar: { hidden: true },
@@ -370,19 +374,19 @@ export default function DateTime(): JSX.Element {
                       shortcuts: {
                         items: [
                           {
-                            label: '現在の日時を入力',
+                            label: "現在の日時を入力",
                             getValue: () => {
                               return new Date();
-                            },
-                          },
-                        ],
+                            }
+                          }
+                        ]
                       },
                       layout: {
                         sx: {
                           // MUI X 8.10.0 で landscape 時の shortcuts が左列に移動したため、
                           // 従来どおりカレンダーの上（8.9.2 の配置）に戻す
-                          '& .MuiPickersLayout-shortcuts': {
-                            gridColumn: '2 / 4',
+                          "& .MuiPickersLayout-shortcuts": {
+                            gridColumn: "2 / 4",
                             gridRow: 1
                           }
                         }
@@ -400,7 +404,13 @@ export default function DateTime(): JSX.Element {
                         rhfSetValue("day", selectedDay);
                         rhfSetValue("hour", selectedHour);
                         rhfSetValue("minute", selectedMinute);
-                        trigger(["year", "month", "day", "hour", "minute"]);
+                        trigger([
+                          "year",
+                          "month",
+                          "day",
+                          "hour",
+                          "minute"
+                        ]);
                       }
                     }}
                   />
@@ -411,10 +421,13 @@ export default function DateTime(): JSX.Element {
         </div>
       </div>
       <p className="mb-6 text-base text-gray-500 dark:text-gray-300">
-        <strong>出生時刻が不明</strong>の場合は、以下のスイッチをオンにします。命式を三柱で簡易表示します。<strong>スイッチがオンの場合、出生地の入力は不要</strong>です。
+        <strong>出生時刻が不明</strong>
+        の場合は、以下のスイッチをオンにします。命式を三柱で簡易表示します。
+        <strong>スイッチがオンの場合、出生地の入力は不要</strong>
+        です。
       </p>
-      <div className="md:w-3/3 w-full px-0">
-        <div className="flex-column mb-2 mt-6 flex items-end">
+      <div className="w-full px-0 md:w-3/3">
+        <div className="flex-column mt-6 mb-2 flex items-end">
           <Controller
             control={control}
             name="isHourUnknown"

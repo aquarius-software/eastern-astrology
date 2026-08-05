@@ -1,14 +1,20 @@
-import { FourPillarsData, SubmitData, FourPillarsUrlData } from "@/app/types";
+import {
+  FourPillarsData,
+  SubmitData,
+  FourPillarsUrlData
+} from "@/app/types";
 import { generateDateFromSubmitData } from "@/utils/utils";
 import { DateTime } from "luxon";
 
 /**
  * 命式データからURLを生成するプライベートメソッド
- * 
- * @param {FourPillarsUrlData} data 
+ *
+ * @param {FourPillarsUrlData} data
  * @returns {string}
  */
-const generateUrl = async (data: FourPillarsUrlData): Promise<string> => {
+const generateUrl = async (
+  data: FourPillarsUrlData
+): Promise<string> => {
   const {
     birthDateTime,
     latitude,
@@ -31,7 +37,9 @@ const generateUrl = async (data: FourPillarsUrlData): Promise<string> => {
   const hexFlagStr = parseInt(flagStr, 2).toString(16);
   let urlStr = `?t=${birthDateTime}&b=${latitude}&l=${longitude}&o=${timezoneOffset}${nickname ? `&n=${nickname}` : ""}&f=${hexFlagStr}`;
   if (isJapanese === "0") {
-    urlStr = urlStr.concat(`${timeZoneId ? `&z=${timeZoneId}` : ""}${rawOffset ? `&r=${rawOffset}` : ""}${dstOffset ? `&d=${dstOffset}` : ""}`);
+    urlStr = urlStr.concat(
+      `${timeZoneId ? `&z=${timeZoneId}` : ""}${rawOffset ? `&r=${rawOffset}` : ""}${dstOffset ? `&d=${dstOffset}` : ""}`
+    );
   }
   urlStr = encodeURI(urlStr);
   let url = `${location.protocol}//${location.host}/c${urlStr}`;
@@ -42,11 +50,13 @@ const generateUrl = async (data: FourPillarsUrlData): Promise<string> => {
 /**
  * 命式パラメータからURLを生成
  * 処理はgenerateUrlメソッドに移譲
- * 
- * @param {FourPillarsData} result 
+ *
+ * @param {FourPillarsData} result
  * @returns {string}
  */
-export const generateUrlFromResult = async (result: FourPillarsData): Promise<string> => {
+export const generateUrlFromResult = async (
+  result: FourPillarsData
+): Promise<string> => {
   const {
     birthDateTime,
     latitude,
@@ -75,15 +85,15 @@ export const generateUrlFromResult = async (result: FourPillarsData): Promise<st
     timezoneOffset: timezoneOffset.toString(),
     nickname,
     isHourUnknown: isHourUnknown ? "1" : "0",
-    gender: gender === '1' ? "1" : "0",
+    gender: gender === "1" ? "1" : "0",
     useSpaceMethod: useSpaceMethod ? "1" : "0",
     changeDayStem: changeDayStem ? "1" : "0",
     createImage: createImage ? "1" : "0",
     isJapanese: isJapanese ? "1" : "0",
     timeZoneId,
-    rawOffset: (!isNaN(rawOffset)) ? rawOffset.toString() : "",
-    dstOffset: (!isNaN(dstOffset)) ? dstOffset.toString() : ""
-  }
+    rawOffset: !isNaN(rawOffset) ? rawOffset.toString() : "",
+    dstOffset: !isNaN(dstOffset) ? dstOffset.toString() : ""
+  };
 
   const url = await generateUrl(data);
 
@@ -93,11 +103,13 @@ export const generateUrlFromResult = async (result: FourPillarsData): Promise<st
 /**
  * 入力された命式データからURLを生成
  * 処理はgenerateUrlメソッドに移譲
- * 
- * @param {SubmitData} submitData 
+ *
+ * @param {SubmitData} submitData
  * @returns {string}
  */
-export const generateUrlFromData = async (submitData: SubmitData): Promise<string> => {
+export const generateUrlFromData = async (
+  submitData: SubmitData
+): Promise<string> => {
   const isoDate = generateDateFromSubmitData(submitData);
   const timestamp = isoDate.getTime();
   const data: FourPillarsUrlData = {
@@ -113,9 +125,13 @@ export const generateUrlFromData = async (submitData: SubmitData): Promise<strin
     isJapanese: submitData.isJapanese ? "1" : "0",
     createImage: submitData.createImage ? "1" : "0",
     timeZoneId: submitData.timeZoneId,
-    rawOffset: (!isNaN(submitData.rawOffset)) ? submitData.rawOffset.toString() : "",
-    dstOffset: (!isNaN(submitData.dstOffset)) ? submitData.dstOffset.toString() : ""
-  }
+    rawOffset: !isNaN(submitData.rawOffset)
+      ? submitData.rawOffset.toString()
+      : "",
+    dstOffset: !isNaN(submitData.dstOffset)
+      ? submitData.dstOffset.toString()
+      : ""
+  };
 
   const url = await generateUrl(data);
 

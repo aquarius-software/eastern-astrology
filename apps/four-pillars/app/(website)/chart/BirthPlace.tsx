@@ -33,7 +33,10 @@ export default function BirthPlace({
             <span className="font-bold">地域名を選択</span>
             する方法と、
             <span className="font-bold">地域名を直接入力</span>
-            する方法の二つがあります。<strong>詳細な出生地</strong>を入力したい場合、もしくは<strong>出生地が海外の場合</strong>は、地域名を直接入力してください。
+            する方法の二つがあります。<strong>詳細な出生地</strong>
+            を入力したい場合、もしくは
+            <strong>出生地が海外の場合</strong>
+            は、地域名を直接入力してください。
           </p>
         </div>
       </div>
