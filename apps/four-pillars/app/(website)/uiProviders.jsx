@@ -1,12 +1,9 @@
 "use client";
 
-import { HeroUIProvider } from "@heroui/system";
+// HeroUI v3 は Provider を必要としない（v2 の HeroUIProvider は廃止）。
+// このファイルはアプリ独自の Context だけを提供する。
 import { ChartContextProvider } from "@/context/chartContext";
 
 export default function uiProviders({ children }) {
-  return (
-    <HeroUIProvider>
-      <ChartContextProvider>{children}</ChartContextProvider>
-    </HeroUIProvider>
-  );
+  return <ChartContextProvider>{children}</ChartContextProvider>;
 }

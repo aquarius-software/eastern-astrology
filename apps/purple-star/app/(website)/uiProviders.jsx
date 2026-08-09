@@ -1,12 +1,9 @@
 "use client";
 
-import { HeroUIProvider } from "@heroui/system";
+// HeroUI v3 は Provider を必要としない（v2 の HeroUIProvider は廃止）。
+// このファイルはアプリ独自の Context だけを提供する。
 import { BoardContextProvider } from "@/context/boardContext";
 
 export default function uiProviders({ children }) {
-  return (
-    <HeroUIProvider>
-      <BoardContextProvider>{children}</BoardContextProvider>
-    </HeroUIProvider>
-  );
+  return <BoardContextProvider>{children}</BoardContextProvider>;
 }
