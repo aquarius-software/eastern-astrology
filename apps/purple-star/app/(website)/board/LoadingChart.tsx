@@ -4,7 +4,7 @@ export default function LoadingChart() {
   return (
     <div className="loading-container">
       <div className="loading-container">
-        <Spinner color="primary" />
+        <Spinner color="accent" />
         <p className="leading-10 font-bold">
           命盤を生成しています。
           <br />
