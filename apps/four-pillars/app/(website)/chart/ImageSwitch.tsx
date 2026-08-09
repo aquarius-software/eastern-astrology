@@ -26,7 +26,15 @@ export default function Location(): JSX.Element {
                 {...field}
                 className="mt-3"
                 isSelected={field.value}>
-                命式イメージを生成
+                <Switch.Content>
+                  {/* Content が実際の操作対象（label＋input）で、Control は
+                      装飾用の span。Control を Content の外に置くと
+                      トグル部分をクリックしても反応しない。 */}
+                  <Switch.Control>
+                    <Switch.Thumb />
+                  </Switch.Control>
+                  命式イメージを生成
+                </Switch.Content>
               </Switch>
             )}
           />
