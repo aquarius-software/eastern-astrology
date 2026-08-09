@@ -170,7 +170,15 @@ export default function DecadeLucks({
                   );
                 }}
                 isSelected={value}>
-                命式との関係
+                <Checkbox.Content>
+                  {/* Content が実際の操作対象（label＋input）で、Control は
+                      装飾用の span。Control を Content の外に置くと
+                      トグル部分をクリックしても反応しない。 */}
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                  命式との関係
+                </Checkbox.Content>
               </Checkbox>
             )}
           />
@@ -187,7 +195,15 @@ export default function DecadeLucks({
                   );
                 }}
                 isSelected={value}>
-                通変星
+                <Checkbox.Content>
+                  {/* Content が実際の操作対象（label＋input）で、Control は
+                      装飾用の span。Control を Content の外に置くと
+                      トグル部分をクリックしても反応しない。 */}
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                  通変星
+                </Checkbox.Content>
               </Checkbox>
             )}
           />
@@ -204,7 +220,15 @@ export default function DecadeLucks({
                   );
                 }}
                 isSelected={value}>
-                十二運
+                <Checkbox.Content>
+                  {/* Content が実際の操作対象（label＋input）で、Control は
+                      装飾用の span。Control を Content の外に置くと
+                      トグル部分をクリックしても反応しない。 */}
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                  十二運
+                </Checkbox.Content>
               </Checkbox>
             )}
           />
