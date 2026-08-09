@@ -8,14 +8,12 @@
    @import は先頭にまとめる必要があり、後続の規則より下には置けないため
    ここには追加しない（v3 の @tailwind 時代からの制約と同じ）。 */
 
-@plugin "@tailwindcss/typography";
-@plugin "../hero.ts";
+/* HeroUI v3。v2 の heroui() プラグイン + @heroui/theme の走査から、
+   プリビルド CSS の読み込みに変わった（hero.ts は不要になり削除）。
+   公式の指示通り tailwindcss より後に読む。 */
+@import "@heroui/styles";
 
-/* v4 は node_modules を自動走査しないため、HeroUI のテーマ由来クラスを
-   明示的に対象へ加える。pnpm の隔離 node_modules でも、purple-star は
-   @heroui/theme を直接依存に持つのでこの相対パスが必ず解決できる
-   （v3 の require.resolve による解決はここでは使えない）。 */
-@source "../node_modules/@heroui/theme/dist/**/*.{js,mjs}";
+@plugin "@tailwindcss/typography";
 
 /* packages/ui は symlink 経由の参照で自動検出の対象外。
    v3 の content にも含まれておらず、元々クラスが生成されていなかった。 */
@@ -63,10 +61,15 @@
   --color-gray-950: var(--color-neutral-950);
 }
 
-/* v3 の preflight は border-color の既定値を #e5e5e5（gray を neutral へ
-   差し替えているため neutral-200）にしていたが、v4 は currentColor になる。
-   色指定のない `border` が全て文字色の枠線に変わってしまうため、v3 の
-   既定値を復元する。 */
+/* Tailwind v3 の preflight は border-color の既定値を #e5e5e5（gray を
+   neutral へ差し替えているため neutral-200）にしていたが、v4 は
+   currentColor になる。色指定のない `border` が全て文字色の枠線に
+   変わってしまうため、v3 の既定値を復元する。
+
+   ⚠️ HeroUI v3 の base/base.css が全く同じセレクタで
+   `border-color: var(--border, currentColor)` を当ててくる。同じ
+   @layer base・同じ詳細度なので勝敗は記述順で決まる。この @layer base は
+   @import "@heroui/styles" より後ろにあるため、こちらが勝つ。 */
 @layer base {
   *,
   ::after,
