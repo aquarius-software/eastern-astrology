@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Breadcrumbs, BreadcrumbItem } from "@heroui/react";
+import { Breadcrumbs } from "@heroui/react";
 
 export type CrumbItem = {
   label: ReactNode;
@@ -16,26 +16,23 @@ export type BreadcrumbsProps = {
 export default function BreadCrumb({ items }: BreadcrumbsProps) {
   return (
     <div className="w-full px-8 py-1.5 shadow-xs mb-4">
-      <Breadcrumbs
-        classNames={{
-          list: "flex-nowrap",
-        }}
-      >
-        <BreadcrumbItem href="/">ホーム</BreadcrumbItem>
+      {/* HeroUI v3: BreadcrumbItem → Breadcrumbs.Item、classNames の
+          スロット API は className の単一指定に変わった。
+          呼び出し側の API（CrumbItem.classNames）は据え置き。 */}
+      <Breadcrumbs className="flex-nowrap">
+        <Breadcrumbs.Item href="/">ホーム</Breadcrumbs.Item>
         {items &&
           items.map((crumb, i) => {
             return (
-              <BreadcrumbItem
+              <Breadcrumbs.Item
                 key={i + 1}
                 href={crumb.path}
-                classNames={{
-                  item: crumb.classNames
-                    ? crumb.classNames
-                    : "whitespace-nowrap",
-                }}
+                className={
+                  crumb.classNames ? crumb.classNames : "whitespace-nowrap"
+                }
               >
                 {crumb.label}
-              </BreadcrumbItem>
+              </Breadcrumbs.Item>
             );
           })}
       </Breadcrumbs>
