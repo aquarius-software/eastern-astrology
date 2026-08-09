@@ -1,5 +1,4 @@
 import { useFormContext, Controller } from "react-hook-form";
-import { Select, SelectItem } from "@heroui/react";
 import { SCHOOLS } from "@/app/api/constants";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "ui";
