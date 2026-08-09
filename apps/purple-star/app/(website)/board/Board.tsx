@@ -220,9 +220,8 @@ export default function Board(): JSX.Element {
                       <Button
                         type="submit"
                         className="w-full"
-                        color="primary"
-                        size="lg"
-                        radius="sm">
+                        variant="primary"
+                        size="lg">
                         {isSubmitting ? (
                           <SpinnerIcon></SpinnerIcon>
                         ) : (
