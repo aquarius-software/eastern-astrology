@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import QuizData from "./data";
-import { Button, Card, CardBody } from "@heroui/react";
+import { Button, Card } from "@heroui/react";
 import { formatTime } from "utils";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import shuffle from "lodash/shuffle";
@@ -153,11 +153,10 @@ function Quiz() {
         四柱推命に関するクイズを出題します。
       </h2>
 
-      <Card
-        className="mt-10 flex flex-col justify-center"
-        shadow="md"
-        radius="md">
-        <CardBody>
+      {/* HeroUI v3: CardBody → Card.Content。shadow / radius は廃止され
+          見た目はテーマ側で決まる。 */}
+      <Card className="mt-10 flex flex-col justify-center">
+        <Card.Content>
           <div className="px-8 py-6">
             {showStartScreen && (
               <div className="flex flex-col justify-center">
@@ -176,7 +175,7 @@ function Quiz() {
                 </p>
                 <Button
                   className="mx-auto mt-8 w-1/2"
-                  color="primary"
+                  variant="primary"
                   size="lg"
                   onClick={onClickStart}>
                   クイズを開始
@@ -211,7 +210,7 @@ function Quiz() {
                 </ul>
                 <div className="flex justify-end">
                   <Button
-                    color="primary"
+                    variant="primary"
                     size="lg"
                     onClick={onClickNext}
                     isDisabled={selectedAnswerIndex === null}>
@@ -251,7 +250,7 @@ function Quiz() {
               </div>
             )}
           </div>
-        </CardBody>
+        </Card.Content>
       </Card>
     </div>
   );
