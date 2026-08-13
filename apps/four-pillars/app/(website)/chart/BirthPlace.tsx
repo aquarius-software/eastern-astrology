@@ -6,7 +6,7 @@ import {
   useLoadScript,
   LoadScriptProps
 } from "@react-google-maps/api";
-import { Tabs, Tab, Card, CardBody } from "@heroui/react";
+import { Tabs, Card } from "@heroui/react";
 
 const libraries: LoadScriptProps["libraries"] = ["places"];
 
@@ -41,19 +41,22 @@ export default function BirthPlace({
         </div>
       </div>
       <div className="mb-8 w-full">
-        <Card className="max-w-full" shadow="sm" radius="sm">
-          <CardBody className="overflow-hidden">
-            <Tabs aria-label="Tabs" fullWidth size="md">
-              <Tab
-                key="selectArea"
-                title="地域名を選択"
-                className="pb-0">
+        {/* HeroUI v3: CardBody → Card.Content。Card の shadow / radius は
+            廃止され、見た目はテーマ側で決まる。
+            Tabs は react-aria ベースになり、見出し(Tabs.Tab)と中身
+            (Tabs.Panel)が分離した。v2 の key + title は id + 子要素になる。
+            v2 の fullWidth / size も廃止。 */}
+        <Card className="max-w-full">
+          <Card.Content className="overflow-hidden">
+            <Tabs aria-label="Tabs">
+              <Tabs.List>
+                <Tabs.Tab id="selectArea">地域名を選択</Tabs.Tab>
+                <Tabs.Tab id="inputArea">地域名を直接入力</Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Panel id="selectArea" className="pb-0">
                 <CitySelection digits={digits}></CitySelection>
-              </Tab>
-              <Tab
-                key="inputArea"
-                title="地域名を直接入力"
-                className="pb-0">
+              </Tabs.Panel>
+              <Tabs.Panel id="inputArea" className="pb-0">
                 {isLoaded && (
                   <LocationAutocomplete
                     digits={digits}
@@ -62,9 +65,9 @@ export default function BirthPlace({
                     message={message}
                     setMessage={setMessage}></LocationAutocomplete>
                 )}
-              </Tab>
+              </Tabs.Panel>
             </Tabs>
-          </CardBody>
+          </Card.Content>
         </Card>
       </div>
       <GeoCode></GeoCode>

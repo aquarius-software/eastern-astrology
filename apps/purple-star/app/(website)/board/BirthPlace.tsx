@@ -5,7 +5,7 @@ import {
   useLoadScript,
   LoadScriptProps
 } from "@react-google-maps/api";
-import { Tabs, Tab, Card, CardBody } from "@heroui/react";
+import { Tabs, Card } from "@heroui/react";
 
 import type { JSX } from "react";
 
@@ -40,20 +40,29 @@ export default function BirthPlace({
         </div>
       </div>
       <div className="mb-8 w-full">
-        <Card className="max-w-full" shadow="sm" radius="sm">
-          <CardBody className="overflow-hidden">
-            <Tabs aria-label="Tabs" fullWidth size="md">
-              <Tab key="city-selection" title="地域名を選択">
+        {/* HeroUI v3: CardBody → Card.Content。Card の shadow / radius は
+            廃止され、見た目はテーマ側で決まる。
+            Tabs は react-aria ベースになり、見出し(Tabs.Tab)と中身
+            (Tabs.Panel)が分離した。v2 の key + title は id + 子要素になる。
+            v2 の fullWidth / size も廃止。 */}
+        <Card className="max-w-full">
+          <Card.Content className="overflow-hidden">
+            <Tabs aria-label="Tabs">
+              <Tabs.List>
+                <Tabs.Tab id="city-selection">地域名を選択</Tabs.Tab>
+                <Tabs.Tab id="auto-complete">地域名を入力</Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Panel id="city-selection">
                 <CitySelection digits={digits}></CitySelection>
-              </Tab>
-              <Tab key="auto-complete" title="地域名を入力">
+              </Tabs.Panel>
+              <Tabs.Panel id="auto-complete">
                 {isLoaded && (
                   <LocationAutocomplete
                     digits={digits}></LocationAutocomplete>
                 )}
-              </Tab>
+              </Tabs.Panel>
             </Tabs>
-          </CardBody>
+          </Card.Content>
         </Card>
       </div>
       <GeoCode></GeoCode>
