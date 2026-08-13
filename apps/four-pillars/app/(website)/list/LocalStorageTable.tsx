@@ -3,17 +3,8 @@
 import React, { Key, useState, useEffect, type JSX } from "react";
 import {
   Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
   Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
+  useOverlayState,
   Button,
   Pagination,
   Link
@@ -100,11 +91,7 @@ export default function LocalStorageTable() {
   const renderCell = (item: LocalStorageItem, columnKey: Key) => {
     switch (columnKey) {
       case "title":
-        return (
-          <Link size="sm" color="secondary" href={item.url}>
-            {item.title}
-          </Link>
-        );
+        return <Link href={item.url}>{item.title}</Link>;
       case "createdAt":
         const createdAt = new Date(item.createdAt);
         const options: Intl.DateTimeFormatOptions = {
@@ -128,43 +115,98 @@ export default function LocalStorageTable() {
 
   return (
     <>
-      <Table
-        aria-label="Example table with custom cells"
-        bottomContent={
-          <div className="flex w-full justify-center">
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="primary"
-              page={currentPage}
-              total={numberOfPages}
-              onChange={page => setCurrentPage(page)}
-              isDisabled={numberOfEntries < 1}
-            />
-          </div>
-        }>
-        <TableHeader columns={columns}>
-          {column => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}>
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody
-          items={slicedEntries}
-          emptyContent={"保存されている命式データはありません。"}>
-          {entry => (
-            <TableRow key={entry.key}>
-              {columnKey => (
-                <TableCell>{renderCell(entry, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
+      {/* HeroUI v3 の Table は react-aria ベース。columns / items +
+          関数 children の形は維持されるが、collection の要素には key では
+          なく id が要る。bottomContent は無くなったのでページネーションは
+          テーブルの外へ出した。emptyContent は renderEmptyState に変更。
+          align は v2 独自の prop で、元の条件（uid === "actions"）は
+          columns のどれにも一致していなかったため落とした。 */}
+      {/* Table ルートは見た目用の <div> でしかなく、react-aria の実体は
+          Table.Content。これを挟まないと Table.Column が
+          「cannot be rendered outside a collection」で落ちる。
+          aria-label は実体側（Table.Content）に付ける。 */}
+      <Table>
+        <Table.Content aria-label="保存済み命式の一覧">
+          {/* react-aria は行の見出しとなる列を要求する（無いと
+              "A table must have at least one Column with the isRowHeader
+              prop set to true" の実行時エラーになる）。 */}
+          <Table.Header columns={columns}>
+            {column => (
+              <Table.Column
+                key={column.uid}
+                id={column.uid}
+                isRowHeader={column.uid === "title"}>
+                {column.name}
+              </Table.Column>
+            )}
+          </Table.Header>
+          <Table.Body
+            items={slicedEntries}
+            renderEmptyState={() =>
+              "保存されている命式データはありません。"
+            }>
+            {entry => (
+              <Table.Row
+                key={entry.key}
+                id={entry.key}
+                columns={columns}>
+                {/* v2 の TableRow は columnKey(Key) を渡していたが、
+                    react-aria の Row は column オブジェクトを渡す。 */}
+                {column => (
+                  <Table.Cell>
+                    {renderCell(entry, column.uid)}
+                  </Table.Cell>
+                )}
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Content>
       </Table>
+      {/* v3 の Pagination は単一コンポーネントではなく組み立て。
+          v2 の isCompact / showShadow / color に相当するものは無い。
+          省略表示も無くなるため、全ページ番号を並べている
+          （1ページ ROWS_PER_PAGE 件・最大100件なので現実的な個数に収まる）。 */}
+      <div className="mt-4 flex w-full justify-center">
+        <Pagination>
+          <Pagination.Content>
+            <Pagination.Item>
+              <Pagination.Previous
+                isDisabled={numberOfEntries < 1 || currentPage <= 1}
+                onPress={() =>
+                  setCurrentPage(page => Math.max(1, page - 1))
+                }>
+                前へ
+              </Pagination.Previous>
+            </Pagination.Item>
+            {Array.from(
+              { length: numberOfPages },
+              (_, i) => i + 1
+            ).map(page => (
+              <Pagination.Item key={page}>
+                <Pagination.Link
+                  isActive={page === currentPage}
+                  isDisabled={numberOfEntries < 1}
+                  onPress={() => setCurrentPage(page)}>
+                  {page}
+                </Pagination.Link>
+              </Pagination.Item>
+            ))}
+            <Pagination.Item>
+              <Pagination.Next
+                isDisabled={
+                  numberOfEntries < 1 || currentPage >= numberOfPages
+                }
+                onPress={() =>
+                  setCurrentPage(page =>
+                    Math.min(numberOfPages, page + 1)
+                  )
+                }>
+                次へ
+              </Pagination.Next>
+            </Pagination.Item>
+          </Pagination.Content>
+        </Pagination>
+      </div>
       {/* currentPage:{currentPage} / numberOfPages:{numberOfPages} / numberOfEntries:{numberOfEntries} */}
     </>
   );
@@ -185,7 +227,8 @@ const CustomModal = ({
   item: LocalStorageItem;
   setNumberOfEntries;
 }): JSX.Element => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // HeroUI v3: useDisclosure は廃止。useOverlayState に置き換わった。
+  const state = useOverlayState();
   const [error, setError] = useState("");
 
   /**
@@ -219,49 +262,48 @@ const CustomModal = ({
 
   return (
     <>
-      <Button variant="light" isIconOnly onPress={onOpen}>
+      <Button variant="ghost" isIconOnly onPress={state.open}>
         <TrashIcon className="h-6 w-6 cursor-pointer"></TrashIcon>
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {onClose => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                命式データの削除
-              </ModalHeader>
-              <ModalBody>
-                <p>
-                  選択した命式データ『{item.title}』を削除しますか？
-                </p>
-                {error && (
-                  <div>
-                    <p className="chart-form-error">{error}</p>
-                  </div>
-                )}
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  color="danger"
-                  variant="light"
-                  onPress={onClose}>
-                  キャンセル
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={() => {
-                    deleteOnClickHandler(
-                      onClose,
-                      item.key,
-                      setNumberOfEntries
-                    );
-                  }}>
-                  削除
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      {/* v3 は ModalContent の render prop が廃止され、
+          Backdrop / Container / Dialog の組み立てになった。 */}
+      <Modal.Backdrop
+        isOpen={state.isOpen}
+        onOpenChange={state.setOpen}>
+        <Modal.Container>
+          <Modal.Dialog>
+            <Modal.Header>
+              <Modal.Heading>命式データの削除</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+                選択した命式データ『{item.title}』を削除しますか？
+              </p>
+              {error && (
+                <div>
+                  <p className="chart-form-error">{error}</p>
+                </div>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger-soft" onPress={state.close}>
+                キャンセル
+              </Button>
+              <Button
+                variant="primary"
+                onPress={() => {
+                  deleteOnClickHandler(
+                    state.close,
+                    item.key,
+                    setNumberOfEntries
+                  );
+                }}>
+                削除
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </>
   );
 };
