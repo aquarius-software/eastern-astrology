@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import LogoImage from "../public/img/logo-black.svg";
-import { Button } from "@heroui/react";
+import { buttonVariants } from "@heroui/react";
 
 export default function Featured() {
   return (
@@ -22,29 +22,32 @@ export default function Featured() {
             人生を導く羅針盤「四柱推命」
           </h2>
           <div className="flex flex-col items-center gap-3 text-sm font-normal sm:justify-center xl:justify-start">
-            <Button
-              as={Link}
+            {/* HeroUI v3 の Button は react-aria-components の Button を
+                継承しており、v2 の `as` prop が無い。as={Link} は無視されて
+                ただの <button> になり、遷移しなくなる。
+                リンクとして振る舞わせたいので、Next の Link に
+                buttonVariants() が返すクラスを当てる。
+                こうすると prefetch / scroll と client-side 遷移も維持できる。 */}
+            <Link
               href="/chart"
-              color="primary"
-              size="lg"
-              type="button"
-              radius="sm"
               prefetch={true}
               scroll={false}
-              className="bg-sky-500">
+              className={`${buttonVariants({
+                variant: "primary",
+                size: "lg"
+              })} bg-sky-500`}>
               命式作成はこちら（無料）
-            </Button>
-            <Button
-              as={Link}
+            </Link>
+            <Link
               href="/about"
-              color="default"
-              size="lg"
-              type="button"
-              radius="sm"
               prefetch={true}
-              scroll={false}>
+              scroll={false}
+              className={buttonVariants({
+                variant: "tertiary",
+                size: "lg"
+              })}>
               四柱推命ネクストについて
-            </Button>
+            </Link>
             <h3 className="max-w-sm">
               ソフトウェアの更新により、サポート対象のブラウザバージョンが変更されました。そのため、iPhone
               7以前の古い端末では正常にご覧いただけない可能性があります。（2026.7.30）
