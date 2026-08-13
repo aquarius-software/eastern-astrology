@@ -1,13 +1,9 @@
 import { FourPillarsData } from "@/app/types";
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
   Input,
-  useDisclosure
+  useOverlayState
 } from "@heroui/react";
 import { ChangeEvent, useState, useEffect, type JSX } from "react";
 import Link from "next/link";
@@ -27,7 +23,9 @@ export default function OptionStorage({
 }: {
   result: FourPillarsData;
 }): JSX.Element {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // HeroUI v3: useDisclosure は廃止。useOverlayState の
+  // { isOpen, setOpen, open, close } に置き換わった。
+  const state = useOverlayState();
   const { nickname } = result;
   const defaultTitle = nickname ? `${nickname}さんの命式` : "";
   const [error, setError] = useState("");
@@ -137,13 +135,11 @@ export default function OptionStorage({
   /**
    * モーダルウィンドウが開閉された時に呼ばれるハンドラ
    *
-   * @param {(boolean) => void} onOpenChange
+   * @param {boolean} isOpen
    * @returns {void}
    */
-  const onOpenChangeHandler = (
-    onOpenChange: (isOpen: boolean) => void
-  ) => {
-    onOpenChange(isOpen);
+  const onOpenChangeHandler = (isOpen: boolean): void => {
+    state.setOpen(isOpen);
     setError("");
     setTitle("");
   };
@@ -185,20 +181,23 @@ export default function OptionStorage({
     <>
       <h3 className="mx-6 my-3 text-base font-bold">保存設定</h3>
       <div className="mx-6 my-2 grid grid-cols-2 gap-x-8 gap-y-4 text-base font-normal text-neutral-800 md:grid-cols-3">
-        <Button className="text-xs sm:text-sm" onPress={onOpen}>
+        <Button
+          className="text-xs sm:text-sm"
+          onPress={state.open}>
           命式をブラウザに保存
         </Button>
-        <Modal
-          placement="center"
-          isOpen={isOpen}
-          onOpenChange={() => onOpenChangeHandler(onOpenChange)}>
-          <ModalContent>
-            {onClose => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  命式をブラウザに保存
-                </ModalHeader>
-                <ModalBody>
+        {/* HeroUI v3: ModalContent の render prop（onClose を受け取る形）は
+            廃止され、Backdrop / Container / Dialog の組み立てになった。
+            開閉は useOverlayState が持ち、閉じるのは state.close。 */}
+        <Modal.Backdrop
+          isOpen={state.isOpen}
+          onOpenChange={onOpenChangeHandler}>
+          <Modal.Container>
+            <Modal.Dialog>
+              <Modal.Header>
+                <Modal.Heading>命式をブラウザに保存</Modal.Heading>
+              </Modal.Header>
+              <Modal.Body>
                   <p>
                     {`現在表示中の命式をWebブラウザのデータベース（IndexedDB）に保存します。最大${MAX_LOCAL_STORAGE_ENTRY}件（ハードディスクの容量不足の場合は不可）まで保存することができます。`}
                   </p>
@@ -212,38 +211,39 @@ export default function OptionStorage({
                     </Link>
                     {"ページから確認できます。"}
                   </p>
-                  <Input
-                    id="title"
-                    autoFocus={false}
-                    maxLength={20}
-                    size="lg"
-                    label="タイトル（最大20文字）"
-                    placeholder=""
-                    variant="underlined"
-                    value={title}
-                    onChange={e => titleOnChangeHandler(e)}
-                  />
-                  {error && (
-                    <p className="chart-form-error">{error}</p>
-                  )}
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="danger"
-                    variant="light"
-                    onPress={onClose}>
-                    キャンセル
-                  </Button>
-                  <Button
-                    color="primary"
-                    onPress={e => onClickHandler(onClose)}>
-                    保存
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
+                {/* v3 の Input は素の input で label / size / variant
+                    （underlined）を持たない。ラベルはアプリ既存の
+                    .input-label-text を使う <label> に出す。 */}
+                <label className="input-label-text" htmlFor="title">
+                  タイトル（最大20文字）
+                </label>
+                <Input
+                  id="title"
+                  autoFocus={false}
+                  maxLength={20}
+                  placeholder=""
+                  value={title}
+                  onChange={e => titleOnChangeHandler(e)}
+                />
+                {error && (
+                  <p className="chart-form-error">{error}</p>
+                )}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="danger-soft"
+                  onPress={state.close}>
+                  キャンセル
+                </Button>
+                <Button
+                  variant="primary"
+                  onPress={() => onClickHandler(state.close)}>
+                  保存
+                </Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
       </div>
     </>
   );
