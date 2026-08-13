@@ -341,7 +341,6 @@ export default function DateTime(): JSX.Element {
                   <div className="board-form-box">
                     <Button
                       className="h-[2.88rem]"
-                      radius="sm"
                       fullWidth={true}
                       onClick={handleAutoInputButton}>
                       現在日時を入力

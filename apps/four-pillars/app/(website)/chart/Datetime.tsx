@@ -81,9 +81,9 @@ export default function DateTime(): JSX.Element {
    *
    * @param {React.ChangeEvent<HTMLInputElement>} e
    */
-  const handleIsHourUnknownToggleButton = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  // HeroUI v3 の Switch(react-aria) は onChange に boolean を渡す。
+  // 元々この引数は使っていなかったため引数なしにした。
+  const handleIsHourUnknownToggleButton = () => {
     rhfSetValue("hour", 12);
     rhfSetValue("minute", 0);
     setIsJapanese(true);
@@ -351,7 +351,6 @@ export default function DateTime(): JSX.Element {
                 <div className="chart-form-box">
                   {/* <Button
                     className="h-[2.88rem]"
-                    radius="sm"
                     fullWidth={true}
                     onClick={handleAutoInputButton}>
                     現在日時を入力
@@ -435,11 +434,19 @@ export default function DateTime(): JSX.Element {
               <Switch
                 {...field}
                 isSelected={field.value}
-                onChange={e => {
-                  field.onChange(e);
-                  handleIsHourUnknownToggleButton(e);
+                onChange={isSelected => {
+                  field.onChange(isSelected);
+                  handleIsHourUnknownToggleButton();
                 }}>
-                出生時刻が不明
+                <Switch.Content>
+                  {/* Content が実際の操作対象（label＋input）で、Control は
+                      装飾用の span。Control を Content の外に置くと
+                      トグル部分をクリックしても反応しない。 */}
+                  <Switch.Control>
+                    <Switch.Thumb />
+                  </Switch.Control>
+                  出生時刻が不明
+                </Switch.Content>
               </Switch>
             )}
           />
