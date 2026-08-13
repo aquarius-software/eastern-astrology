@@ -13,7 +13,12 @@ import {
   PALACE_BRANCHES,
   Palace
 } from "types";
-import { Checkbox, Switch, Select, SelectItem } from "@heroui/react";
+import {
+  Checkbox,
+  Switch,
+  Select,
+  ListBox
+} from "@heroui/react";
 import OptionStorage from "./OptionStorage";
 import { getItemsFromArrayCycle } from "utils";
 import { useBoardContext } from "@/context/boardContext";
@@ -154,7 +159,15 @@ export default function ResultBoard({
                         // setCurrentPalace(palace.boardPosition);
                       }
                     }}>
-                    活盤モード
+                    <Switch.Content>
+                      {/* Content が実際の操作対象（label＋input）で、Control は
+                          装飾用の span。Control を Content の外に置くと
+                          トグル部分をクリックしても反応しない。 */}
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                      活盤モード
+                    </Switch.Content>
                   </Switch>
                 )}
               />
@@ -163,15 +176,17 @@ export default function ResultBoard({
                   control={control}
                   name="activePalace"
                   render={({ field: { onChange, value } }) => (
+                    /* HeroUI v3: Select は react-aria ベースになり、
+                       DOM の change イベントではなく onSelectionChange(Key)
+                       を受ける。選択肢は SelectItem ではなく
+                       Select.Popover 内の ListBox.Item で与える。
+                       label prop も廃止のため <label> を外に出した。 */
                     <Select
-                      size={"md"}
-                      label="大限の年齢域を選択"
                       className="max-w-xs"
-                      onChange={e => {
-                        onChange(e);
-                        const activePalaceIndex = Number(
-                          e.target.value
-                        );
+                      selectedKey={value != null ? String(value) : null}
+                      onSelectionChange={key => {
+                        onChange(key);
+                        const activePalaceIndex = Number(key);
                         setActivePalace(activePalaceIndex);
                         const activeBranch =
                           BRANCHES_MINI[activePalaceIndex];
@@ -185,11 +200,21 @@ export default function ResultBoard({
                           activePalace?.stemIndex as number
                         );
                       }}>
-                      {luckOptions.map(palace => (
-                        <SelectItem key={palace.value}>
-                          {palace.label}
-                        </SelectItem>
-                      ))}
+                      <Select.Trigger>
+                        <Select.Value />
+                        <Select.Indicator />
+                      </Select.Trigger>
+                      <Select.Popover>
+                        <ListBox>
+                          {luckOptions.map(palace => (
+                            <ListBox.Item
+                              key={palace.value}
+                              id={String(palace.value)}>
+                              {palace.label}
+                            </ListBox.Item>
+                          ))}
+                        </ListBox>
+                      </Select.Popover>
                     </Select>
                   )}
                 />
@@ -209,7 +234,15 @@ export default function ResultBoard({
                       onChange(e);
                       setShowChildStar(!showChildStar);
                     }}>
-                    生年四化
+                    <Switch.Content>
+                      {/* Content が実際の操作対象（label＋input）で、Control は
+                          装飾用の span。Control を Content の外に置くと
+                          トグル部分をクリックしても反応しない。 */}
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                      生年四化
+                    </Switch.Content>
                   </Switch>
                 )}
               />
@@ -223,7 +256,15 @@ export default function ResultBoard({
                       onChange(e);
                       setShowSelfChildStar(!showSelfChildStar);
                     }}>
-                    自化四化
+                    <Switch.Content>
+                      {/* Content が実際の操作対象（label＋input）で、Control は
+                          装飾用の span。Control を Content の外に置くと
+                          トグル部分をクリックしても反応しない。 */}
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                      自化四化
+                    </Switch.Content>
                   </Switch>
                 )}
               />
@@ -239,7 +280,15 @@ export default function ResultBoard({
                         !showDiagonalChildStar
                       );
                     }}>
-                    流出四化
+                    <Switch.Content>
+                      {/* Content が実際の操作対象（label＋input）で、Control は
+                          装飾用の span。Control を Content の外に置くと
+                          トグル部分をクリックしても反応しない。 */}
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                      流出四化
+                    </Switch.Content>
                   </Switch>
                 )}
               />
@@ -253,7 +302,15 @@ export default function ResultBoard({
                       onChange(e);
                       setShowMainChildStar(!showMainChildStar);
                     }}>
-                    命宮四化
+                    <Switch.Content>
+                      {/* Content が実際の操作対象（label＋input）で、Control は
+                          装飾用の span。Control を Content の外に置くと
+                          トグル部分をクリックしても反応しない。 */}
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                      命宮四化
+                    </Switch.Content>
                   </Switch>
                 )}
               />
@@ -275,9 +332,17 @@ export default function ResultBoard({
                       );
                     }}
                     isSelected={value}>
-                    <span className="text-sm md:text-base">
+                    <Checkbox.Content>
+                      {/* Content が実際の操作対象（label＋input）で、Control は
+                          装飾用の span。Control を Content の外に置くと
+                          トグル部分をクリックしても反応しない。 */}
+                      <Checkbox.Control>
+                        <Checkbox.Indicator />
+                      </Checkbox.Control>
+                      <span className="text-sm md:text-base">
                       カラー表示
                     </span>
+                    </Checkbox.Content>
                   </Checkbox>
                 )}
               />
