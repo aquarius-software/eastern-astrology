@@ -91,8 +91,13 @@ export default function LocalStorageTable() {
   const renderCell = (item: LocalStorageItem, columnKey: Key) => {
     switch (columnKey) {
       case "title":
+        // v3 の Link は色の prop を持たず、既定の --link トークンが
+        // ほぼ黒（lab 8.3%）でリンクに見えない。アプリ既存の規則
+        // （TableOfContents・保存モーダル）に合わせて青を当てる。
         return (
-          <Link href={item.url}>
+          <Link
+            href={item.url}
+            className="text-blue-600 hover:text-blue-900 hover:no-underline data-hovered:no-underline">
             {item.title}
           </Link>
         );
