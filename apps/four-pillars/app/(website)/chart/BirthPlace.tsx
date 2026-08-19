@@ -46,13 +46,31 @@ export default function BirthPlace({
             Tabs は react-aria ベースになり、見出し(Tabs.Tab)と中身
             (Tabs.Panel)が分離した。v2 の key + title は id + 子要素になる。
             v2 の fullWidth / size も廃止。 */}
-        <Card className="max-w-full">
+        <Card className="max-w-full rounded-lg shadow-md inset-shadow-xs">
           <Card.Content className="overflow-hidden">
             <Tabs aria-label="Tabs">
-              <Tabs.List>
-                <Tabs.Tab id="selectArea">地域名を選択</Tabs.Tab>
-                <Tabs.Tab id="inputArea">地域名を直接入力</Tabs.Tab>
-              </Tabs.List>
+              {/* Tabs.ListContainer がタブ帯のグレー背景（bg-default）を
+                  描画する。これが無いと帯が白いままで、白いピル
+                  （Indicator の bg-segment）との対比が付かず選択状態が
+                  分かりにくい。
+                  Tabs.Indicator は各 Tab の内側に置くと選択中のタブに
+                  だけ出る。 */}
+              {/* radius は3箇所（container / tab / indicator）から来る。
+                  container は border-radius: calc(var(--radius) * 2.5)、
+                  tab と indicator は rounded-3xl。v2 に寄せるため
+                  utilities レイヤーのクラスで小さく上書きする。 */}
+              <Tabs.ListContainer className="rounded-lg">
+                <Tabs.List>
+                  <Tabs.Tab id="selectArea" className="rounded-md">
+                    <Tabs.Indicator className="rounded-md" />
+                    地域名を選択
+                  </Tabs.Tab>
+                  <Tabs.Tab id="inputArea" className="rounded-md">
+                    <Tabs.Indicator className="rounded-md" />
+                    地域名を直接入力
+                  </Tabs.Tab>
+                </Tabs.List>
+              </Tabs.ListContainer>
               <Tabs.Panel id="selectArea" className="pb-0">
                 <CitySelection digits={digits}></CitySelection>
               </Tabs.Panel>
