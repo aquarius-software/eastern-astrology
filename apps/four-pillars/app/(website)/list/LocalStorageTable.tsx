@@ -151,9 +151,15 @@ export default function LocalStorageTable() {
           </Table.Header>
           <Table.Body
             items={slicedEntries}
-            renderEmptyState={() =>
-              "保存されている命式データはありません。"
-            }>
+            renderEmptyState={() => (
+              // 素の文字列を返すと左寄せ・余白なしで、背景も
+              // データ行の白にならない。要素で包んで揃える。
+              // 角丸は table__body がセルに当てている式と同じものを使う
+              // （この div の白背景が td の角丸を塗り潰してしまうため）。
+              <div className="rounded-[min(32px,var(--radius-2xl))] bg-white p-4 text-center">
+                保存されている命式データはありません。
+              </div>
+            )}>
             {entry => (
               <Table.Row
                 key={entry.key}
@@ -175,16 +181,25 @@ export default function LocalStorageTable() {
           v2 の isCompact / showShadow / color に相当するものは無い。
           省略表示も無くなるため、全ページ番号を並べている
           （1ページ ROWS_PER_PAGE 件・最大100件なので現実的な個数に収まる）。 */}
-      <div className="mt-4 flex w-full justify-center">
-        <Pagination>
-          <Pagination.Content>
+      {/* ルートは w-full + justify-between。Summary（件数表示）を置いて
+          いないので、唯一の子である Content が左端に寄る。sm 未満では
+          さらに self-start が効く。両方を打ち消して中央に置く。
+          ルートが w-full なので外側での justify-center は効かない。 */}
+      <div className="mt-4">
+        <Pagination className="justify-center">
+          {/* v2 のグレー帯に寄せる。帯を敷くと既定の active（--default=グレー）
+              では選択位置が埋もれるので、active はアプリの青に上書きする。 */}
+          <Pagination.Content className="self-center rounded-lg bg-default p-1">
             <Pagination.Item>
+              {/* アイコンだけにするとアクセシブル名が無くなるため
+                  aria-label を明示する。 */}
               <Pagination.Previous
+                aria-label="前のページ"
                 isDisabled={numberOfEntries < 1 || currentPage <= 1}
                 onPress={() =>
                   setCurrentPage(page => Math.max(1, page - 1))
                 }>
-                前へ
+                <Pagination.PreviousIcon />
               </Pagination.Previous>
             </Pagination.Item>
             {Array.from(
@@ -193,6 +208,7 @@ export default function LocalStorageTable() {
             ).map(page => (
               <Pagination.Item key={page}>
                 <Pagination.Link
+                  className="data-active:bg-blue-600 data-active:text-white"
                   isActive={page === currentPage}
                   isDisabled={numberOfEntries < 1}
                   onPress={() => setCurrentPage(page)}>
@@ -202,6 +218,7 @@ export default function LocalStorageTable() {
             ))}
             <Pagination.Item>
               <Pagination.Next
+                aria-label="次のページ"
                 isDisabled={
                   numberOfEntries < 1 || currentPage >= numberOfPages
                 }
@@ -210,7 +227,7 @@ export default function LocalStorageTable() {
                     Math.min(numberOfPages, page + 1)
                   )
                 }>
-                次へ
+                <Pagination.NextIcon />
               </Pagination.Next>
             </Pagination.Item>
           </Pagination.Content>
