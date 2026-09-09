@@ -219,7 +219,7 @@ export default function Board(): JSX.Element {
                     <div className="w-full px-3">
                       <Button
                         type="submit"
-                        className="w-full"
+                        className="w-full rounded-lg"
                         variant="primary"
                         size="lg">
                         {isSubmitting ? (

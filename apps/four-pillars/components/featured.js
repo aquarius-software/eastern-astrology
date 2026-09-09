@@ -35,17 +35,17 @@ export default function Featured() {
               className={`${buttonVariants({
                 variant: "primary",
                 size: "lg"
-              })} bg-sky-500`}>
+              })} rounded-lg bg-sky-500`}>
               命式作成はこちら（無料）
             </Link>
             <Link
               href="/about"
               prefetch={true}
               scroll={false}
-              className={buttonVariants({
+              className={`${buttonVariants({
                 variant: "tertiary",
                 size: "lg"
-              })}>
+              })} rounded-lg`}>
               四柱推命ネクストについて
             </Link>
             <h3 className="max-w-sm">

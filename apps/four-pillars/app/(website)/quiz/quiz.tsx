@@ -155,7 +155,9 @@ function Quiz() {
 
       {/* HeroUI v3: CardBody → Card.Content。shadow / radius は廃止され
           見た目はテーマ側で決まる。 */}
-      <Card className="mt-10 flex flex-col justify-center">
+      {/* v2 の radius="md"（12px）相当。v3 は radius prop が廃止され
+          既定が min(32px, var(--radius-3xl)) になるため utilities で戻す。 */}
+      <Card className="mt-10 flex flex-col justify-center rounded-xl">
         <Card.Content>
           <div className="px-8 py-6">
             {showStartScreen && (
