@@ -16,7 +16,7 @@
     "types": "workspace:*"
   },
   "devDependencies": {
-    "@types/luxon": "^3.7.3",
-    "vitest": "^4.1.10"
+    "@types/luxon": "^3.7.5",
+    "vitest": "^4.1.11"
   }
 }
